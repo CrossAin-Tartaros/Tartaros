@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: dc124c2d6ab2e204eb6440e4a6adf47f
+guid: 4add9ab9933576a4788f41aff2f76ceb
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: _Idle_0
+      name: arm_projectile_glowing_0
       rect:
         serializedVersion: 2
-        x: 44
-        y: 0
-        width: 21
-        height: 38
+        x: 60
+        y: 256
+        width: 35
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 62fde51eef1664e44b0b7d63ec5fb2ca
-      internalID: 293182170
+      spriteID: 250a4ddf534c63840aeedb6296e492ce
+      internalID: -1196585730
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _Idle_1
+      name: arm_projectile_glowing_1
       rect:
         serializedVersion: 2
-        x: 164
-        y: 0
-        width: 21
-        height: 38
+        x: 160
+        y: 256
+        width: 35
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,20 +158,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 43979bd8212cd1e438db1515de2aa414
-      internalID: -633552908
+      spriteID: 0b28cd781f56f3246a4d3ddf5717a99a
+      internalID: -2076597286
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _Idle_2
+      name: arm_projectile_glowing_2
       rect:
         serializedVersion: 2
-        x: 284
-        y: 0
-        width: 21
-        height: 38
+        x: 260
+        y: 256
+        width: 35
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,20 +179,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 80288ecc3ec2e2e4496856d7e06cd0d1
-      internalID: 453163729
+      spriteID: f16026edc469d564f881d1e0b37e0cf1
+      internalID: 1329650455
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _Idle_3
+      name: arm_projectile_glowing_3
       rect:
         serializedVersion: 2
-        x: 404
-        y: 0
-        width: 21
-        height: 38
+        x: 60
+        y: 156
+        width: 35
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,20 +200,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c3f34f4639487a14cb7c235937a79e1a
-      internalID: 2071665552
+      spriteID: 637fb71d396cffd48bb208d31108c671
+      internalID: -53998292
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _Idle_4
+      name: arm_projectile_glowing_4
       rect:
         serializedVersion: 2
-        x: 524
-        y: 0
-        width: 21
-        height: 38
+        x: 160
+        y: 156
+        width: 35
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -221,20 +221,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 926909c7773f0c84093e9f0dece213f5
-      internalID: -998474964
+      spriteID: b7124982e95d39642a1e09719b9535d1
+      internalID: -1306432390
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _Idle_5
+      name: arm_projectile_glowing_5
       rect:
         serializedVersion: 2
-        x: 644
-        y: 0
-        width: 21
-        height: 38
+        x: 260
+        y: 156
+        width: 35
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -242,92 +242,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ad688ca08c4aa6d4a833cc4ca35ac7b2
-      internalID: 1077197186
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: _Idle_6
-      rect:
-        serializedVersion: 2
-        x: 764
-        y: 0
-        width: 21
-        height: 38
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d6bec80962b03f94a91b410c6c4b592b
-      internalID: -207567517
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: _Idle_7
-      rect:
-        serializedVersion: 2
-        x: 884
-        y: 0
-        width: 21
-        height: 38
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 78d1b4ae2e67f0442a65e26019f37711
-      internalID: -181467766
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: _Idle_8
-      rect:
-        serializedVersion: 2
-        x: 1004
-        y: 0
-        width: 21
-        height: 38
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e53b9e364424bb447b6c3e7c214ea9e3
-      internalID: 1524050651
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: _Idle_9
-      rect:
-        serializedVersion: 2
-        x: 1124
-        y: 0
-        width: 21
-        height: 38
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 52b09afcc4b195e429c5351eafc15c52
-      internalID: -1705135643
+      spriteID: 136e702a8cc458847bfb2dc39d265020
+      internalID: -131319529
       vertices: []
       indices: 
       edges: []
@@ -343,16 +259,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      _Idle_0: 293182170
-      _Idle_1: -633552908
-      _Idle_2: 453163729
-      _Idle_3: 2071665552
-      _Idle_4: -998474964
-      _Idle_5: 1077197186
-      _Idle_6: -207567517
-      _Idle_7: -181467766
-      _Idle_8: 1524050651
-      _Idle_9: -1705135643
+      arm_projectile_glowing_0: -1196585730
+      arm_projectile_glowing_1: -2076597286
+      arm_projectile_glowing_2: 1329650455
+      arm_projectile_glowing_3: -53998292
+      arm_projectile_glowing_4: -1306432390
+      arm_projectile_glowing_5: -131319529
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
