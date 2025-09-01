@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 20a596f3dacbeaf4fafeab8dfe5c3eb8
+guid: 3277a04680443674d87cc4f5e0c556b3
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -121,133 +121,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: cyberpunk-corridor_0
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 416
-        width: 112
-        height: 176
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8aa2d8c674e20404bacee9856f4bc437
-      internalID: -1645563522
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cyberpunk-corridor_1
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 416
-        width: 224
-        height: 176
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3652626322571994f95a5b17b10e8d96
-      internalID: 1366138493
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cyberpunk-corridor_2
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 224
-        width: 112
-        height: 176
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e24fb9903ccfe8f4ca02591e615fb4ec
-      internalID: -1896310257
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cyberpunk-corridor_3
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 224
-        width: 336
-        height: 176
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4b5b74fce5624db47a2da542768930ff
-      internalID: 127069302
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cyberpunk-corridor_4
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 16
-        width: 128
-        height: 176
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b0fad98bfd85ff14d9eac456792f58a0
-      internalID: -1381280066
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cyberpunk-corridor_5
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 16
-        width: 336
-        height: 176
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c0e5f2e482a372e47ac4f14aac0869e3
-      internalID: -791018259
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
@@ -258,13 +132,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      cyberpunk-corridor_0: -1645563522
-      cyberpunk-corridor_1: 1366138493
-      cyberpunk-corridor_2: -1896310257
-      cyberpunk-corridor_3: 127069302
-      cyberpunk-corridor_4: -1381280066
-      cyberpunk-corridor_5: -791018259
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
