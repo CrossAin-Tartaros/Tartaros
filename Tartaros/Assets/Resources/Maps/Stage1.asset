@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3956d98e8fcdaa540a99769f86d2111d, type: 3}
   m_Name: Stage1
   m_EditorClassIdentifier: 
-  mapPrefab: {fileID: 4771438886885766805, guid: 3db25c24d7cea48478d505dc107333ba, type: 3}
+  mapPrefab: {fileID: 6605672212127642840, guid: 9218c4d8291670446a92d8608395bd20, type: 3}
   monsterSpawnList: []
   playerSpawnPositions:
   - {x: -4.5, y: -17}
