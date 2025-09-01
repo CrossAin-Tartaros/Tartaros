@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class GetRandomPositionNode : Node
 {
-    private Monster monster;
+    private MonsterAI monsterAI;
 
-    public GetRandomPositionNode(Monster monster)
+    public GetRandomPositionNode(MonsterAI monsterAI)
     {
-        this.monster = monster;
+        this.monsterAI = monsterAI;
     }
 
     public override NodeState Evaluate()
     {
-        if (!monster.isMoving)
+        if (!monsterAI.isMoving)
         {
-            monster.SetRandomDestination();    
-            Debug.Log($"New Position : {monster.Destination.x}");
+            monsterAI.SetRandomDestination();    
+            Debug.Log($"New Position : {monsterAI.Destination.x}");
+            monsterAI.Monster.Animator.ChangeHeadDirection(monsterAI.transform.position.x > monsterAI.Destination.x);
         }
         
         state = NodeState.Success;

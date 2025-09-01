@@ -133,8 +133,9 @@ GameObject:
   m_Component:
   - component: {fileID: 243112491}
   - component: {fileID: 243112492}
+  - component: {fileID: 243112493}
   m_Layer: 0
-  m_Name: Square
+  m_Name: MonsterSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -149,8 +150,8 @@ Transform:
   m_GameObject: {fileID: 243112490}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.13, y: 0.32, z: 0}
+  m_LocalScale: {x: 6, y: 6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 828643407}
@@ -195,9 +196,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0.2783019, b: 0.2783019, a: 1}
+  m_SortingOrder: 55
+  m_Sprite: {fileID: 21300000, guid: 3660564bd97cec64eafea5fcfa65925b, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -207,6 +208,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &243112493
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243112490}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bf0b3c2f9deba17489cd721044af0b34, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &617088866
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,6 +370,8 @@ GameObject:
   - component: {fileID: 828643408}
   - component: {fileID: 828643410}
   - component: {fileID: 828643409}
+  - component: {fileID: 828643411}
+  - component: {fileID: 828643412}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Monster
@@ -386,15 +410,6 @@ MonoBehaviour:
   <MonsterType>k__BackingField: 0
   <MaxHealth>k__BackingField: 100
   <MoveSpeed>k__BackingField: 2
-  <Recognize>k__BackingField: 8
-  <Patrol>k__BackingField: 5
-  <PatrolWait>k__BackingField: 2
-  <AttackRange>k__BackingField: 2
-  <DistanceThreshold>k__BackingField: 0.1
-  <MinX>k__BackingField: -9
-  <MaxX>k__BackingField: 25
-  <Target>k__BackingField: {fileID: 1565815413}
-  isMoving: 0
 --- !u!50 &828643409
 Rigidbody2D:
   serializedVersion: 4
@@ -421,7 +436,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &828643410
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -454,7 +469,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.15890312, y: 0.12712204}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -465,8 +480,43 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.775444, y: 1.7373078}
   m_EdgeRadius: 0
+--- !u!114 &828643411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828643405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c3eda0e97e33614389d10cb8837bffe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+--- !u!114 &828643412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828643405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f1d8496e309eb342b3dd426717d36e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Recognize>k__BackingField: 8
+  <Patrol>k__BackingField: 5
+  <PatrolWait>k__BackingField: 2
+  <AttackRange>k__BackingField: 2
+  <DistanceThreshold>k__BackingField: 0.1
+  <MinX>k__BackingField: -9
+  <MaxX>k__BackingField: 26
+  <Target>k__BackingField: {fileID: 1565815413}
+  isMoving: 0
 --- !u!1 &864011847
 GameObject:
   m_ObjectHideFlags: 0

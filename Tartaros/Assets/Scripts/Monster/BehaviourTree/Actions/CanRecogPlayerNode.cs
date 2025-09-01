@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class CanRecogPlayerNode : Node
 {
-    private Monster monster;
+    private MonsterAI monsterAI;
     private Transform player;
     private float distance;
 
-    public CanRecogPlayerNode(Monster monster,  Transform player)
+    public CanRecogPlayerNode(MonsterAI monsterAI,  Transform player)
     {
-        this.monster =  monster;
+        this.monsterAI =  monsterAI;
         this.player = player;
     }
 
     public override NodeState Evaluate()
     {
-        distance = Vector2.Distance(monster.transform.position, player.position);
+        distance = Vector2.Distance(monsterAI.transform.position, player.position);
         
         // 몬스터 인식 거리 내부이면 성공
-        if (distance <= monster.Recognize)
+        if (distance <= monsterAI.Recognize)
         {
             Debug.Log($"Can Recognize Player");
             state = NodeState.Success;

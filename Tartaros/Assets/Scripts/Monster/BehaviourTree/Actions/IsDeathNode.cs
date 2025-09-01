@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class IsDeathNode : Node
 {
-    private Monster monster;
+    private MonsterAI monsterAI;
     private bool dieActionIsvoked = false;
 
-    public IsDeathNode(Monster monster)
+    public IsDeathNode(MonsterAI monsterAI)
     {
-        this.monster = monster;
+        this.monsterAI = monsterAI;
     }
 
     public override NodeState Evaluate()
     {
-        if (monster.CurrentHealth <= 0)
+        if (monsterAI.Monster.CurrentHealth <= 0)
         {
             // 죽었을 때 액션 실행 안했으면 실행 하고 앞으로는 실행 안하도록 설정
             if (!dieActionIsvoked)
             {
                 Debug.Log("Monster Die");
-                monster.Die();
+                monsterAI.Monster.Die();
                 dieActionIsvoked = true;
             }
             state = NodeState.Success;

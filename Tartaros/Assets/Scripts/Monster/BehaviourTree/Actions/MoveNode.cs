@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class MoveNode : Node
 {
-    private Monster monster;
+    private MonsterAI monsterAI;
 
-    public MoveNode(Monster monster)
+    public MoveNode(MonsterAI monsterAI)
     {
-        this.monster =  monster;
+        this.monsterAI =  monsterAI;
     }
 
     public override NodeState Evaluate()
     {
-        if (monster.MoveToDestination())
+        if (monsterAI.MoveToDestination())
         {
             Debug.Log("Move Done");
+            monsterAI.Monster.Animator.StopAnimation(monsterAI.Monster.Animator.data.MoveHash);
             state = NodeState.Success;
         }
         else
-        {
+        {  
+            monsterAI.Monster.Animator.StartAnimation(monsterAI.Monster.Animator.data.MoveHash);
             state = NodeState.Running;
         }
 

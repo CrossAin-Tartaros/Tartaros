@@ -5,7 +5,7 @@ using UnityEngine;
 public enum MonsterType
 {
    Warrior,
-   Runcher,
+   Launcher,
    Elite,
    Boss
 }
