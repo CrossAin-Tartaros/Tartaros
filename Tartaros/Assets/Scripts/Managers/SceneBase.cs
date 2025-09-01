@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class SceneBase
 {
-    public abstract void SceneLoading();
-    public abstract void OnSceneEnter();
-    public abstract void OnSceneExit();
+    public virtual void SceneLoading() { }
+    public virtual void OnSceneEnter() { }
+    public virtual void OnSceneExit() { }
 }
