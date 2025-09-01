@@ -5,6 +5,7 @@ using UnityEngine;
 public class Sequence : Node
 {
     private List<Node> children;
+    private int currentIndex = 0;
 
     // 자식 노드 받아오기
     public Sequence(List<Node> children)
@@ -14,28 +15,31 @@ public class Sequence : Node
 
     public override NodeState Evaluate()
     {
-        bool anyRunning = false; // 실행 중인 노드가 있는지 체크하는 부분
-
-
-        foreach (var child in children)
+        while (currentIndex < children.Count)
         {
-            switch (child.Evaluate())
+            NodeState result = children[currentIndex].Evaluate();
+
+            switch (result)
             {
-                // 하나라도 실패하면 안됨.
+                // Sequence는 하나만 실패해도 전체 실패임
                 case NodeState.Failure:
+                    currentIndex = 0;
                     state = NodeState.Failure;
                     return state;
-                // 성공하면 다음 자식으로 이동
-                case NodeState.Success:
-                    continue;
-                // 어떤 자식 노드가 실행 중이라면 이 Sequence 노드의 상태도 실행 중임.
+
+                // Running 인 경우에는 다음에 얘부터 실행하도록
                 case NodeState.Running:
-                    anyRunning = true;
+                    state = NodeState.Running;
+                    return state;
+
+                case NodeState.Success:
+                    currentIndex++; // 다음 노드로 진행
                     break;
             }
         }
         
-        state = anyRunning ? NodeState.Running : NodeState.Success;
+        currentIndex = 0;
+        state = NodeState.Success;
         return state;
     }
 }

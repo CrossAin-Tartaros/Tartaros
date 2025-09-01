@@ -5,6 +5,7 @@ using UnityEngine;
 public class Selector : Node
 {
     private List<Node> children;
+    private int currentIndex = 0; // 마지막으로 실행한 자식 인덱스 기억
 
     public Selector(List<Node> children)
     {
@@ -13,27 +14,32 @@ public class Selector : Node
 
     public override NodeState Evaluate()
     {
-        bool anyRunning = false; // 실행 중인 노드가 있는지 체크하는 부분
-
-        foreach (var child in children)
+        while (currentIndex < children.Count)
         {
-            switch (child.Evaluate())
+            NodeState result = children[currentIndex].Evaluate();
+
+            switch (result)
             {
-                // 실패하면 다음 자식으로 이동
-                case NodeState.Failure:
-                    continue;
-                // 하나라도 성공하면 selector는 성공
                 case NodeState.Success:
+                    // Selector는 하나라도 성공하면 전체 성공
+                    currentIndex = 0;
                     state = NodeState.Success;
                     return state;
-                // 실행 중이면 그게 우선
+
                 case NodeState.Running:
-                    anyRunning = true;
+                    // 실행 중이면 다음 틱에도 같은 자식부터 실행
+                    state = NodeState.Running;
+                    return state;
+
+                case NodeState.Failure:
+                    currentIndex++; // 다음 자식으로 진행
                     break;
             }
         }
-        
-        state = anyRunning ? NodeState.Running : NodeState.Failure;
+
+        // 모든 자식이 실패했을 때
+        currentIndex = 0;
+        state = NodeState.Failure;
         return state;
     }
 }
