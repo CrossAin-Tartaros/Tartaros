@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Boss
   m_EditorClassIdentifier: 
   mapPrefab: {fileID: 6144139258246220365, guid: 4b5db97f29dc9e145a130de6d4edb845, type: 3}
-  monsterSpawnList: []
+  monsterSpawnList:
+  - monsterPrefab: {fileID: 7677725857578870745, guid: c5df78b084f108c4fb28e54291bb35f0, type: 3}
+    position: {x: 11, y: 0}
   playerSpawnPositions:
   - {x: -5.8, y: 7.5}

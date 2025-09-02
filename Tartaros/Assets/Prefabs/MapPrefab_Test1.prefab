@@ -1531,7 +1531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStartPosition: 0
-  mapType: 0
+  mapType: 1
 --- !u!1 &7134736638030516691
 GameObject:
   m_ObjectHideFlags: 0

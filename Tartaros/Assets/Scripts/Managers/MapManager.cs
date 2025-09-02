@@ -4,20 +4,25 @@ using UnityEngine;
 
 public class MapManager : Singleton<MapManager>
 {
+    private MapData data;
     private GameObject mapInstance;
 
-    //Constans/MapName 클래스에서 Resources 폴더 내 경로를 상수로 저장해서 사용.
-    //public const string stage1 = "Maps/stage1(or 다른 이름)"
+    //Enum/MapType에서 Resources 폴더 내 Mapdata 이름을 저장해서 사용.
 
 
     void LoadNewMap(string mapName, bool isStartPosition)
     {
-        
+        //초기화
+        if (data != null)
+            data = null;
         if(mapInstance != null)
             Destroy(mapInstance.gameObject);
 
+
+        data = Resources.Load<MapData>("Maps/" + mapName);
+
         //기본 구조물 로드
-        mapInstance = Instantiate(Resources.Load<MapData>("Maps/" + mapName).mapPrefab);
+        mapInstance = Instantiate(data.mapPrefab);
 
         //플레이어 위치 설정. isStartPosition가 true면 입구쪽, false면 출구쪽
         if (isStartPosition) 
@@ -26,6 +31,10 @@ public class MapManager : Singleton<MapManager>
         { }
 
         //몬스터 소환
+        for (int i = 0; i < data.monsterSpawnList.Count; i++) 
+        {
+            Instantiate(data.monsterSpawnList[i].monsterPrefab, data.monsterSpawnList[i].position, Quaternion.identity);
+        }
 
         //페이드 인 효과
 
