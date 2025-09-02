@@ -16,6 +16,11 @@ public class Player : MonoBehaviour
     public float groundCheckRadius = 0.12f; //바닥 반지름
     public LayerMask groundMask; //레이어 바닥 필터 구분
 
+    [Header("Crouch")]
+    [SerializeField] private BoxCollider2D bodyCol;
+    [SerializeField] private float crouchHeight = 0.5f; //엎드릴때 높이
+    public bool IsCrouching { get; private set; } //엎드리는중?
+
     public bool IsGrounded { get; private set; }
 
     public bool IsOnLadder { get; private set; } //사다리 안?
@@ -24,6 +29,13 @@ public class Player : MonoBehaviour
     int groundLayer;
 
     Rigidbody2D rb;
+    Vector2 standSize, standOffset; //기본 사이즈
+    Vector2 crouchSize, crouchOffset; //엎드릴때 사이즈
+
+    private void Reset()
+    {
+        if (!bodyCol) bodyCol = GetComponent<BoxCollider2D>();
+    }
 
     private void Awake()
     {
@@ -32,6 +44,49 @@ public class Player : MonoBehaviour
         defaultGravity = stat.gravityScale; //사다리에서 나오면 다시 돌려줄 중력값
 
         groundLayer = LayerMask.NameToLayer("Ground");
+
+        if (!bodyCol) bodyCol = GetComponent<BoxCollider2D>();
+        CacheColliderSizes();
+    }
+
+    private void OnValidate()
+    {
+        if (!bodyCol) bodyCol = GetComponent<BoxCollider2D>();
+        if (bodyCol) CacheColliderSizes();
+    }
+
+    private void CacheColliderSizes()
+    {
+        standSize = bodyCol.size; //원래 키
+        standOffset = bodyCol.offset;
+
+        crouchSize = new Vector2(standSize.x, crouchHeight); //x는 유지
+
+        float deltaY = (standSize.y - crouchHeight) * 0.5f;
+        crouchOffset = new Vector2(standOffset.x, standOffset.y - deltaY);
+        //발 위치는 고정
+    }
+
+    public void SetCrouch(bool on) //엎드리기 계산
+    {
+        if (IsClimbing) on = false;
+        if (on == IsCrouching) return;
+        ApplyCrouch(on);
+    }
+
+    void ApplyCrouch(bool on)
+    {
+        IsCrouching = on;
+        if (on)
+        {
+            bodyCol.size = crouchSize;
+            bodyCol.offset = crouchOffset;
+        }
+        else
+        {
+            bodyCol.size = standSize;
+            bodyCol.offset = standOffset;
+        }
     }
 
     private void FixedUpdate()

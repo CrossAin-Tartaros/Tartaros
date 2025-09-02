@@ -204,7 +204,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.35}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -238,6 +238,8 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
+  bodyCol: {fileID: 2784951047875783444}
+  crouchHeight: 0.5
 --- !u!114 &7870344538009597520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,11 +273,11 @@ MonoBehaviour:
   defense: 3
   walkSpeed: 3
   runSpeed: 5
-  tileSize: 1
+  tileSize: 2
   jumpHeight: 2
   jumpTime: 0.8
-  jumpVelocity: 5
-  gravityScale: 0.637105
+  jumpVelocity: 10
+  gravityScale: 1.27421
 --- !u!114 &6556067602303710278
 MonoBehaviour:
   m_ObjectHideFlags: 0
