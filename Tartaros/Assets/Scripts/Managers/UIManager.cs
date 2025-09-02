@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -8,6 +9,17 @@ public class UIManager : Singleton<UIManager>
 
     private bool _isCleaning;
     private Dictionary<string, UIBase> _uiDictionary = new Dictionary<string, UIBase>();
+
+    private void OnEnable()
+    {
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
+    }
+
 
     public void OpenUI<T>() where T : UIBase
     {
@@ -95,5 +107,42 @@ public class UIManager : Singleton<UIManager>
     private string GetUIName<T>() where T : UIBase
     {
         return typeof(T).Name;
+    }
+
+    // ================================
+    // 리소스 정리
+    // ================================
+    private void OnSceneUnloaded(Scene scene)
+    {
+        CleanAllUIs();
+        StartCoroutine(CoUnloadUnusedAssets());
+    }
+
+    private void CleanAllUIs()
+    {
+        if (_isCleaning) return;
+        _isCleaning = true;
+
+        try
+        {
+            foreach (var ui in _uiDictionary.Values)
+            {
+                if (ui == null) continue;
+                // Close 프로세스 추가 가능
+                Destroy(ui.gameObject);
+            }
+            _uiDictionary.Clear();
+        }
+        finally
+        {
+            _isCleaning = false;
+        }
+    }
+
+    // UI 뿐만 아니라 전체 오브젝트 관리 시스템측면에서도 있으면 좋음
+    private IEnumerator CoUnloadUnusedAssets()
+    {
+        yield return Resources.UnloadUnusedAssets();
+        System.GC.Collect();
     }
 }
