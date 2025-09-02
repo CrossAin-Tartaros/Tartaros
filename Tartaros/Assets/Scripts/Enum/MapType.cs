@@ -6,5 +6,5 @@ public enum MapType
 {
     Stage1,
     Boss,
-    Test
+    Test,
 }

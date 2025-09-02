@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class MapManager : Singleton<MapManager>
 {
-    private Dictionary<string, MapData> mapDatas;
+    private Dictionary<string, MapData> mapDatas = new();
     private MapData currentMapData;
     private GameObject mapInstance;
 
     private GameObject waterPrefab;
     private Water currentWater;
 
-    private List<GameObject> currentMonsterList;
+    private List<GameObject> currentMonsterList = new();
 
     //Enum/MapType에서 Resources 폴더 내 Mapdata 이름을 저장해서 사용.
     private void Awake()
@@ -20,7 +20,7 @@ public class MapManager : Singleton<MapManager>
         mapDatas.Add(MapType.Stage1.ToString(), Resources.Load<MapData>("Maps/" + MapType.Stage1.ToString()));
         mapDatas.Add(MapType.Boss.ToString(), Resources.Load<MapData>("Maps/" + MapType.Boss.ToString()));
 
-        waterPrefab = Resources.Load<GameObject>("");
+        waterPrefab = Resources.Load<GameObject>("Maps/" + "Fontaine");
     }
 
 
@@ -35,11 +35,13 @@ public class MapManager : Singleton<MapManager>
         mapInstance = Instantiate(currentMapData.mapPrefab);
 
         //샘물 로드
-        if (currentMapData.waterPosition != null)
+        if (currentMapData.waterPosition != Vector2.zero)
         {
             currentWater = Instantiate(waterPrefab, currentMapData.waterPosition, Quaternion.identity).gameObject.GetComponent<Water>();
 
             //저장 데이터에 따라서 샘물 사용여부 결정
+            //if(사용했다면)
+            currentWater.SetUsedWater();
         }
 
 
@@ -78,12 +80,16 @@ public class MapManager : Singleton<MapManager>
             Destroy(mapInstance.gameObject);
         if (currentWater != null)
             Destroy(currentWater.gameObject);
-        foreach (var obj in currentMonsterList)
+        if(currentMonsterList != null)
         {
-            if (obj != null)
-                Destroy(obj.gameObject);
+            foreach (var obj in currentMonsterList)
+            {
+                if (obj != null)
+                    Destroy(obj.gameObject);
+            }
+            currentMonsterList.Clear();
         }
-        currentMonsterList.Clear();
+
     }
 
 

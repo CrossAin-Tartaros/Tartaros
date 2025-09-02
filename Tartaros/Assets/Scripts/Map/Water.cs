@@ -5,11 +5,8 @@ using UnityEngine;
 public class Water : MonoBehaviour
 {
     bool isUsed;
-
-    void Start()
-    {
-        //isUsed에 맞춰서 스프라이트 결정
-    }
+    [SerializeField] GameObject used;
+    [SerializeField] GameObject unused;
 
     //isUsed에 따라서 상호작용 가능 여부 결정
 
@@ -17,8 +14,16 @@ public class Water : MonoBehaviour
     //상호작용시 함수 호출
     void UseWater()
     {
-        isUsed = true;
-        //스프라이트 변경
+        SetUsedWater();
         //저장
+        //플레이어 회복
     }
+
+    public void SetUsedWater()
+    {
+        isUsed = true;
+        unused.SetActive(false);
+        used.SetActive(true);
+    }
+
 }
