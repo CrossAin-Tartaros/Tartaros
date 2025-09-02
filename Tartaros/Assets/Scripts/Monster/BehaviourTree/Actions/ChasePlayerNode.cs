@@ -7,7 +7,7 @@ public class ChasePlayerNode : Node
     private MonsterAI monsterAI;
     private Transform player;
     private float distance;
-
+    
     public ChasePlayerNode(MonsterAI monsterAI, Transform player)
     {
         this.monsterAI = monsterAI;
@@ -17,30 +17,20 @@ public class ChasePlayerNode : Node
     public override NodeState Evaluate()
     {
         distance = Vector2.Distance(monsterAI.transform.position, player.position);
-        // 공격 가능 범위까지 왔으면 성공
-        if (distance <= monsterAI.AttackRange)
+        if (distance <= monsterAI.Monster.data.AttackRange)
         {
-            monsterAI.Monster.Animator.StopAnimation(monsterAI.Monster.Animator.data.MoveHash);
-            Debug.Log($"Can Attack Player");
             state = NodeState.Success;
-            return state;
         }
-        // 너무 멀어졌으면 실패
-        else if (distance >= monsterAI.Recognize)
+        else if (distance > monsterAI.Monster.data.Recognize)
         {
-            monsterAI.Monster.Animator.StopAnimation(monsterAI.Monster.Animator.data.MoveHash);
-            Debug.Log($"Fail to chase player");
-            state =  NodeState.Failure;
-            return state;
+            state = NodeState.Failure;
         }
-        // 성공/실패 아니면 진행 중
         else
         {
-            monsterAI.Monster.Animator.ChangeHeadDirection(monsterAI.transform.position.x > player.position.x);
             monsterAI.Monster.Animator.StartAnimation(monsterAI.Monster.Animator.data.MoveHash);
             monsterAI.MoveToTarget(player.position);
-            state = NodeState.Running;
-            return state;
+            state = NodeState.Running;            
         }
+        return state;
     }
 }

@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class WaitNode : Node
 {
+    private MonsterAI monsterAI;
     private float waitTime;
     private float startTime;
 
-    public WaitNode(float waitTime)
+    public WaitNode(MonsterAI monsterAI, float waitTime)
     {
         this.waitTime = waitTime;
+        this.monsterAI = monsterAI;
         startTime = 0;
     }
 
@@ -24,6 +26,7 @@ public class WaitNode : Node
         {
             startTime = 0;
             state = NodeState.Success;
+            monsterAI.Monster.Animator.StopAllAnimations();
             return state;
         }
         
