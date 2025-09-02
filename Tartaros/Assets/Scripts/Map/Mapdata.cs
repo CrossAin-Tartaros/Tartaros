@@ -11,6 +11,8 @@ public class MapData : ScriptableObject
     public List<MonsterSpawnData> monsterSpawnList;
 
     public List<Vector2> playerSpawnPositions;
+
+    public Vector2 waterPosition;
 }
 
 [System.Serializable]

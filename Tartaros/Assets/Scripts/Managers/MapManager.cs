@@ -4,25 +4,46 @@ using UnityEngine;
 
 public class MapManager : Singleton<MapManager>
 {
-    private MapData data;
+    private Dictionary<string, MapData> mapDatas = new();
+    private MapData currentMapData;
     private GameObject mapInstance;
 
+    private GameObject waterPrefab;
+    private Water currentWater;
+
+    private List<GameObject> currentMonsterList = new();
+
     //Enum/MapType에서 Resources 폴더 내 Mapdata 이름을 저장해서 사용.
+    private void Awake()
+    {
+        mapDatas.Add(MapType.Test.ToString(), Resources.Load<MapData>("Maps/" + MapType.Test.ToString()));
+        mapDatas.Add(MapType.Stage1.ToString(), Resources.Load<MapData>("Maps/" + MapType.Stage1.ToString()));
+        mapDatas.Add(MapType.Boss.ToString(), Resources.Load<MapData>("Maps/" + MapType.Boss.ToString()));
+
+        waterPrefab = Resources.Load<GameObject>("Maps/" + "Fontaine");
+    }
 
 
     void LoadNewMap(string mapName, bool isStartPosition)
     {
         //초기화
-        if (data != null)
-            data = null;
-        if(mapInstance != null)
-            Destroy(mapInstance.gameObject);
+        ClearMap();
 
-
-        data = Resources.Load<MapData>("Maps/" + mapName);
+        currentMapData = mapDatas[mapName];
 
         //기본 구조물 로드
-        mapInstance = Instantiate(data.mapPrefab);
+        mapInstance = Instantiate(currentMapData.mapPrefab);
+
+        //샘물 로드
+        if (currentMapData.waterPosition != Vector2.zero)
+        {
+            currentWater = Instantiate(waterPrefab, currentMapData.waterPosition, Quaternion.identity).gameObject.GetComponent<Water>();
+
+            //저장 데이터에 따라서 샘물 사용여부 결정
+            //if(사용했다면)
+            currentWater.SetUsedWater();
+        }
+
 
         //플레이어 위치 설정. isStartPosition가 true면 입구쪽, false면 출구쪽
         if (isStartPosition) 
@@ -31,9 +52,11 @@ public class MapManager : Singleton<MapManager>
         { }
 
         //몬스터 소환
-        for (int i = 0; i < data.monsterSpawnList.Count; i++) 
+        for (int i = 0; i < currentMapData.monsterSpawnList.Count; i++) 
         {
-            Instantiate(data.monsterSpawnList[i].monsterPrefab, data.monsterSpawnList[i].position, Quaternion.identity);
+            
+            GameObject obj = Instantiate(currentMapData.monsterSpawnList[i].monsterPrefab, currentMapData.monsterSpawnList[i].position, Quaternion.identity);
+            currentMonsterList.Add(obj);
         }
 
         //페이드 인 효과
@@ -47,6 +70,26 @@ public class MapManager : Singleton<MapManager>
         //페이드 아웃
 
         LoadNewMap(mapName, isStartPosition);
+    }
+
+    void ClearMap()
+    {
+        if (currentMapData != null)
+            currentMapData = null;
+        if (mapInstance != null)
+            Destroy(mapInstance.gameObject);
+        if (currentWater != null)
+            Destroy(currentWater.gameObject);
+        if(currentMonsterList != null)
+        {
+            foreach (var obj in currentMonsterList)
+            {
+                if (obj != null)
+                    Destroy(obj.gameObject);
+            }
+            currentMonsterList.Clear();
+        }
+
     }
 
 
