@@ -13,18 +13,22 @@ public class Player : MonoBehaviour
     public SpriteRenderer sprite;
     public Animator animator;
 
+    [Header("Death / Respawn")]
+    public Transform respawnPoint; //세이브포인트
+    [SerializeField] private float respawnDelay = 1.0f;
+    [SerializeField] private float respawnIFrames = 1.0f;
+    public bool IsDead { get; private set; }
+    private Coroutine _dieCo;
+
     [Header("Hurt / Frames")]
     [SerializeField] private float invincibleDuration = 2f; // 무적 시간
     [SerializeField] private float knockbackTiles = 1f; // X축 넉백거리
     [SerializeField] private float knockbackImpulsePerTile = 6f;
     private bool isInvincible;
 
-
-    [Header("Attack")]
-    [Tooltip("가로 범위")]
-    public float WidthRange = 2f; //2칸
-    [Tooltip("세로 범위")]
-    public float HeightRange = 1f;
+    [SerializeField] private GameObject weaponHitboxGO; //공격범위 콜라이더 탐색
+    [SerializeField] private float attackWindow = 0.15f; //몇초동안
+    private Coroutine _atkWindowCo;
 
     [Header("Ground Check")]
     public Transform groundCheck;
@@ -49,6 +53,13 @@ public class Player : MonoBehaviour
 
     private float _nextAttackTime = 0f;
 
+    private void Start()
+    {
+        // 모든 Awake 끝난 뒤 HP가 0 이하면 바로 사망 루틴 진입
+        if (stat && stat.currentHP <= 0)
+            TryCheckDeath();
+    }
+
     private void Reset()
     {
         if (!bodyCol) bodyCol = GetComponent<BoxCollider2D>();
@@ -64,6 +75,28 @@ public class Player : MonoBehaviour
 
         if (!bodyCol) bodyCol = GetComponent<BoxCollider2D>();
         CacheColliderSizes();
+    }
+
+    public void OpenAttackWindow() //공격 호출
+    {
+        if (!weaponHitboxGO) //자동탐색
+        {
+            foreach (var col in GetComponentsInChildren<BoxCollider2D>(true))
+            {
+                if (col.isTrigger && col.gameObject != gameObject) { weaponHitboxGO = col.gameObject; break; }
+            }
+            if (!weaponHitboxGO) return; //못찾으면 패스
+        }
+        if (_atkWindowCo != null) StopCoroutine(_atkWindowCo);
+        _atkWindowCo = StartCoroutine(_AttackWindowCo());
+    }
+
+    private IEnumerator _AttackWindowCo()
+    {
+        weaponHitboxGO.SetActive(true); //히트박스 o
+        yield return new WaitForSeconds(attackWindow);
+        weaponHitboxGO.SetActive(false); //히트박스 x
+        _atkWindowCo = null;
     }
 
     private void OnValidate()
@@ -187,62 +220,11 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void AttackOnce()
-    {
-        float tile = stat ? stat.tileSize : 1f;
-        float range = WidthRange * tile; //가로길이
-        float height = HeightRange * tile; //새로길이
-
-        int dir = (sprite && sprite.flipX) ? -1 : 1;
-
-        //플레이어 앞면부터 범위만큼 뻗도록 중심 계산
-        float bodyHalfW = bodyCol ? bodyCol.size.x * 0.5f : 0f;
-        Vector2 center = (Vector2)transform.position + 
-            new Vector2(dir * (bodyHalfW + range * 0.5f), bodyCol ? bodyCol.offset.y : 0f);
-        Vector2 size = new Vector2(range, height);
-
-        var hits = Physics2D.OverlapBoxAll(center, size, 0f); //범위 내 모든 콜라이더
-        var hitRoots = new HashSet<Transform>(); //동일 대상 중복 방지
-
-        int damage = stat ? stat.attack : 1; //PlayerStat.attack 값
-        int hitCount = 0;
-
-        foreach (var h in hits)
-        {
-            if (!h) continue;
-
-            // 자기 자신 스킵
-            if (h.attachedRigidbody && h.attachedRigidbody.transform == this.transform)
-                continue;
-
-            // Tag=Monster만 타격
-            if (!h.CompareTag("Monster")) continue;
-
-            Transform root = h.attachedRigidbody ? h.attachedRigidbody.transform : h.transform;
-            if (hitRoots.Contains(root)) continue;
-            hitRoots.Add(root);
-            hitCount++;
-
-            //공격 여부 확인
-            Debug.Log($"[HIT] Target={root.name}, Damage={damage} (PlayerStat.attack={damage}), Time={Time.time:F2}");
-
-
-            //// 데미지 전달
-            //int damage = stat ? stat.attack : 1;
-            //root.SendMessage("TakeDamage", damage, SendMessageOptions.DontRequireReceiver);
-        }
-
-        if (hitCount == 0)
-        {
-            Debug.Log($"[HIT] No target. Range={WidthRange}x{HeightRange} tiles, Dir={(dir > 0 ? "Right" : "Left")}, Time={Time.time:F2}");
-        }
-    }
-
     public bool TryConsumeAttackCooldown()
     {
         float interval = 1f / Mathf.Max(0.01f, (stat ? stat.attackSpeed : 1f));
-        if (Time.time < _nextAttackTime) return false; //쿨타운
-        _nextAttackTime = Time.time + interval; //다음 공격 예약
+        if (Time.time < _nextAttackTime) return false;
+        _nextAttackTime = Time.time + interval;
         return true;
     }
 
@@ -263,10 +245,16 @@ public class Player : MonoBehaviour
     private void ApplyHurt(int rawDamage, Vector3 sourcePos, bool ignoreDefense)
         //공통: 체력감소 > 맞는 모션 > 넉백 > 무적
     {
-        int finalDamage = ignoreDefense //최소 데미지 1
-            ? rawDamage : (stat ? stat.ReduceDamage(rawDamage) : Mathf.Max(1, rawDamage));
+        int finalDamage = ignoreDefense //데미지 1
+        ? rawDamage : (stat ? stat.ReduceDamage(rawDamage) : Mathf.Max(1, rawDamage));
 
         stat.currentHP = Mathf.Max(0, stat.currentHP - finalDamage); //HP 적용
+
+        if (stat.currentHP <= 0) //죽으면 넉백, 무적 x
+        {
+            TryCheckDeath();
+            return;
+        }
 
         DoKnockbackFrom(sourcePos);
         StartCoroutine(IFrames());
@@ -291,5 +279,59 @@ public class Player : MonoBehaviour
         isInvincible = true;
         yield return new WaitForSeconds(invincibleDuration);
         isInvincible = false;
+    }
+
+    private void TryCheckDeath()
+    {
+        if (IsDead) return;
+        if (stat.currentHP <= 0)
+        {
+            if (_dieCo != null) StopCoroutine(_dieCo);
+            _dieCo = StartCoroutine(DieAndRespawn());
+        }
+    }
+
+    private IEnumerator DieAndRespawn()
+    {
+        IsDead = true;
+
+        //컨트롤러 비활성
+        var controller = GetComponent<PlayerController>();
+        if (controller) controller.enabled = false;
+
+        // 등반/엎드림/히트박스 정리
+        IsClimbing = false; IsOnLadder = false;
+        SetCrouch(false);
+        // 공격 히트박스가 있다면 꺼두기
+        foreach (var col in GetComponentsInChildren<Collider2D>(true))
+            if (col.isTrigger && col.gameObject != gameObject) col.gameObject.SetActive(false);
+
+        rb.velocity = Vector2.zero;
+        rb.simulated = false;
+
+        if (animator) animator.SetTrigger("Death");
+
+        yield return new WaitForSeconds(respawnDelay);
+
+        // 리스폰 지점 결정
+        Vector3 targetPos = transform.position;
+        if (respawnPoint) targetPos = respawnPoint.position;
+        else
+        {
+            var sp = GameObject.FindGameObjectWithTag("SavePoint");
+            if (!sp) sp = GameObject.FindGameObjectWithTag("Respawn");
+            if (sp) targetPos = sp.transform.position;
+        }
+        transform.position = targetPos;
+
+        // 스탯/상태 초기화
+        stat.currentHP = stat.maxHP;
+        rb.gravityScale = stat.gravityScale;
+        ToggleGroundCollision(false);
+        rb.simulated = true;
+
+        if (controller) controller.enabled = true;
+
+        IsDead = false;
     }
 }

@@ -68,8 +68,6 @@ public class PlayerController : MonoBehaviour
         curSpeed = Mathf.Clamp01(curSpeed);
         anim.SetSpeed01(curSpeed);
 
-        anim.SetCrouch(crouchHeld);
-
         if (jump && !player.IsClimbing)
         {
             player.Jump();
@@ -80,7 +78,7 @@ public class PlayerController : MonoBehaviour
         {
             if (player.TryConsumeAttackCooldown()) // Äð´Ù¿î Ã¼Å©
             {
-                player.AttackOnce();
+                player.OpenAttackWindow();
                 anim.TriggerAttack();
             }
         }
