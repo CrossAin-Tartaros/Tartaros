@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -10,6 +11,12 @@ public class Player : MonoBehaviour
     public PlayerStat stat;
     public SpriteRenderer sprite;
     public Animator animator;
+
+    [Header("Attack")]
+    [Tooltip("가로 범위")]
+    public float WidthRange = 2f; //2칸
+    [Tooltip("세로 범위")]
+    public float HeightRange = 1f;
 
     [Header("Ground Check")]
     public Transform groundCheck;
@@ -167,6 +174,57 @@ public class Player : MonoBehaviour
         {
             IsOnLadder = false;
             if (IsClimbing) StopClimb(); // 나가면 중력 복구
+        }
+    }
+
+    public void AttackOnce()
+    {
+        float tile = stat ? stat.tileSize : 1f;
+        float range = WidthRange * tile; //가로길이
+        float height = HeightRange * tile; //새로길이
+
+        int dir = (sprite && sprite.flipX) ? -1 : 1;
+
+        //플레이어 앞면부터 범위만큼 뻗도록 중심 계산
+        float bodyHalfW = bodyCol ? bodyCol.size.x * 0.5f : 0f;
+        Vector2 center = (Vector2)transform.position + 
+            new Vector2(dir * (bodyHalfW + range * 0.5f), bodyCol ? bodyCol.offset.y : 0f);
+        Vector2 size = new Vector2(range, height);
+
+        var hits = Physics2D.OverlapBoxAll(center, size, 0f); //범위 내 모든 콜라이더
+        var hitRoots = new HashSet<Transform>(); //동일 대상 중복 방지
+
+        int damage = stat ? stat.attack : 1; //PlayerStat.attack 값
+        int hitCount = 0;
+
+        foreach (var h in hits)
+        {
+            if (!h) continue;
+
+            // 자기 자신 스킵
+            if (h.attachedRigidbody && h.attachedRigidbody.transform == this.transform)
+                continue;
+
+            // Tag=Monster만 타격
+            if (!h.CompareTag("Monster")) continue;
+
+            Transform root = h.attachedRigidbody ? h.attachedRigidbody.transform : h.transform;
+            if (hitRoots.Contains(root)) continue;
+            hitRoots.Add(root);
+            hitCount++;
+
+            //공격 여부 확인
+            Debug.Log($"[HIT] Target={root.name}, Damage={damage} (PlayerStat.attack={damage}), Time={Time.time:F2}");
+
+
+            //// 데미지 전달
+            //int damage = stat ? stat.attack : 1;
+            //root.SendMessage("TakeDamage", damage, SendMessageOptions.DontRequireReceiver);
+        }
+
+        if (hitCount == 0)
+        {
+            Debug.Log($"[HIT] No target. Range={WidthRange}x{HeightRange} tiles, Dir={(dir > 0 ? "Right" : "Left")}, Time={Time.time:F2}");
         }
     }
 }
