@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1431647696896959940}
   - component: {fileID: 7644909784464137553}
   - component: {fileID: 2884360091136552057}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TutorialTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1235,7 +1235,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6119300954709045913
 Transform:
   m_ObjectHideFlags: 0
@@ -1626,7 +1626,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8277682111960123162}
   - component: {fileID: 6550595269542442084}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
