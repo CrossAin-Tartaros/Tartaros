@@ -1709,10 +1709,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Warrior Monster
       objectReference: {fileID: 0}
-    - target: {fileID: 5663890646999780819, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5755904060777710637, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
       propertyPath: m_LocalPosition.x
       value: 24.25
