@@ -78,8 +78,11 @@ public class PlayerController : MonoBehaviour
 
         if (attack && !player.IsClimbing)
         {
-            player.AttackOnce();
-            anim.TriggerAttack();
+            if (player.TryConsumeAttackCooldown()) // 쿨다운 체크
+            {
+                player.AttackOnce();
+                anim.TriggerAttack();
+            }
         }
 
         // 데미지 테스트

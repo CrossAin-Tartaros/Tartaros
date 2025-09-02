@@ -14,6 +14,9 @@ public class PlayerStat : MonoBehaviour
     [Tooltip("공격력")]
     public int attack = 5;
 
+    [Tooltip("공격속도")]
+    public float attackSpeed = 1f; //1초에 한대
+
     [Tooltip("방어력")]
     public int defense = 3;
 

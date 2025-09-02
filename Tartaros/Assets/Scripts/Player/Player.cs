@@ -1,6 +1,7 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
@@ -11,6 +12,13 @@ public class Player : MonoBehaviour
     public PlayerStat stat;
     public SpriteRenderer sprite;
     public Animator animator;
+
+    [Header("Hurt / Frames")]
+    [SerializeField] private float invincibleDuration = 2f; // 무적 시간
+    [SerializeField] private float knockbackTiles = 1f; // X축 넉백거리
+    [SerializeField] private float knockbackImpulsePerTile = 6f;
+    private bool isInvincible;
+
 
     [Header("Attack")]
     [Tooltip("가로 범위")]
@@ -38,6 +46,8 @@ public class Player : MonoBehaviour
     Rigidbody2D rb;
     Vector2 standSize, standOffset; //기본 사이즈
     Vector2 crouchSize, crouchOffset; //엎드릴때 사이즈
+
+    private float _nextAttackTime = 0f;
 
     private void Reset()
     {
@@ -226,5 +236,60 @@ public class Player : MonoBehaviour
         {
             Debug.Log($"[HIT] No target. Range={WidthRange}x{HeightRange} tiles, Dir={(dir > 0 ? "Right" : "Left")}, Time={Time.time:F2}");
         }
+    }
+
+    public bool TryConsumeAttackCooldown()
+    {
+        float interval = 1f / Mathf.Max(0.01f, (stat ? stat.attackSpeed : 1f));
+        if (Time.time < _nextAttackTime) return false; //쿨타운
+        _nextAttackTime = Time.time + interval; //다음 공격 예약
+        return true;
+    }
+
+    public void ReceiveMonsterCollision(Vector3 sourcePos)
+        //몬스터와 충돌 처리
+    {
+        if (isInvincible) return;
+        ApplyHurt(2, sourcePos, ignoreDefense : true);
+    }
+
+    public void ReceiveMonsterAttack(int rawDamage, Vector3 sourcePos)
+        //몬스터의 공격 처리
+    {
+        if (isInvincible) return;
+        ApplyHurt(rawDamage, sourcePos, ignoreDefense : false);
+    }
+
+    private void ApplyHurt(int rawDamage, Vector3 sourcePos, bool ignoreDefense)
+        //공통: 체력감소 > 맞는 모션 > 넉백 > 무적
+    {
+        int finalDamage = ignoreDefense //최소 데미지 1
+            ? rawDamage : (stat ? stat.ReduceDamage(rawDamage) : Mathf.Max(1, rawDamage));
+
+        stat.currentHP = Mathf.Max(0, stat.currentHP - finalDamage); //HP 적용
+
+        DoKnockbackFrom(sourcePos);
+        StartCoroutine(IFrames());
+
+        //콘솔확인
+        Debug.Log($"[PLAYER HIT] -{finalDamage} HP  => {stat.currentHP}/{stat.maxHP}");
+    }
+
+    private void DoKnockbackFrom(Vector3 sourcePos)
+    {
+        //현재 속도가 있으면 그 반대, 없으면 상대 위치 기준
+        int moveDir = Mathf.Abs(rb.velocity.x) > 0.05f ? (rb.velocity.x > 0 ? 1 : -1)
+                    : (transform.position.x < sourcePos.x ? 1 : -1);
+        int knockDir = -moveDir; // 진행 반대
+
+        float impulse = (stat ? stat.tileSize : 1f) * knockbackTiles * knockbackImpulsePerTile;
+        rb.AddForce(new Vector2(knockDir * impulse, 0f), ForceMode2D.Impulse);
+    }
+
+    private IEnumerator IFrames() //무적 타이머
+    {
+        isInvincible = true;
+        yield return new WaitForSeconds(invincibleDuration);
+        isInvincible = false;
     }
 }
