@@ -40,8 +40,8 @@ public abstract class MonsterAI : MonoBehaviour
     public abstract void BuildBT();
 
     public abstract void Attack();
-    
-    
+
+    public abstract void EndAttack();
     
     // 타겟 정하고 움직이는거
     public void MoveToTarget(Vector2 target)
@@ -64,4 +64,6 @@ public abstract class MonsterAI : MonoBehaviour
     }
 
     public abstract void HandleAnimationEvent(string eventName);
+
+    
 }

@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5681892820860102231
 Transform:
   m_ObjectHideFlags: 0
@@ -208,6 +208,7 @@ MonoBehaviour:
   <Target>k__BackingField: {fileID: 0}
   isMoving: 0
   isReturn: 0
+  isAttackDone: 0
   <AttackCollider>k__BackingField: {fileID: 8839712103946048538}
 --- !u!1 &9141405004575357060
 GameObject:

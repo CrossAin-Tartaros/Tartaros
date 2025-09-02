@@ -16,11 +16,13 @@ public class AttackPlayerNode : Node
     
     public override NodeState Evaluate()
     {
+        // Debug.Log($"Attack Check - isAttackDone : {monsterAI.isAttackDone}");
         if (monsterAI.isAttackDone)
         {
             // 공격 끝난 경우
             monsterAI.isAttackDone = false;
-            Debug.Log("Attack Done!");
+            monsterAI.Monster.Animator.StopAnimation(monsterAI.Monster.Animator.data.AttackHash);
+            // Debug.Log("Attack Done!");
             state = NodeState.Success;
         }
         // 이미 공격 중인 경우

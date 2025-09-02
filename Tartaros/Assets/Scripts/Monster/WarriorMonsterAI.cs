@@ -13,7 +13,7 @@ public class WarriorMonsterAI : MonsterAI
 
         Node canAttackPlayerNode = new CanAttackPlayerNode(this, Target, Monster.data.AttackRange);
         Node attackPlayerNode = new AttackPlayerNode(this, Target);
-        Node attackWaitNode = new WaitNode(Monster.data.AttackWait);
+        Node attackWaitNode = new WaitNode(this, Monster.data.AttackWait);
         Sequence attackSequence = new Sequence(new List<Node>
         {
             canAttackPlayerNode, attackPlayerNode, attackWaitNode
@@ -37,7 +37,7 @@ public class WarriorMonsterAI : MonsterAI
 
         Node getRandomPosNode = new GetRandomPositionNode(this);
         Node moveNode = new MoveNode(this);
-        Node patrolWaitNode = new WaitNode(Monster.data.PatrolWait);
+        Node patrolWaitNode = new WaitNode(this, Monster.data.PatrolWait);
 
         Sequence patrolSequence = new Sequence(new List<Node>
         {
@@ -65,6 +65,11 @@ public class WarriorMonsterAI : MonsterAI
     {
         // Debug.Log("Warrior Attack Start");
         Monster.Animator.StartAnimation(Monster.Animator.data.AttackHash);
+    }
+
+    public override void EndAttack()
+    {
+        StopAttack();
     }
 
     public void ParryingStart()
