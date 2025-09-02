@@ -11,7 +11,7 @@ public class LauncherMonsterAI : MonsterAI
 
         Node canAttackPlayerNode = new CanAttackPlayerNode(this, Target, Monster.data.AttackRange);
         Node attackPlayerNode = new AttackPlayerNode(this, Target);
-        Node attackWaitNode = new WaitNode(Monster.data.AttackWait);
+        Node attackWaitNode = new WaitNode(this, Monster.data.AttackWait);
         Sequence attackSequence = new Sequence(new List<Node>
         {
             canAttackPlayerNode, attackPlayerNode, attackWaitNode
@@ -42,12 +42,20 @@ public class LauncherMonsterAI : MonsterAI
 
     public override void Attack()
     {
-        Monster.Animator.StartAnimation(Monster.Animator.data.MoveHash);
+        Monster.Animator.StartAnimation(Monster.Animator.data.AttackHash);
         Debug.Log("Launcher Attack");
+    }
+
+    public override void EndAttack()
+    {
+        Monster.Animator.StopAnimation(Monster.Animator.data.AttackHash);
     }
 
     public void ShootBullet()
     {
-        Monster.Animator.StopAnimation(Monster.Animator.data.MoveHash);
+        Debug.Log("Launcher Shooting");
+        Monster.Animator.StartAnimation(Monster.Animator.data.AttackHash);
+        isAttackDone = true;
+        // Monster.Animator.StopAnimation(Monster.Animator.data.AttackHash);
     }
 }

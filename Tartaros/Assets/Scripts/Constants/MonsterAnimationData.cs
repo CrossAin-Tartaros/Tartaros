@@ -18,4 +18,12 @@ public class MonsterAnimationData
         AttackHash = Animator.StringToHash(attackString);
         DamagedHash = Animator.StringToHash(damagedString);
     }
+
+    public List<int> GetDatas()
+    {
+        return new List<int>
+            {
+                MoveHash, AttackHash, DamagedHash
+            } ;
+    }
 }
