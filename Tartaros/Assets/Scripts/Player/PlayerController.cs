@@ -78,6 +78,7 @@ public class PlayerController : MonoBehaviour
 
         if (attack && !player.IsClimbing)
         {
+            player.AttackOnce();
             anim.TriggerAttack();
         }
 
