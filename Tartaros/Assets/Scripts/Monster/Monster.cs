@@ -5,13 +5,7 @@ using Random = UnityEngine.Random;
 
 public class Monster : MonoBehaviour
 {
-    
-    // TODO : 나중에 Entity로 관리해야함
-    
-    [field : Header("Stats")]
-    [field: SerializeField] public MonsterType MonsterType { get; set; }
-    [field: SerializeField] public int MaxHealth { get; set;} = 100;
-    [field: SerializeField] public float MoveSpeed { get; set;} = 2f;
+    public MonsterData data;
     public int CurrentHealth { get; set; }
     
     public MonsterAI AI{ get; set; }
@@ -19,13 +13,17 @@ public class Monster : MonoBehaviour
     
     private void Awake()
     {
-        CurrentHealth = MaxHealth;
+        if(data == null) Debug.LogError("Monster Data 연결 안됨");
+        
+        CurrentHealth = data.MaxHealth;
         AI = GetComponent<MonsterAI>();
         AI.Init(this);
         Animator = GetComponent<MonsterAnimator>();
         Animator.Init(this);
+        
     }
-    
+
+
     public void Die()
     {
         // TODO : 죽으면 진행

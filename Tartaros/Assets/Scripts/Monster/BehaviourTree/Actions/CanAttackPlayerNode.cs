@@ -2,30 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CanRecogPlayerNode : Node
+public class CanAttackPlayerNode : Node
 {
     private MonsterAI monsterAI;
     private Transform player;
+    private float maxAttackDistance;
     private float distance;
-
-    public CanRecogPlayerNode(MonsterAI monsterAI,  Transform player)
+    
+    public CanAttackPlayerNode(MonsterAI monsterAI,  Transform player, float maxAttackDistance)
     {
         this.monsterAI =  monsterAI;
         this.player = player;
+        this.maxAttackDistance = maxAttackDistance;
     }
-
     public override NodeState Evaluate()
     {
         distance = Vector2.Distance(monsterAI.transform.position, player.position);
-        // Debug.Log($"{distance}");
-        // 몬스터 공격 거리보다 멀고 인식 거리 내부이면 성공
-        if (distance > monsterAI.Monster.data.AttackRange && distance <= monsterAI.Monster.data.Recognize)
+        Debug.Log($"{distance}");
+        // 몬스터 공격 거리 내부이면 성공
+        if (distance <= maxAttackDistance)
         {
-            Debug.Log($"Can Recognize Player");
+            Debug.Log($"Can Attack Player");
+            monsterAI.Monster.Animator.StopAnimation(monsterAI.Monster.Animator.data.MoveHash);
             monsterAI.Monster.Animator.ChangeHeadDirection(monsterAI.transform.position.x > player.position.x);
             state = NodeState.Success;
         }
-            
         else 
             state = NodeState.Failure;
         return state;
