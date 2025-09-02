@@ -225,11 +225,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1400182112444435549, guid: acd3d1e8444ccf344ba03c470fdd1ca1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 1.49
       objectReference: {fileID: 0}
     - target: {fileID: 1400182112444435549, guid: acd3d1e8444ccf344ba03c470fdd1ca1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -2.93
       objectReference: {fileID: 0}
     - target: {fileID: 1400182112444435549, guid: acd3d1e8444ccf344ba03c470fdd1ca1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -262,18 +262,6 @@ PrefabInstance:
     - target: {fileID: 1400182112444435549, guid: acd3d1e8444ccf344ba03c470fdd1ca1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5717923352383984571, guid: acd3d1e8444ccf344ba03c470fdd1ca1, type: 3}
-      propertyPath: tileSize
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5717923352383984571, guid: acd3d1e8444ccf344ba03c470fdd1ca1, type: 3}
-      propertyPath: gravityScale
-      value: 1.27421
-      objectReference: {fileID: 0}
-    - target: {fileID: 5717923352383984571, guid: acd3d1e8444ccf344ba03c470fdd1ca1, type: 3}
-      propertyPath: jumpVelocity
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6372852748370970283, guid: acd3d1e8444ccf344ba03c470fdd1ca1, type: 3}
       propertyPath: m_Name

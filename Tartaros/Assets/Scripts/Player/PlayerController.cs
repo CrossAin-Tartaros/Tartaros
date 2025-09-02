@@ -43,43 +43,22 @@ public class PlayerController : MonoBehaviour
             float climbSpeed = run ? player.stat.runSpeed : player.stat.walkSpeed;
             player.Climb(y, climbSpeed);
 
-            if (!player.IsOnLadder) // 트리거 이탈 시 자동 종료
-                player.StopClimb();
-
-            if (jump)
-            {
-                player.StopClimb();
-                player.Jump();
-            }
-        }
-
-        if (player.IsClimbing)
-        {
-            float climbSpeed = run ? player.stat.runSpeed : player.stat.walkSpeed;
-            player.Climb(y, climbSpeed); // 사다리 밖으로 나가면 OnTriggerExit에서 StopClimb 호출됨
-            anim.SetClimb(true);
-            anim.SetClimbSpeed01(Mathf.Abs(y));
-
-
             if (!player.IsOnLadder)
-            {
                 player.StopClimb();
-                anim.SetClimb(false);
-                anim.SetClimbSpeed01(0f);
-            }
 
             if (jump)
             {
                 player.StopClimb();
-                anim.SetClimb(false);
-                anim.SetClimbSpeed01(0f);
                 player.Jump();
-                return;
+                jump = false; // 아래 일반 점프 중복 방지
             }
         }
 
         anim.SetClimb(player.IsClimbing);
         anim.SetClimbSpeed01(player.IsClimbing ? Mathf.Abs(y) : 0f);
+
+        player.SetCrouch(crouchHeld);
+        anim.SetCrouch(crouchHeld);
 
         float moveInput01 = Mathf.Clamp01(Mathf.Abs(x));
         float targetSpeed01 = moveInput01 * (run ? 1f : 0.5f);
@@ -97,7 +76,7 @@ public class PlayerController : MonoBehaviour
             anim.TriggerJump();
         }
 
-        if (attack)
+        if (attack && !player.IsClimbing)
         {
             anim.TriggerAttack();
         }
