@@ -11,7 +11,7 @@ public class Portal : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
-            MapManager.Instance.MoveToAnotherMap(mapType.ToString(), !isStartPosition);
+            MapManager.Instance.MoveToAnotherMap(mapType, !isStartPosition);
     }
 
 }

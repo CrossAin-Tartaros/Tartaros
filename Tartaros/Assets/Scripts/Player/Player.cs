@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     public SpriteRenderer sprite;
     public Animator animator;
 
+    [SerializeField] private Vector2 aimOffsetLocal = Vector2.zero; //미세 조정용
+
     [Header("Death / Respawn")]
     public Transform respawnPoint; //세이브포인트
     [SerializeField] private float respawnDelay = 1.0f;
@@ -249,7 +251,7 @@ public class Player : MonoBehaviour
     private void ApplyHurt(int rawDamage, Vector3 sourcePos, bool ignoreDefense)
         //공통: 체력감소 > 맞는 모션 > 넉백 > 무적
     {
-        int finalDamage = ignoreDefense //데미지 1
+        int finalDamage = ignoreDefense
         ? rawDamage : (stat ? stat.ReduceDamage(rawDamage) : Mathf.Max(1, rawDamage));
 
         stat.currentHP = Mathf.Max(0, stat.currentHP - finalDamage); //HP 적용
@@ -259,6 +261,10 @@ public class Player : MonoBehaviour
             TryCheckDeath();
             return;
         }
+
+        var controller = GetComponent<PlayerController>();
+        if (controller != null)
+            controller.TriggerHitAnim();
 
         DoKnockbackFrom(sourcePos);
         StartCoroutine(IFrames());
@@ -334,9 +340,18 @@ public class Player : MonoBehaviour
         ToggleGroundCollision(false);
         rb.simulated = true;
 
-        if (controller) controller.enabled = true;
+        if (animator)
+        {
+            animator.ResetTrigger("Death");
+            animator.ResetTrigger("Hit");
+            animator.Rebind(); // 애니메이터 초기화
+            animator.Update(0f); // 즉시 반영
+            animator.SetFloat("Speed", 0f);
+        }
 
-        IsDead = false;
+        if (controller) controller.enabled = true; //컨트롤러 복구
+
+        IsDead = false; //죽음 상태 해제
     }
 
     public void BeginParryWindow(float duration = 2f)
@@ -351,5 +366,14 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(duration);
         IsParryWindow = false;
         _parryCo = null;
+    }
+
+    public Vector2 GetAimPoint(float height01 = 0.7f) //0 = 발, 1 = 머리
+    {
+        // height01: 0.0 = 발끝, 0.5 = 몸 중심, 1.0 = 머리
+        var b = bodyCol.bounds; // 월드 기준 충돌 박스
+        float y = Mathf.Lerp(b.min.y, b.max.y, Mathf.Clamp01(height01));
+        Vector2 center = new Vector2(b.center.x, y);
+        return center + (Vector2)transform.TransformVector(aimOffsetLocal);
     }
 }
