@@ -250,7 +250,7 @@ public class Player : MonoBehaviour
     private void ApplyHurt(int rawDamage, Vector3 sourcePos, bool ignoreDefense)
         //공통: 체력감소 > 맞는 모션 > 넉백 > 무적
     {
-        int finalDamage = ignoreDefense //데미지 1
+        int finalDamage = ignoreDefense
         ? rawDamage : (stat ? stat.ReduceDamage(rawDamage) : Mathf.Max(1, rawDamage));
 
         stat.currentHP = Mathf.Max(0, stat.currentHP - finalDamage); //HP 적용
@@ -260,6 +260,10 @@ public class Player : MonoBehaviour
             TryCheckDeath();
             return;
         }
+
+        var controller = GetComponent<PlayerController>();
+        if (controller != null)
+            controller.TriggerHitAnim();
 
         DoKnockbackFrom(sourcePos);
         StartCoroutine(IFrames());
@@ -335,9 +339,18 @@ public class Player : MonoBehaviour
         ToggleGroundCollision(false);
         rb.simulated = true;
 
-        if (controller) controller.enabled = true;
+        if (animator)
+        {
+            animator.ResetTrigger("Death");
+            animator.ResetTrigger("Hit");
+            animator.Rebind(); // 애니메이터 초기화
+            animator.Update(0f); // 즉시 반영
+            animator.SetFloat("Speed", 0f);
+        }
 
-        IsDead = false;
+        if (controller) controller.enabled = true; //컨트롤러 복구
+
+        IsDead = false; //죽음 상태 해제
     }
 
     public void BeginParryWindow(float duration = 2f)

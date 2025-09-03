@@ -12,6 +12,12 @@ public class PlayerController : MonoBehaviour
 
     private float curSpeed; //실제 Animator에 들어갈 속도
 
+    public void TriggerHitAnim()
+    {
+        anim.TriggerHit();
+    }
+
+
     private void Reset()
     {
         if (!player) player = GetComponent<Player>();
@@ -83,10 +89,10 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // 데미지 테스트
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.J))
         {
-            anim.TriggerHit();
+            Vector3 fakeMonsterPos = player.transform.position + Vector3.right * 1f;
+            player.ReceiveMonsterAttack(7, fakeMonsterPos);
         }
     }
 }
