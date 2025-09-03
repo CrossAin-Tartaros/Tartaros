@@ -8,6 +8,8 @@ public class MapManager : Singleton<MapManager>
     private MapData currentMapData;
     private GameObject mapInstance;
 
+    private ScreenFader screenFader;
+
     private GameObject waterPrefab;
     private Water currentWater;
 
@@ -59,7 +61,7 @@ public class MapManager : Singleton<MapManager>
             currentMonsterList.Add(obj);
         }
 
-        //페이드 인 효과
+        screenFader.FadeIn();
 
         if (mapInstance != null)
             Debug.Log($"{mapName} 로드");
@@ -67,7 +69,17 @@ public class MapManager : Singleton<MapManager>
 
     public void MoveToAnotherMap(string mapName, bool isStartPosition)
     {
-        //페이드 아웃
+        StartCoroutine(FadeOutAndMove(mapName, isStartPosition));
+    }
+
+    IEnumerator FadeOutAndMove(string mapName, bool isStartPosition)
+    {
+        if (screenFader == null)
+            screenFader = UIManager.Instance.GetUI<ScreenFader>();
+
+        screenFader.FadeOut();
+
+        yield return new WaitForSeconds(1);
 
         LoadNewMap(mapName, isStartPosition);
     }

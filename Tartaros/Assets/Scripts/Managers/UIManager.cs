@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class UIManager : Singleton<UIManager>
 {
     public const string UIPrefabPath = "UI/";
+    public Transform canvasTransform;
 
     private bool _isCleaning;
     private Dictionary<string, UIBase> _uiDictionary = new Dictionary<string, UIBase>();
@@ -72,7 +73,13 @@ public class UIManager : Singleton<UIManager>
         }
 
         // 2. ÀÎ½ºÅÏ½º »ý¼º
-        GameObject go = Instantiate(prefab);
+        GameObject go = null;
+        if (canvasTransform != null) 
+            go = Instantiate(prefab, canvasTransform);
+        else
+        {
+            Debug.LogError($"[UIManager] canvasTransform not found");
+        }
 
         // 3. ÄÄÆ÷³ÍÆ® È¹µæ
         T ui = go.GetComponent<T>();
