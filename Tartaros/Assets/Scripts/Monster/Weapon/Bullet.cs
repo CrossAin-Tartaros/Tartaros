@@ -7,16 +7,20 @@ using UnityEngine.Tilemaps;
 public class Bullet : MonsterWeapon
 {
 
+    
     public bool parried = false;
     private float speed;
     private Vector2 parriedDirection;
     private Vector2 targetDirection;
+    private SpriteRenderer spriteRenderer;
     
     public void Init(Monster monster, float speed, Vector2 targetPosition)
     {
         base.Init(monster);
         this.speed = speed;
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         targetDirection = (targetPosition- (Vector2)transform.position).normalized * speed;
+        if(targetDirection.x < 0) spriteRenderer.flipX = true;
     }
 
     public override void Parry(int damage)
@@ -27,6 +31,7 @@ public class Bullet : MonsterWeapon
             ? -monster.AI.Target.right
             : monster.AI.Target.right;
         parriedDirection *= speed;
+        if(parriedDirection.x < 0) spriteRenderer.flipX = true;
     }
 
     private void FixedUpdate()
