@@ -179,6 +179,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3355376710205091235, guid: acd3d1e8444ccf344ba03c470fdd1ca1, type: 3}
+      propertyPath: parryingAnimation
+      value: 
+      objectReference: {fileID: 5154595881593350560, guid: 23f120bbeafe3234791ac1d58574f85f, type: 3}
     - target: {fileID: 5717923352383984571, guid: acd3d1e8444ccf344ba03c470fdd1ca1, type: 3}
       propertyPath: maxHP
       value: 1000000
@@ -1602,7 +1606,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5663890646999780819, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5755904060777710637, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
       propertyPath: m_LocalPosition.x
