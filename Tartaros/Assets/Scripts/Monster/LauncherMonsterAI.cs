@@ -80,7 +80,7 @@ public class LauncherMonsterAI : MonsterAI
 
 
         GameObject bullet = Instantiate(BulletPrefab, BulletSpawnPos.position, BulletSpawnPos.rotation);
-        bullet.GetComponent<Bullet>().Init(Monster, BulletSpeed, Target.position);
+        bullet.GetComponent<Bullet>().Init(Monster, BulletSpeed, Target.GetComponent<Player>().GetAimPoint());
         
 
         // Monster.Animator.StopAnimation(Monster.Animator.data.AttackHash);

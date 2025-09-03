@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
 
     public bool IsOnLadder { get; private set; } //사다리 안?
     public bool IsClimbing { get; private set; } //사다리 사용중?
+    
     float defaultGravity; //중력값 저장용
     int groundLayer;
 
@@ -368,12 +369,17 @@ public class Player : MonoBehaviour
         _parryCo = null;
     }
 
-    public Vector2 GetAimPoint(float height01 = 0.7f) //0 = 발, 1 = 머리
+    public Vector2 GetAimPoint(float height01 = 1.2f) //0 = 발, 1 = 머리
     {
         // height01: 0.0 = 발끝, 0.5 = 몸 중심, 1.0 = 머리
         var b = bodyCol.bounds; // 월드 기준 충돌 박스
         float y = Mathf.Lerp(b.min.y, b.max.y, Mathf.Clamp01(height01));
         Vector2 center = new Vector2(b.center.x, y);
         return center + (Vector2)transform.TransformVector(aimOffsetLocal);
+    }
+
+    public bool IsLeft()
+    {
+        return sprite.flipX;
     }
 }

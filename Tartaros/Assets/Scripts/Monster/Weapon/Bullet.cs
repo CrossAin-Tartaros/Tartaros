@@ -23,7 +23,7 @@ public class Bullet : MonsterWeapon
     {
         parried = true;
         Debug.Log("Parry Bullet");
-        parriedDirection = monster.AI.Target.GetComponent<SpriteRenderer>().flipX
+        parriedDirection = monster.AI.Target.GetComponent<Player>().IsLeft()
             ? -monster.AI.Target.right
             : monster.AI.Target.right;
         parriedDirection *= speed;
@@ -68,7 +68,7 @@ public class Bullet : MonsterWeapon
             }
         }
         // 벽에 부딛힘
-        else if (other.TryGetComponent(out TilemapCollider2D collider))
+        else if (other.gameObject.layer == LayerMask.NameToLayer("OutOfMap"))
         {
             Destroy(gameObject);
         }

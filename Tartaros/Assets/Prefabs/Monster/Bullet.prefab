@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1443470717677110528}
   - component: {fileID: 1145468787665188560}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BulletSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 4852967588225803433}
   - component: {fileID: 6536761429442187260}
   - component: {fileID: 3162840209205104454}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,3 +175,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6928671ba5aa2d348a03836c2d984532, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monster: {fileID: 0}
+  parried: 0
