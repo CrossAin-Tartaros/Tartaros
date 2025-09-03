@@ -16,5 +16,5 @@ MonoBehaviour:
   monsterSpawnList: []
   playerSpawnPositions:
   - {x: -6.5, y: -2.8}
-  - {x: 10, y: 12.5}
+  - {x: 24, y: 11.2}
   waterPosition: {x: 0, y: 0}
