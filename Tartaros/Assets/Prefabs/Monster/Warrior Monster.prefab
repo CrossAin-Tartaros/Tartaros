@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5681892820860102231}
-  - component: {fileID: 8839712103946048538}
+  - component: {fileID: 8262023092807247117}
   m_Layer: 0
   m_Name: WeaponCollider
   m_TagString: Untagged
@@ -32,13 +32,15 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5755904060777710637}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8839712103946048538
-BoxCollider:
+--- !u!61 &8262023092807247117
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3732869613661793899}
+  m_Enabled: 1
+  m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -47,12 +49,34 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 5, y: 1.6, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.2407875, y: 0.13863492}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 4.9839287, y: 1.6858773}
+  m_EdgeRadius: 0
 --- !u!1 &5663890646999780819
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,11 +229,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <MinX>k__BackingField: -9
   <MaxX>k__BackingField: 26
-  <Target>k__BackingField: {fileID: 0}
   isMoving: 0
   isReturn: 0
   isAttackDone: 0
-  <AttackCollider>k__BackingField: {fileID: 8839712103946048538}
+  <AttackCollider>k__BackingField: {fileID: 8262023092807247117}
 --- !u!1 &9141405004575357060
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,14 +5,14 @@ using UnityEngine;
 public class WarriorMonsterAI : MonsterAI
 {
     
-    [field: SerializeField] public Collider AttackCollider { get; set; }
+    [field: SerializeField] public Collider2D AttackCollider { get; set; }
     
     public override void BuildBT()
     {
         Node isDeathNode = new IsDeathNode(this);
 
         Node canAttackPlayerNode = new CanAttackPlayerNode(this, Target, Monster.data.AttackRange);
-        Node attackPlayerNode = new AttackPlayerNode(this, Target);
+        Node attackPlayerNode = new AttackPlayerNode(this, Target, Attack);
         Node attackWaitNode = new WaitNode(this, Monster.data.AttackWait);
         Sequence attackSequence = new Sequence(new List<Node>
         {

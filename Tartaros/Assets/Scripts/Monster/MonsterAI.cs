@@ -8,7 +8,7 @@ public abstract class MonsterAI : MonoBehaviour
     [field: SerializeField] public float MinX { get; set;} = -9f;
     [field: SerializeField] public float MaxX { get; set;} = 27f;
     
-    [field: SerializeField] public Transform Target { get; set; }
+    public Transform Target { get; set; }
     
     public Vector2 BasePosition { get; set; }
     public Vector2 SpawnPosition { get; private set; }
@@ -28,6 +28,7 @@ public abstract class MonsterAI : MonoBehaviour
         SpawnPosition = transform.position;
         BasePosition = SpawnPosition;
         this.Monster = monster;
+        Target = GameObject.FindWithTag("Player").transform;
         BuildBT();
     }
     

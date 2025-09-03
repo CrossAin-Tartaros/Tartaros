@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,11 +8,13 @@ public class AttackPlayerNode : Node
     private MonsterAI monsterAI;
     private Transform player;
     private float distance;
+    private Action attack;
     
-    public AttackPlayerNode(MonsterAI monsterAI, Transform player)
+    public AttackPlayerNode(MonsterAI monsterAI, Transform player, Action attack)
     {
         this.monsterAI = monsterAI;
         this.player = player;
+        this.attack = attack;
     }
     
     public override NodeState Evaluate()
@@ -34,7 +37,7 @@ public class AttackPlayerNode : Node
         // 공격 중이지 않은 경우, 공격 시도 
         else
         {
-            monsterAI.Attack();
+            attack?.Invoke();
             monsterAI.isAttackDone = false;
             state = NodeState.Running;
         }

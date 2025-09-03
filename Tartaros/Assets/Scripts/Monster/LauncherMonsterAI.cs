@@ -10,7 +10,7 @@ public class LauncherMonsterAI : MonsterAI
         Node isDeathNode = new IsDeathNode(this);
 
         Node canAttackPlayerNode = new CanAttackPlayerNode(this, Target, Monster.data.AttackRange);
-        Node attackPlayerNode = new AttackPlayerNode(this, Target);
+        Node attackPlayerNode = new AttackPlayerNode(this, Target, Attack);
         Node attackWaitNode = new WaitNode(this, Monster.data.AttackWait);
         Sequence attackSequence = new Sequence(new List<Node>
         {
