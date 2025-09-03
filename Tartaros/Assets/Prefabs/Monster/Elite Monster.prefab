@@ -75,10 +75,10 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.006942749, y: -0.64014304}
+  m_Offset: {x: -0.1481123, y: -1.3043413}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -89,7 +89,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 7.207184, y: 3.0484579}
+  m_Size: {x: 10.987944, y: 4.376854}
   m_EdgeRadius: 0
 --- !u!1 &2156764336266931156
 GameObject:
@@ -151,7 +151,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2156764336266931156}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -199,10 +199,10 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.038408995, y: 0.0128029585}
+  m_Offset: {x: -0.03840828, y: 0.028617263}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -213,7 +213,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.71283, y: 4.507984}
+  m_Size: {x: 7.306366, y: 7.069892}
   m_EdgeRadius: 0
 --- !u!114 &593200983193797596
 MonoBehaviour:
@@ -248,10 +248,10 @@ MonoBehaviour:
   isReturn: 0
   isAttackDone: 0
   isPausedBT: 0
-  <BulletSpeed>k__BackingField: 2
+  <BulletSpeed>k__BackingField: 10
   <BulletSpawnPos>k__BackingField: {fileID: 912945928491404551}
   <BulletPrefab>k__BackingField: {fileID: 5279387208671241146, guid: 19dfd2f354c59ca4c933ed29f3533097, type: 3}
-  <AttackCollider>k__BackingField: {fileID: 0}
+  <AttackCollider>k__BackingField: {fileID: 1517646295252937810}
 --- !u!1 &2433273326967569678
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,7 +312,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 1}
+  m_LocalScale: {x: 15, y: 15, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 964913589391500660}

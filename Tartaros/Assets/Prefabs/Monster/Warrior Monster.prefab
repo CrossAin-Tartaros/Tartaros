@@ -10,13 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 5681892820860102231}
   - component: {fileID: 8262023092807247117}
+  - component: {fileID: 4935253009027108283}
   m_Layer: 8
   m_Name: WeaponCollider
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5681892820860102231
 Transform:
   m_ObjectHideFlags: 0
@@ -39,7 +40,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3732869613661793899}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -61,7 +62,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.2407875, y: 0.13863492}
@@ -77,6 +78,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.9839287, y: 1.6858773}
   m_EdgeRadius: 0
+--- !u!114 &4935253009027108283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3732869613661793899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d63e2cc9d2ecca4bac2546185f4273e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monster: {fileID: 0}
 --- !u!1 &5663890646999780819
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,7 +111,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5755904060777710637
 Transform:
   m_ObjectHideFlags: 0
@@ -232,6 +246,7 @@ MonoBehaviour:
   isMoving: 0
   isReturn: 0
   isAttackDone: 0
+  isPausedBT: 0
   <AttackCollider>k__BackingField: {fileID: 8262023092807247117}
 --- !u!1 &9141405004575357060
 GameObject:
@@ -247,7 +262,7 @@ GameObject:
   - component: {fileID: 3019260155823073964}
   m_Layer: 0
   m_Name: MonsterSprite
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

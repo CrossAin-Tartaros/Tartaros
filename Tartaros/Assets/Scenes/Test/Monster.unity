@@ -131,22 +131,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1273092863048550769, guid: acd3d1e8444ccf344ba03c470fdd1ca1, type: 3}
-      propertyPath: m_Size.x
-      value: 1.5088773
-      objectReference: {fileID: 0}
-    - target: {fileID: 1273092863048550769, guid: acd3d1e8444ccf344ba03c470fdd1ca1, type: 3}
-      propertyPath: m_Size.y
-      value: 1.878844
-      objectReference: {fileID: 0}
-    - target: {fileID: 1273092863048550769, guid: acd3d1e8444ccf344ba03c470fdd1ca1, type: 3}
-      propertyPath: m_Offset.x
-      value: 1.2544394
-      objectReference: {fileID: 0}
-    - target: {fileID: 1273092863048550769, guid: acd3d1e8444ccf344ba03c470fdd1ca1, type: 3}
-      propertyPath: m_Offset.y
-      value: 1.439422
-      objectReference: {fileID: 0}
     - target: {fileID: 1400182112444435549, guid: acd3d1e8444ccf344ba03c470fdd1ca1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.13
@@ -187,25 +171,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3355376710205091235, guid: acd3d1e8444ccf344ba03c470fdd1ca1, type: 3}
-      propertyPath: parryingAnimation
-      value: 
-      objectReference: {fileID: 5154595881593350560, guid: 23f120bbeafe3234791ac1d58574f85f, type: 3}
-    - target: {fileID: 5717923352383984571, guid: acd3d1e8444ccf344ba03c470fdd1ca1, type: 3}
-      propertyPath: maxHP
-      value: 1000000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5717923352383984571, guid: acd3d1e8444ccf344ba03c470fdd1ca1, type: 3}
-      propertyPath: currentHP
-      value: 1000000
-      objectReference: {fileID: 0}
     - target: {fileID: 6372852748370970283, guid: acd3d1e8444ccf344ba03c470fdd1ca1, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 8401076393040500280, guid: acd3d1e8444ccf344ba03c470fdd1ca1, type: 3}
-      propertyPath: attackWindow
-      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1504,11 +1472,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &1278534704 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 1517646295252937810, guid: 9fe6be094fd42cb4c9b8a4d387a748da, type: 3}
-  m_PrefabInstance: {fileID: 6776108330121983072}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2030137215
 GameObject:
   m_ObjectHideFlags: 0
@@ -1609,21 +1572,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3732869613661793899, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3732869613661793899, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
-      propertyPath: m_TagString
-      value: Monster
-      objectReference: {fileID: 0}
     - target: {fileID: 5663890646999780819, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
       propertyPath: m_Name
       value: Warrior Monster
-      objectReference: {fileID: 0}
-    - target: {fileID: 5663890646999780819, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5755904060777710637, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1665,44 +1616,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8262023092807247117, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8262023092807247117, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9141405004575357060, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
-      propertyPath: m_TagString
-      value: Monster
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3732869613661793899, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5588399093742219966}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
---- !u!1 &5588399093742219965 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3732869613661793899, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
-  m_PrefabInstance: {fileID: 5588399093742219964}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5588399093742219966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5588399093742219965}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d63e2cc9d2ecca4bac2546185f4273e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monster: {fileID: 0}
 --- !u!1001 &6776108330121983072
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1751,70 +1669,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1481132885327382115, guid: 9fe6be094fd42cb4c9b8a4d387a748da, type: 3}
-      propertyPath: m_BodyType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1517646295252937810, guid: 9fe6be094fd42cb4c9b8a4d387a748da, type: 3}
-      propertyPath: m_Size.x
-      value: 10.987944
-      objectReference: {fileID: 0}
-    - target: {fileID: 1517646295252937810, guid: 9fe6be094fd42cb4c9b8a4d387a748da, type: 3}
-      propertyPath: m_Size.y
-      value: 4.376854
-      objectReference: {fileID: 0}
-    - target: {fileID: 1517646295252937810, guid: 9fe6be094fd42cb4c9b8a4d387a748da, type: 3}
-      propertyPath: m_Offset.x
-      value: -0.1481123
-      objectReference: {fileID: 0}
-    - target: {fileID: 1517646295252937810, guid: 9fe6be094fd42cb4c9b8a4d387a748da, type: 3}
-      propertyPath: m_Offset.y
-      value: -1.3043413
-      objectReference: {fileID: 0}
-    - target: {fileID: 1517646295252937810, guid: 9fe6be094fd42cb4c9b8a4d387a748da, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2156764336266931156, guid: 9fe6be094fd42cb4c9b8a4d387a748da, type: 3}
       propertyPath: m_Name
       value: Elite Monster
       objectReference: {fileID: 0}
-    - target: {fileID: 2165692872341699623, guid: 9fe6be094fd42cb4c9b8a4d387a748da, type: 3}
-      propertyPath: m_Size.x
-      value: 7.306366
-      objectReference: {fileID: 0}
-    - target: {fileID: 2165692872341699623, guid: 9fe6be094fd42cb4c9b8a4d387a748da, type: 3}
-      propertyPath: m_Size.y
-      value: 7.069892
-      objectReference: {fileID: 0}
-    - target: {fileID: 2165692872341699623, guid: 9fe6be094fd42cb4c9b8a4d387a748da, type: 3}
-      propertyPath: m_Offset.x
-      value: -0.03840828
-      objectReference: {fileID: 0}
-    - target: {fileID: 2165692872341699623, guid: 9fe6be094fd42cb4c9b8a4d387a748da, type: 3}
-      propertyPath: m_Offset.y
-      value: 0.028617263
-      objectReference: {fileID: 0}
-    - target: {fileID: 2165692872341699623, guid: 9fe6be094fd42cb4c9b8a4d387a748da, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2339828357371611044, guid: 9fe6be094fd42cb4c9b8a4d387a748da, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2339828357371611044, guid: 9fe6be094fd42cb4c9b8a4d387a748da, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 6196096593823342362, guid: 9fe6be094fd42cb4c9b8a4d387a748da, type: 3}
-      propertyPath: <BulletSpeed>k__BackingField
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6196096593823342362, guid: 9fe6be094fd42cb4c9b8a4d387a748da, type: 3}
-      propertyPath: <AttackCollider>k__BackingField
-      value: 
-      objectReference: {fileID: 1278534704}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1871,10 +1729,6 @@ PrefabInstance:
     - target: {fileID: 9070807271958545921, guid: 10e67476eb8aa0c4899026472b621012, type: 3}
       propertyPath: m_Name
       value: Launcher Monster
-      objectReference: {fileID: 0}
-    - target: {fileID: 9070807271958545921, guid: 10e67476eb8aa0c4899026472b621012, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

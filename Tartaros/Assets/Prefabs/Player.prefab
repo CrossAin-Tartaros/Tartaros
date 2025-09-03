@@ -234,6 +234,7 @@ MonoBehaviour:
   stat: {fileID: 5717923352383984571}
   sprite: {fileID: 6398520867677968983}
   animator: {fileID: 1119820665599052545}
+  aimOffsetLocal: {x: 0, y: 0}
   respawnPoint: {fileID: 0}
   respawnDelay: 1
   respawnIFrames: 1
@@ -241,7 +242,7 @@ MonoBehaviour:
   knockbackTiles: 1
   knockbackImpulsePerTile: 6
   weaponHitboxGO: {fileID: 0}
-  attackWindow: 0.5
+  attackWindow: 0.1
   groundCheck: {fileID: 4947921241897284592}
   groundCheckRadius: 0.12
   groundMask:
@@ -276,8 +277,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b76a080054a7d1345868d9e5da751816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 10
-  currentHP: 10
+  maxHP: 1000000
+  currentHP: 1000000
   attack: 5
   attackSpeed: 1
   defense: 3
@@ -366,7 +367,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.5, y: 1}
+  m_Offset: {x: 1.2544394, y: 1.439422}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -377,7 +378,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 1}
+  m_Size: {x: 1.5088773, y: 1.878844}
   m_EdgeRadius: 0
 --- !u!114 &3355376710205091235
 MonoBehaviour:
@@ -393,6 +394,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mirrorByColliderOffset: 1
   rightLocalOffset: {x: 0, y: 0}
+  parryingAnimation: {fileID: 5154595881593350560, guid: 23f120bbeafe3234791ac1d58574f85f, type: 3}
+  parryingAnimationOffset: 1
 --- !u!1 &7043302489567519758
 GameObject:
   m_ObjectHideFlags: 0
