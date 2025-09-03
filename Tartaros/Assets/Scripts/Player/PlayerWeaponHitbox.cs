@@ -12,22 +12,24 @@ public class PlayerWeaponHitbox : MonoBehaviour
 
     private BoxCollider2D _col;
     private Vector2 _rightColliderOffset;
+    private int _monsterAttackLayer;
 
     private void Awake()
     {
         _player = GetComponentInParent<Player>();
         _col = GetComponent<BoxCollider2D>();
-        if (_col)
-        {
-            _col.isTrigger = true;
-            _rightColliderOffset = _col.offset;
-        }
+        if (_col) { _col.isTrigger = true; _rightColliderOffset = _col.offset; }
+
+        _monsterAttackLayer = LayerMask.NameToLayer("MonsterAttack");
+        if (_monsterAttackLayer < 0) Debug.LogWarning("MonsterAttack 못찾음");
 
         if (!mirrorByColliderOffset && rightLocalOffset == Vector2.zero)
             rightLocalOffset = transform.localPosition;
 
         gameObject.SetActive(false); // 시작 시 OFF
     }
+
+
 
     private void OnEnable() => _hitOnce.Clear();
 
@@ -55,14 +57,47 @@ public class PlayerWeaponHitbox : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.CompareTag("Monster")) return;
-        var root = other.attachedRigidbody ? other.attachedRigidbody.transform : other.transform;
-        if (!_hitOnce.Add(root)) return; //한번만
+        if (other.gameObject.layer == _monsterAttackLayer)
+        {
+            //무기 콜라이더 부모에서 몬스터 탐색
+            var monster = other.GetComponentInParent<Monster>();
+            if (monster != null)
+            {
 
-        int damage = _player && _player.stat ? _player.stat.attack : 1;
-        Debug.Log($"[HIT] {root.name} dmg={damage}");
-        // 실제 데미지 주려면 아래 주석 해제
-        // root.SendMessage("TakeDamage", damage, SendMessageOptions.DontRequireReceiver);
+                int parryDamage = (_player && _player.stat) ? _player.stat.attack : 1;
+                monster.Parried(parryDamage); //몬스터 패링 상태
+                _player?.BeginParryWindow(2f); //2초 약점 공격 가능
+
+                Debug.Log($"[PARRY SUCCESS] {monster.name} dmg={parryDamage} (stun & expose), Player weak-spot window 2s");
+            }
+            else
+            {
+                Debug.Log("[PARRY CONTACT] Monster 부모 못찾음");
+            }
+            return;
+        }
+
+        // 2) 기본 타격: 맞은 콜라이더에서 부모로 올라가 Monster 찾기
+        var hitMonster = other.GetComponentInParent<Monster>();
+        if (hitMonster == null) return; // 몬스터가 아니면 무시
+
+        var root = hitMonster.transform;           // 부모(몬스터 본체) 기준
+        if (!_hitOnce.Add(root)) return;           // 같은 공격창 1회만
+
+        int hitDamage = (_player && _player.stat) ? _player.stat.attack : 1;
+
+        // 패링 중이면 1.5배 (약점 타격)
+        if (_player != null && _player.IsParryWindow)
+        {
+            hitDamage = Mathf.RoundToInt(hitDamage * 1.5f);
+            Debug.Log($"[WEAK SPOT HIT] {root.name} dmg={hitDamage} (1.5x)");
+        }
+        else
+        {
+            Debug.Log($"[HIT] {root.name} dmg={hitDamage}");
+        }
+
+        hitMonster.Damaged(hitDamage);
+        }
     }
-}
 

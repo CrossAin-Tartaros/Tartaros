@@ -47,6 +47,9 @@ public class Player : MonoBehaviour
     float defaultGravity; //중력값 저장용
     int groundLayer;
 
+    public bool IsParryWindow { get; private set; }
+    private Coroutine _parryCo;
+
     Rigidbody2D rb;
     Vector2 standSize, standOffset; //기본 사이즈
     Vector2 crouchSize, crouchOffset; //엎드릴때 사이즈
@@ -333,5 +336,19 @@ public class Player : MonoBehaviour
         if (controller) controller.enabled = true;
 
         IsDead = false;
+    }
+
+    public void BeginParryWindow(float duration = 2f)
+    {
+        if (_parryCo != null) StopCoroutine(_parryCo);
+        _parryCo = StartCoroutine(_ParryWindowCo(duration));
+    }
+
+    private IEnumerator _ParryWindowCo(float duration)
+    {
+        IsParryWindow = true;
+        yield return new WaitForSeconds(duration);
+        IsParryWindow = false;
+        _parryCo = null;
     }
 }
