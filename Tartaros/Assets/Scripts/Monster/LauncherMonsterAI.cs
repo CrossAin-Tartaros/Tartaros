@@ -8,7 +8,8 @@ public class LauncherMonsterAI : MonsterAI
     [field: SerializeField] public float BulletSpeed { get; set; } = 2f;
     [field: SerializeField] public Transform BulletSpawnPos { get; set; }
     [field: SerializeField] public GameObject BulletPrefab  { get; set; }
-    
+
+
 
     public override void BuildBT()
     {
@@ -16,14 +17,14 @@ public class LauncherMonsterAI : MonsterAI
         Node isDeathNode = new IsDeathNode(this);
 
         Node checkStunNode = new CheckStunNode(this);
-        Node stunWaitNode = new WaitNode(this, Monster.data.StunWait);
+        Node stunWaitNode = new StunWaitNode(this, Monster.data.StunWait);
         Sequence stunSequence = new Sequence(new List<Node>
         {
             checkStunNode, stunWaitNode
         });
         
         Node canAttackPlayerNode = new CanAttackPlayerNode(this, Target, Monster.data.AttackRange);
-        Node attackPlayerNode = new AttackPlayerNode(this, Target, Attack);
+        Node attackPlayerNode = new AttackPlayerNode(this, Target, RangeAttack);
         Node attackWaitNode = new WaitNode(this, Monster.data.AttackWait);
         Sequence attackSequence = new Sequence(new List<Node>
         {
@@ -47,6 +48,12 @@ public class LauncherMonsterAI : MonsterAI
         
         monsterTree = new BehaviourTree(mainSelector);
     }
+    public override void Damaged()
+    {
+        Monster.Animator.StopAllAnimations();
+        Monster.Animator.StartAnimation(Monster.Animator.data.StunnedHash);
+        Monster.Animator.DamageColored();
+    }
     
     public override void HandleAnimationEvent(string eventName)
     {
@@ -54,7 +61,7 @@ public class LauncherMonsterAI : MonsterAI
         Invoke(eventName, 0f);
     }
 
-    public override void Attack()
+    public void RangeAttack()
     {
         Monster.Animator.StartAnimation(Monster.Animator.data.AttackHash);
         Debug.Log("Launcher Attack");

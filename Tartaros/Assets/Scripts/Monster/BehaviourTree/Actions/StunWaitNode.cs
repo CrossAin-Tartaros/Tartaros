@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaitNode : Node
+public class StunWaitNode : Node
 {
     private MonsterAI monsterAI;
     private float waitTime;
     private float startTime;
     private bool isStarted = false;
 
-    public WaitNode(MonsterAI monsterAI, float waitTime)
+    public StunWaitNode(MonsterAI monsterAI, float waitTime)
     {
         this.waitTime = waitTime;
         this.monsterAI = monsterAI;
@@ -18,14 +18,11 @@ public class WaitNode : Node
 
     public override NodeState Evaluate()
     {
-        if (monsterAI.Monster.IsStunned)
-        {
-            state = NodeState.Success;
-            return state;
-        }
         if (!isStarted)
         {
             startTime = Time.time;
+            monsterAI.Damaged();
+            monsterAI.Monster.Animator.animator.speed = 0f;
             isStarted = true;
         }
 
@@ -34,6 +31,9 @@ public class WaitNode : Node
             isStarted = false;
             startTime = 0;
             state = NodeState.Success;
+            monsterAI.Monster.Animator.animator.speed = 1f;
+            monsterAI.Monster.IsStunned = false;
+            monsterAI.Monster.Animator.StopAnimation(monsterAI.Monster.Animator.data.StunnedHash);
             return state;
         }
         

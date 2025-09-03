@@ -21,29 +21,15 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 21300000, guid: c33b3d32aaab10349a63586c81aca865, type: 2}
-    - time: 0.125
-      value: {fileID: 21300000, guid: 781f9a29ca8ccdc4aa7f391d2bde3fdf, type: 2}
-    - time: 0.25
-      value: {fileID: 21300000, guid: ee91730a984b4b94d87f73059afd1ba8, type: 2}
-    - time: 0.375
       value: {fileID: 21300000, guid: afe4c120fb457044d96be421eecf6f19, type: 2}
-    - time: 0.5
+    - time: 0.125
       value: {fileID: 21300000, guid: 184b69b7d30330a409fb1f0e6f9f8c69, type: 2}
-    - time: 0.625
+    - time: 0.25
       value: {fileID: 21300000, guid: c3f93bd9908b65f4392773582748881c, type: 2}
-    - time: 0.75
+    - time: 0.375
       value: {fileID: 21300000, guid: 05cea3a80961a6f42b52c3d9267230cb, type: 2}
-    - time: 0.875
+    - time: 0.5
       value: {fileID: 21300000, guid: 905865a2aaa63ab4691608d3dca231df, type: 2}
-    - time: 1
-      value: {fileID: 21300000, guid: c12fd6e7d6b04934a9202b1fe4d648dd, type: 2}
-    - time: 1.125
-      value: {fileID: 21300000, guid: 51b43ccf9e62942449da645baf492796, type: 2}
-    - time: 1.25
-      value: {fileID: 21300000, guid: de12d6dbd39fd294ab24be9b13bb1154, type: 2}
-    - time: 1.375
-      value: {fileID: 21300000, guid: c33b3d32aaab10349a63586c81aca865, type: 2}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -66,24 +52,17 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300000, guid: c33b3d32aaab10349a63586c81aca865, type: 2}
-    - {fileID: 21300000, guid: 781f9a29ca8ccdc4aa7f391d2bde3fdf, type: 2}
-    - {fileID: 21300000, guid: ee91730a984b4b94d87f73059afd1ba8, type: 2}
     - {fileID: 21300000, guid: afe4c120fb457044d96be421eecf6f19, type: 2}
     - {fileID: 21300000, guid: 184b69b7d30330a409fb1f0e6f9f8c69, type: 2}
     - {fileID: 21300000, guid: c3f93bd9908b65f4392773582748881c, type: 2}
     - {fileID: 21300000, guid: 05cea3a80961a6f42b52c3d9267230cb, type: 2}
     - {fileID: 21300000, guid: 905865a2aaa63ab4691608d3dca231df, type: 2}
-    - {fileID: 21300000, guid: c12fd6e7d6b04934a9202b1fe4d648dd, type: 2}
-    - {fileID: 21300000, guid: 51b43ccf9e62942449da645baf492796, type: 2}
-    - {fileID: 21300000, guid: de12d6dbd39fd294ab24be9b13bb1154, type: 2}
-    - {fileID: 21300000, guid: c33b3d32aaab10349a63586c81aca865, type: 2}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.5
+    m_StopTime: 0.625
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -110,7 +89,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.375
+  - time: 0.25
     functionName: OnAnimationEvent
     data: ParryingStop
     objectReferenceParameter: {fileID: 5663890646999780819, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
@@ -118,34 +97,6 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.5
-    functionName: OnAnimationEvent
-    data: ParryingStart
-    objectReferenceParameter: {fileID: 5663890646999780819, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.75
-    functionName: OnAnimationEvent
-    data: ParryingStop
-    objectReferenceParameter: {fileID: 5663890646999780819, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 1
-    functionName: OnAnimationEvent
-    data: ParryingStart
-    objectReferenceParameter: {fileID: 5663890646999780819, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 1.25
-    functionName: OnAnimationEvent
-    data: ParryingStop
-    objectReferenceParameter: {fileID: 5663890646999780819, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 1.375
     functionName: OnAnimationEvent
     data: StopAttack
     objectReferenceParameter: {fileID: 5663890646999780819, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}

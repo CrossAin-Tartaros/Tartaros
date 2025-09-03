@@ -11,7 +11,7 @@ public class WarriorMonsterAI : MonsterAI
         Node isDeathNode = new IsDeathNode(this);
         
         Node checkStunNode = new CheckStunNode(this);
-        Node stunWaitNode = new WaitNode(this, Monster.data.StunWait);
+        Node stunWaitNode = new StunWaitNode(this, Monster.data.StunWait);
         Sequence stunSequence = new Sequence(new List<Node>
         {
             checkStunNode, stunWaitNode
@@ -19,7 +19,7 @@ public class WarriorMonsterAI : MonsterAI
         
         
         Node canAttackPlayerNode = new CanAttackPlayerNode(this, Target, Monster.data.AttackRange);
-        Node attackPlayerNode = new AttackPlayerNode(this, Target, Attack);
+        Node attackPlayerNode = new AttackPlayerNode(this, Target, MeleeAttack);
         Node attackWaitNode = new WaitNode(this, Monster.data.AttackWait);
         Sequence attackSequence = new Sequence(new List<Node>
         {
@@ -69,10 +69,19 @@ public class WarriorMonsterAI : MonsterAI
         Invoke(eventName, 0f);
     }
 
-    public override void Attack()
+    public void MeleeAttack()
     {
         // Debug.Log("Warrior Attack Start");
         Monster.Animator.StartAnimation(Monster.Animator.data.AttackHash);
+    }
+
+    public override void Damaged()
+    {
+        Monster.Animator.StopAllAnimations();
+        Monster.Animator.StartAnimation(Monster.Animator.data.StunnedHash);
+        Monster.Animator.DamageColored();
+        Vector2 knockbackDir = (transform.position - Target.position).normalized * Monster.data.StunKnockBack;
+        transform.position += (Vector3)knockbackDir;
     }
 
     public override void EndAttack()

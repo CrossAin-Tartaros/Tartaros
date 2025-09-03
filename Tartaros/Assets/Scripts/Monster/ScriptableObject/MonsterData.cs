@@ -21,5 +21,6 @@ public class MonsterData : ScriptableObject
     [field: SerializeField] public float AttackRange { get; set;} = 5f;
     [field: SerializeField] public float AttackWait { get; set;} = 0.5f;
     [field: SerializeField] public float StunWait { get; set;} = 0.5f;
+    [field: SerializeField] public float StunKnockBack { get; set;} = 2f;
     [field: SerializeField] public float DistanceThreshold { get; set;} = 0.1f;
 }

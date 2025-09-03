@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -13,6 +14,8 @@ public class Monster : MonoBehaviour
     public MonsterAI AI{ get; set; }
     public MonsterAnimator Animator { get; set; }
     public MonsterWeapon Weapon { get; set; }
+
+    private Coroutine stunCoroutine;
     
     private void Awake()
     {
@@ -43,7 +46,11 @@ public class Monster : MonoBehaviour
     public void Damaged(int damage)
     {
         CurrentHealth = Mathf.Max(CurrentHealth - damage, 0);
-        Animator.Damaged();
+        if (!IsStunned)
+        {
+            AI.Damaged();
+        }
+            
         if (CurrentHealth <= 0)
         {
             IsDead = true;
@@ -52,8 +59,10 @@ public class Monster : MonoBehaviour
 
     public void Parried(int damage)
     {
-        Damaged(damage);
         IsStunned = true;
+        Damaged(damage);
+        /*if(stunCoroutine == null)
+            stunCoroutine = StartCoroutine(Stun()); */
     }
 
     public void OnColliderEnter2D(Collider2D other)
@@ -66,5 +75,23 @@ public class Monster : MonoBehaviour
                 player.ReceiveMonsterCollision(transform.position);
             }
         }
+    }
+
+    IEnumerator Stun()
+    {
+        Debug.Log("Behaviour Tree Paused.");
+        Animator.StopAllAnimations();
+        Animator.StartAnimation(Animator.data.StunnedHash);
+        AI.isPausedBT = true;
+        yield return new WaitForEndOfFrame();
+        Animator.animator.speed = 0f;
+        Animator.spriteRenderer.color = Color.red;
+        yield return new WaitForSecondsRealtime(data.StunWait);
+        Animator.animator.speed = 1f;
+        Animator.spriteRenderer.color = Color.white;
+        AI.isPausedBT = false;
+        IsStunned = false;
+        Animator.StopAnimation(Animator.data.StunnedHash);
+        stunCoroutine = null;
     }
 }

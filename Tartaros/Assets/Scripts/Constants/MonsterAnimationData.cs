@@ -7,23 +7,26 @@ public class MonsterAnimationData
     [SerializeField] private string moveString = "Move";
     [SerializeField] private string attackString = "Attack";
     [SerializeField] private string damagedString = "Damaged";
+    [SerializeField] private string stunnedString = "Stunned";
     
     public int MoveHash { get; private set; }
     public int AttackHash { get; private set; }
     public int DamagedHash { get; private set; }
+    public int StunnedHash { get; private set; }
 
     public void Init()
     {
         MoveHash = Animator.StringToHash(moveString);
         AttackHash = Animator.StringToHash(attackString);
         DamagedHash = Animator.StringToHash(damagedString);
+        StunnedHash = Animator.StringToHash(stunnedString);
     }
 
     public List<int> GetDatas()
     {
         return new List<int>
             {
-                MoveHash, AttackHash, DamagedHash
+                MoveHash, AttackHash, DamagedHash, StunnedHash
             } ;
     }
 }

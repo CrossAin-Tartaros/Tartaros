@@ -15,7 +15,6 @@ public class CheckStunNode : Node
     {
         if (monsterAI.Monster.IsStunned)
         {
-            monsterAI.Monster.Animator.animator.speed = 0;
             state = NodeState.Success;
         }
         else

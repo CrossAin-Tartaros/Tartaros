@@ -17,6 +17,11 @@ public class CanAttackPlayerNode : Node
     }
     public override NodeState Evaluate()
     {
+        if (monsterAI.Monster.IsStunned)
+        {
+            state = NodeState.Success;
+            return state;
+        }
         distance = Vector2.Distance(monsterAI.transform.position, player.position);
         // Debug.Log($"{distance}");
         // 몬스터 공격 거리 내부이면 성공

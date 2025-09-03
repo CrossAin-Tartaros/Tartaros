@@ -4,8 +4,8 @@ using UnityEngine;
 public class PlayerWeaponHitbox : MonoBehaviour
 {
     private Player _player;
-    private readonly HashSet<Transform> _hitOnce = new HashSet<Transform>();
-    private readonly HashSet<Monster> _parriedThisWindow = new HashSet<Monster>();
+    /*private readonly HashSet<Transform> _hitOnce = new HashSet<Transform>();
+    private readonly HashSet<Monster> _parriedThisWindow = new HashSet<Monster>();*/
 
     [Header("Mirror Mode")]
     [SerializeField] private bool mirrorByColliderOffset = true;
@@ -28,15 +28,16 @@ public class PlayerWeaponHitbox : MonoBehaviour
         if (!mirrorByColliderOffset && rightLocalOffset == Vector2.zero)
             rightLocalOffset = transform.localPosition;
 
-        gameObject.SetActive(false); // 시작 시 OFF
+        // 게임오브젝트 자체는 켜두고, PlayerWeaponHitbox를 부르는 객체쪽에서 Collider만 껐다 켰다 해줄 겁니다.
+        /*gameObject.SetActive(false); // 시작 시 OFF*/
     }
 
 
 
     private void OnEnable()
     {
-        _hitOnce.Clear();
-        _parriedThisWindow.Clear(); //패링 중복 방지
+        /*_hitOnce.Clear();
+        _parriedThisWindow.Clear(); //패링 중복 방지*/
     }
 
     private void LateUpdate()
@@ -66,18 +67,20 @@ public class PlayerWeaponHitbox : MonoBehaviour
         if (other.gameObject.layer == _monsterAttackLayer)
         {
             //무기 콜라이더 부모에서 몬스터 탐색
-            var monster = other.GetComponentInParent<Monster>();
-            if (monster != null)
+            var monsterWeapon = other.GetComponentInParent<MonsterWeapon>();
+            if (monsterWeapon != null)
 
-                if (monster.IsStunned) return; //이미 패링상태면 패스
+                if (monsterWeapon.monster.IsStunned) return; //이미 패링상태면 패스
             if (_player != null && _player.IsParryWindow) return; //추가 패링 무시
-            if (!_parriedThisWindow.Add(monster)) return; //중복 몬스터 패링 금지
+            
+            // 어차피 TriggerStay 가 아니고 TriggerEnter로 체크하기 때문에 이제 이 중복 패링 금지 부분은 제거하셔도 돌아갑니다!
+            // if (!_parriedThisWindow.Add(monsterWeapon.monster)) return; //중복 몬스터 패링 금지
 
             int parryDamage = (_player && _player.stat) ? _player.stat.attack : 1;
-            monster.Parried(parryDamage); //몬스터 패링 상태
+            monsterWeapon.Parry(parryDamage); //몬스터 패링 상태
             _player?.BeginParryWindow(2f); //2초 약점 공격 가능
 
-            Debug.Log($"[PARRY SUCCESS] {monster.name} dmg={parryDamage} (stun & expose), Player weak-spot window 2s");
+            Debug.Log($"[PARRY SUCCESS] {monsterWeapon.monster.name} dmg={parryDamage} (stun & expose), Player weak-spot window 2s");
             return;
         }
 
@@ -86,7 +89,7 @@ public class PlayerWeaponHitbox : MonoBehaviour
         if (hitMonster == null) return; // 몬스터가 아니면 무시
 
         var root = hitMonster.transform;           // 부모(몬스터 본체) 기준
-        if (!_hitOnce.Add(root)) return;           // 같은 공격창 1회만
+        /*if (!_hitOnce.Add(root)) return;           // 같은 공격창 1회만*/
 
         int hitDamage = (_player && _player.stat) ? _player.stat.attack : 1;
 

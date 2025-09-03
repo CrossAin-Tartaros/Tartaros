@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class MonsterWeapon : MonoBehaviour
 {
-    protected Monster monster;
+    public Monster monster;
     
     public virtual void Init(Monster monster)
     {

@@ -96,9 +96,10 @@ public class Player : MonoBehaviour
 
     private IEnumerator _AttackWindowCo()
     {
-        weaponHitboxGO.SetActive(true); //히트박스 o
+        // 히트박스가 달린 GameObject 자체를 끄는것 보다, 히트박스 안에 있는 콜라이더를 끄는게 더 낫다고 튜터님께서 알려주셨습니다!
+        weaponHitboxGO.GetComponent<BoxCollider2D>().enabled = true; //히트박스 o
         yield return new WaitForSeconds(attackWindow);
-        weaponHitboxGO.SetActive(false); //히트박스 x
+        weaponHitboxGO.GetComponent<BoxCollider2D>().enabled = false; //히트박스 x
         _atkWindowCo = null;
     }
 

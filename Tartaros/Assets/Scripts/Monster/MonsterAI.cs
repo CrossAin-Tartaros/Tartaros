@@ -18,7 +18,7 @@ public abstract class MonsterAI : MonoBehaviour
     public bool isMoving = false;
     public bool isReturn = false;
     public bool isAttackDone = false;
-    
+    public bool isPausedBT = false;
     
     public Monster Monster { get; set; }
     protected BehaviourTree monsterTree;
@@ -34,13 +34,15 @@ public abstract class MonsterAI : MonoBehaviour
     
     private void Update()
     {
-        monsterTree.Tick();
+        if(!isPausedBT)
+            monsterTree.Tick();
         
     }
 
-    public abstract void BuildBT();
+    public abstract void Damaged();
 
-    public abstract void Attack();
+    public abstract void BuildBT();
+    
 
     public abstract void EndAttack();
     

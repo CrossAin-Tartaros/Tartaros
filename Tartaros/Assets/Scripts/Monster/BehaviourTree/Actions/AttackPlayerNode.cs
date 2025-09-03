@@ -19,6 +19,11 @@ public class AttackPlayerNode : Node
     
     public override NodeState Evaluate()
     {
+        if (monsterAI.Monster.IsStunned)
+        {
+            state = NodeState.Success;
+            return state;
+        }
         // Debug.Log($"Attack Check - isAttackDone : {monsterAI.isAttackDone}");
         if (monsterAI.isAttackDone)
         {
@@ -37,7 +42,7 @@ public class AttackPlayerNode : Node
         // 공격 중이지 않은 경우, 공격 시도 
         else
         {
-            Debug.Log("공격 시도");
+            // Debug.Log("공격 시도");
             attack?.Invoke();
             monsterAI.isAttackDone = false;
             state = NodeState.Running;
