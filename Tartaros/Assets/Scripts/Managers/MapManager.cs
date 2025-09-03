@@ -65,7 +65,10 @@ public class MapManager : Singleton<MapManager>
         if (isStartPosition)
             PlayerManager.Instance.SetPlayerPosition(currentMapData.playerSpawnPositions[0]);
         else
+        {
+            Debug.Log(currentMapData.playerSpawnPositions[1]);
             PlayerManager.Instance.SetPlayerPosition(currentMapData.playerSpawnPositions[1]);
+        }
     }
 
     public void MoveToAnotherMap(MapType mapType, bool isStartPosition)
