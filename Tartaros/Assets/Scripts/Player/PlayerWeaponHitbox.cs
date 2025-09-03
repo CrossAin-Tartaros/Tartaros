@@ -5,6 +5,7 @@ public class PlayerWeaponHitbox : MonoBehaviour
 {
     private Player _player;
     private readonly HashSet<Transform> _hitOnce = new HashSet<Transform>();
+    private readonly HashSet<Monster> _parriedThisWindow = new HashSet<Monster>();
 
     [Header("Mirror Mode")]
     [SerializeField] private bool mirrorByColliderOffset = true;
@@ -13,6 +14,7 @@ public class PlayerWeaponHitbox : MonoBehaviour
     private BoxCollider2D _col;
     private Vector2 _rightColliderOffset;
     private int _monsterAttackLayer;
+
 
     private void Awake()
     {
@@ -31,7 +33,11 @@ public class PlayerWeaponHitbox : MonoBehaviour
 
 
 
-    private void OnEnable() => _hitOnce.Clear();
+    private void OnEnable()
+    {
+        _hitOnce.Clear();
+        _parriedThisWindow.Clear(); //패링 중복 방지
+    }
 
     private void LateUpdate()
     {
@@ -62,18 +68,16 @@ public class PlayerWeaponHitbox : MonoBehaviour
             //무기 콜라이더 부모에서 몬스터 탐색
             var monster = other.GetComponentInParent<Monster>();
             if (monster != null)
-            {
 
-                int parryDamage = (_player && _player.stat) ? _player.stat.attack : 1;
-                monster.Parried(parryDamage); //몬스터 패링 상태
-                _player?.BeginParryWindow(2f); //2초 약점 공격 가능
+                if (monster.IsStunned) return; //이미 패링상태면 패스
+            if (_player != null && _player.IsParryWindow) return; //추가 패링 무시
+            if (!_parriedThisWindow.Add(monster)) return; //중복 몬스터 패링 금지
 
-                Debug.Log($"[PARRY SUCCESS] {monster.name} dmg={parryDamage} (stun & expose), Player weak-spot window 2s");
-            }
-            else
-            {
-                Debug.Log("[PARRY CONTACT] Monster 부모 못찾음");
-            }
+            int parryDamage = (_player && _player.stat) ? _player.stat.attack : 1;
+            monster.Parried(parryDamage); //몬스터 패링 상태
+            _player?.BeginParryWindow(2f); //2초 약점 공격 가능
+
+            Debug.Log($"[PARRY SUCCESS] {monster.name} dmg={parryDamage} (stun & expose), Player weak-spot window 2s");
             return;
         }
 
@@ -88,16 +92,13 @@ public class PlayerWeaponHitbox : MonoBehaviour
 
         // 패링 중이면 1.5배 (약점 타격)
         if (_player != null && _player.IsParryWindow)
-        {
             hitDamage = Mathf.RoundToInt(hitDamage * 1.5f);
-            Debug.Log($"[WEAK SPOT HIT] {root.name} dmg={hitDamage} (1.5x)");
-        }
-        else
-        {
-            Debug.Log($"[HIT] {root.name} dmg={hitDamage}");
-        }
+
+        Debug.Log(_player != null && _player.IsParryWindow
+            ? $"[WEAK SPOT HIT] {root.name} dmg={hitDamage} (1.5x)"
+            : $"[HIT] {root.name} dmg={hitDamage}");
 
         hitMonster.Damaged(hitDamage);
-        }
     }
+}
 
