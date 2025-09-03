@@ -6,7 +6,7 @@ public abstract class MonsterWeapon : MonoBehaviour
 {
     protected Monster monster;
     
-    public void Init(Monster monster)
+    public virtual void Init(Monster monster)
     {
         this.monster = monster;
     }

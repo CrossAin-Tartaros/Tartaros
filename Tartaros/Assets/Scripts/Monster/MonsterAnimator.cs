@@ -61,4 +61,9 @@ public class MonsterAnimator : MonoBehaviour
     {
         spriteRenderer.flipX = isLeft;
     }
+
+    public bool IsLeft()
+    {
+        return spriteRenderer.flipX;
+    }
 }

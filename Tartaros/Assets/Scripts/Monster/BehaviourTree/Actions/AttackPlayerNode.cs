@@ -37,6 +37,7 @@ public class AttackPlayerNode : Node
         // 공격 중이지 않은 경우, 공격 시도 
         else
         {
+            Debug.Log("공격 시도");
             attack?.Invoke();
             monsterAI.isAttackDone = false;
             state = NodeState.Running;

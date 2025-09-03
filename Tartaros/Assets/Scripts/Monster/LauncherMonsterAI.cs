@@ -1,9 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class LauncherMonsterAI : MonsterAI
 {
+    [field: SerializeField] public float BulletSpeed { get; set; } = 2f;
+    [field: SerializeField] public Transform BulletSpawnPos { get; set; }
+    [field: SerializeField] public GameObject BulletPrefab  { get; set; }
+    
+
     public override void BuildBT()
     {
         // Launcher 타입은 움직이지 않음
@@ -64,6 +70,13 @@ public class LauncherMonsterAI : MonsterAI
         Debug.Log("Launcher Shooting");
         Monster.Animator.StartAnimation(Monster.Animator.data.AttackHash);
         isAttackDone = true;
+
+
+        GameObject bullet = Instantiate(BulletPrefab, BulletSpawnPos.position, BulletSpawnPos.rotation);
+        bullet.GetComponent<Bullet>().Init(Monster, BulletSpeed, Target.position);
+        
+
         // Monster.Animator.StopAnimation(Monster.Animator.data.AttackHash);
     }
+
 }

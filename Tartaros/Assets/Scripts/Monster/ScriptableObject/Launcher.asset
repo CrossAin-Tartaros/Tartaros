@@ -15,10 +15,12 @@ MonoBehaviour:
   <MonsterType>k__BackingField: 1
   <MaxHealth>k__BackingField: 100
   <MoveSpeed>k__BackingField: 2
-  <Recognize>k__BackingField: 10
+  <AttackDamage>k__BackingField: 10
+  <Recognize>k__BackingField: 20
   <Patrol>k__BackingField: 10
   <PatrolWait>k__BackingField: 2
   <MaxBaseDistance>k__BackingField: 10
-  <AttackRange>k__BackingField: 5
+  <AttackRange>k__BackingField: 15
   <AttackWait>k__BackingField: 2
+  <StunWait>k__BackingField: 0.5
   <DistanceThreshold>k__BackingField: 0.1
