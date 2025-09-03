@@ -40,6 +40,13 @@ public class Monster : MonoBehaviour
 
     public void Die()
     {
+        IsDead = true;
+        StartCoroutine(DieCoroutine());
+    }
+
+    IEnumerator DieCoroutine()
+    {
+        yield return new WaitForSecondsRealtime(2f);
         Destroy(gameObject);
     }
 

@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
     private bool isInvincible;
 
     [SerializeField] private GameObject weaponHitboxGO; //공격범위 콜라이더 탐색
-    [SerializeField] private float attackWindow = 0.15f; //몇초동안
+    [SerializeField] private float attackWindow = 0.1f; //몇초동안
     private Coroutine _atkWindowCo;
 
     [Header("Ground Check")]

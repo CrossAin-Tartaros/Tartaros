@@ -13,10 +13,15 @@ MonoBehaviour:
   m_Name: Elite
   m_EditorClassIdentifier: 
   <MonsterType>k__BackingField: 2
-  <MaxHealth>k__BackingField: 100
+  <MaxHealth>k__BackingField: 100000
   <MoveSpeed>k__BackingField: 2
-  <Recognize>k__BackingField: 8
+  <AttackDamage>k__BackingField: 10
+  <Recognize>k__BackingField: 100
   <Patrol>k__BackingField: 10
   <PatrolWait>k__BackingField: 2
-  <AttackRange>k__BackingField: 5
+  <MaxBaseDistance>k__BackingField: 10
+  <AttackRange>k__BackingField: 10
+  <AttackWait>k__BackingField: 2
+  <StunWait>k__BackingField: 1
+  <StunKnockBack>k__BackingField: 2
   <DistanceThreshold>k__BackingField: 0.1

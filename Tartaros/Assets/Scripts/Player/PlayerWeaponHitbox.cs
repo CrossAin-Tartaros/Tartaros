@@ -10,10 +10,14 @@ public class PlayerWeaponHitbox : MonoBehaviour
     [Header("Mirror Mode")]
     [SerializeField] private bool mirrorByColliderOffset = true;
     [SerializeField] private Vector2 rightLocalOffset = Vector2.zero;
+    [SerializeField] private GameObject parryingAnimation;
+    [SerializeField] private float parryingAnimationOffset = 1f;
 
     private BoxCollider2D _col;
     private Vector2 _rightColliderOffset;
     private int _monsterAttackLayer;
+
+    private bool isLeft;
 
 
     private void Awake()
@@ -45,20 +49,20 @@ public class PlayerWeaponHitbox : MonoBehaviour
         if (_player == null) return;
 
         // 왼쪽 보고 있으면 true
-        bool left =
+        isLeft =
             (_player.sprite && _player.sprite.flipX) || (_player.transform.lossyScale.x < 0f);
 
         if (mirrorByColliderOffset && _col)
         {
             //콜라이더 x만 좌/우 반전
             var o = _rightColliderOffset;
-            _col.offset = new Vector2(left ? -o.x : o.x, o.y);
+            _col.offset = new Vector2(isLeft ? -o.x : o.x, o.y);
         }
         else
         {
             //Transform 위치로 미러링
             var o = rightLocalOffset;
-            transform.localPosition = new Vector3(left ? -o.x : o.x, o.y, 0f);
+            transform.localPosition = new Vector3(isLeft ? -o.x : o.x, o.y, 0f);
         }
     }
 
@@ -79,6 +83,11 @@ public class PlayerWeaponHitbox : MonoBehaviour
             int parryDamage = (_player && _player.stat) ? _player.stat.attack : 1;
             monsterWeapon.Parry(parryDamage); //몬스터 패링 상태
             _player?.BeginParryWindow(2f); //2초 약점 공격 가능
+            
+            GameObject go = Instantiate(parryingAnimation, _player.GetAimPoint(0.8f),  Quaternion.identity);
+            go.transform.position +=  (Vector3)((isLeft ? Vector2.left : Vector2.right) * parryingAnimationOffset);
+            go.GetComponent<SpriteRenderer>().flipX = isLeft;
+            go.SetActive(true);
 
             Debug.Log($"[PARRY SUCCESS] {monsterWeapon.monster.name} dmg={parryDamage} (stun & expose), Player weak-spot window 2s");
             return;
