@@ -6,6 +6,7 @@ public class MapManager : Singleton<MapManager>
 {
     private Dictionary<MapType, MapData> mapDatas = new();
     private MapData currentMapData;
+    public MapType CurrentMapType { get; private set; }
     private GameObject mapInstance;
 
     private ScreenFader screenFader;
@@ -31,6 +32,7 @@ public class MapManager : Singleton<MapManager>
         //초기화
         ClearMap();
 
+        CurrentMapType = mapType;
         currentMapData = mapDatas[mapType];
 
         //기본 구조물 로드
@@ -53,6 +55,19 @@ public class MapManager : Singleton<MapManager>
 
     void LoadNewEntity(bool isStartPosition)
     {
+
+        //플레이어 위치 설정. isStartPosition가 true면 입구쪽, false면 출구쪽
+        if (isStartPosition)
+            PlayerManager.Instance.SetPlayerPosition(currentMapData.playerSpawnPositions[0]);
+        else
+        {
+            //뭐야 왜 안돼
+            Debug.Log(currentMapData.playerSpawnPositions[1]);
+            PlayerManager.Instance.SetPlayerPosition(currentMapData.playerSpawnPositions[1]);
+        }
+
+
+
         //몬스터 소환
         for (int i = 0; i < currentMapData.monsterSpawnList.Count; i++)
         {
@@ -61,14 +76,7 @@ public class MapManager : Singleton<MapManager>
             currentMonsterList.Add(obj);
         }
 
-        //플레이어 위치 설정. isStartPosition가 true면 입구쪽, false면 출구쪽
-        if (isStartPosition)
-            PlayerManager.Instance.SetPlayerPosition(currentMapData.playerSpawnPositions[0]);
-        else
-        {
-            Debug.Log(currentMapData.playerSpawnPositions[1]);
-            PlayerManager.Instance.SetPlayerPosition(currentMapData.playerSpawnPositions[1]);
-        }
+        
     }
 
     public void MoveToAnotherMap(MapType mapType, bool isStartPosition)

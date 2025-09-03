@@ -8,6 +8,7 @@ public class PlayerManager : Singleton<PlayerManager>
     public GameObject CurrentPlayerInstance { get; private set; }
 
     public Player Player {  get; private set; }
+    public PlayerStat PlayerStat {  get; private set; }
 
     private void Awake()
     {
@@ -16,7 +17,11 @@ public class PlayerManager : Singleton<PlayerManager>
 
     public void LoadPlayer(Vector2 position)
     {
+        if (CurrentPlayerInstance != null)
+            return;
         CurrentPlayerInstance = Instantiate(playerPrefab, position, Quaternion.identity);
+        Player = CurrentPlayerInstance.gameObject.GetComponent<Player>();
+        PlayerStat = CurrentPlayerInstance.gameObject.GetComponent<PlayerStat>();
         
         //플레이어에 저장된 스탯 덮어쓰기
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -58,6 +59,9 @@ public class Player : MonoBehaviour
     Vector2 crouchSize, crouchOffset; //엎드릴때 사이즈
 
     private float _nextAttackTime = 0f;
+
+    //UI 체력바에 현재 체력 전달
+    public event Action<float> onPlayerHealthChange;
 
     private void Start()
     {
@@ -249,6 +253,18 @@ public class Player : MonoBehaviour
         ApplyHurt(rawDamage, sourcePos, ignoreDefense : false);
     }
 
+    public void ApplyHeal(int healAmount)
+        //체력 회복
+    {
+        stat.currentHP = Mathf.Min(stat.currentHP + healAmount, stat.maxHP);
+
+        //UI에 체력 변화 이벤트 전달
+        onPlayerHealthChange?.Invoke(stat.currentHP);
+
+        //콘솔확인
+        Debug.Log($"[PLAYER HEAL] +{healAmount} HP  => {stat.currentHP}/{stat.maxHP}");
+    }
+
     private void ApplyHurt(int rawDamage, Vector3 sourcePos, bool ignoreDefense)
         //공통: 체력감소 > 맞는 모션 > 넉백 > 무적
     {
@@ -256,6 +272,9 @@ public class Player : MonoBehaviour
         ? rawDamage : (stat ? stat.ReduceDamage(rawDamage) : Mathf.Max(1, rawDamage));
 
         stat.currentHP = Mathf.Max(0, stat.currentHP - finalDamage); //HP 적용
+
+        //UI에 체력 변화 이벤트 전달
+        onPlayerHealthChange?.Invoke(stat.currentHP);
 
         if (stat.currentHP <= 0) //죽으면 넉백, 무적 x
         {
@@ -268,6 +287,7 @@ public class Player : MonoBehaviour
             controller.TriggerHitAnim();
 
         DoKnockbackFrom(sourcePos);
+
         StartCoroutine(IFrames());
 
         //콘솔확인

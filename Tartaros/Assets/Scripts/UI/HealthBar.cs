@@ -12,19 +12,25 @@ public class HealthBar : UIBase
 
     private void OnEnable()
     {
-        //콜백 이벤트 구독
-        //플레이어 최대 체력 받아오기
-        //currentHealth = maxHealth;
+        if(PlayerManager.Instance.Player == null)
+            PlayerManager.Instance.LoadPlayer(new Vector2(0, -100));    
+        PlayerManager.Instance.Player.onPlayerHealthChange += SetHealthBar;
+        maxHealth = PlayerManager.Instance.PlayerStat.maxHP;
+        currentHealth = maxHealth;
     }
 
     private void OnDisable()
     {
-        //구독 해지
+        PlayerManager.Instance.Player.onPlayerHealthChange -= SetHealthBar;
     }
 
-    void SetHealthBar()
+    void SetHealthBar(float newHealth)
     {
-        //currnetHealth = 플레이어 현재 체력 받아오기
+        Debug.LogWarning(newHealth);
+        
+        //플레이어 현재 체력 받아오기
+        currentHealth = newHealth;
+
         if (currentHealth <= 0)
         {
             imageArray[currentImageIndex].SetActive(false);
@@ -32,22 +38,24 @@ public class HealthBar : UIBase
 
         float healthPercentage = currentHealth / maxHealth;
 
+        Debug.LogWarning(healthPercentage);
+
         if (healthPercentage >= 0.99)
             ChangeHealthBar(0);
 
-        else if (healthPercentage > 0.66 && healthPercentage < 0.99)
+        else if (healthPercentage > 0.8 && healthPercentage < 0.99)
             ChangeHealthBar(1);
 
-        else if (healthPercentage > 0.66 && healthPercentage <= 0.83)
+        else if (healthPercentage > 0.6 && healthPercentage <= 0.8)
             ChangeHealthBar(2);
 
-        else if (healthPercentage > 0.66 && healthPercentage <= 0.83)
+        else if (healthPercentage > 0.4 && healthPercentage <= 0.6)
             ChangeHealthBar(3);
 
-        else if (healthPercentage > 0.66 && healthPercentage <= 0.83)
+        else if (healthPercentage > 0.2 && healthPercentage <= 0.4)
             ChangeHealthBar(4);
 
-        else if (healthPercentage > 0.66 && healthPercentage <= 0.83)
+        else if (healthPercentage > 0 && healthPercentage <= 0.2)
             ChangeHealthBar(5);
     }
 

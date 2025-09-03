@@ -2,28 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Water : MonoBehaviour
+public interface IInteractable 
 {
-    bool isUsed;
+    public bool isInteractable { get; set; }
+    
+    public void OnInteract();
+
+}
+
+
+public class Water : MonoBehaviour, IInteractable
+{
     [SerializeField] GameObject used;
     [SerializeField] GameObject unused;
 
-    //isUsed에 따라서 상호작용 가능 여부 결정
+    public bool isInteractable { get; set; } = true;
 
 
-    //상호작용시 함수 호출
+    //상호작용
+    public void OnInteract()
+    {
+        if (!isInteractable)
+            return;
+
+        UseWater();
+    }
     void UseWater()
     {
         SetUsedWater();
-        //저장
-        //플레이어 회복
+        PlayerManager.Instance.waterUsed[MapManager.Instance.CurrentMapType] = true;
+        PlayerManager.Instance.Player.ApplyHeal(5);
     }
 
     public void SetUsedWater()
     {
-        isUsed = true;
+        isInteractable = false;
         unused.SetActive(false);
         used.SetActive(true);
     }
 
+    
 }
