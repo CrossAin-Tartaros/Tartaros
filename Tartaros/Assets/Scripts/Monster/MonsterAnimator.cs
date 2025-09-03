@@ -22,6 +22,25 @@ public class MonsterAnimator : MonoBehaviour
         data.Init();
     }
 
+    public bool HasParameter(int hash)
+    {
+        foreach (var param in animator.parameters)
+        {
+            if (param.nameHash == hash)
+                return true;
+        }
+        return false;
+    }
+
+    public void StopAllAnimations()
+    {
+        foreach (var i in data.GetDatas())
+        {
+            if(HasParameter(i))
+                animator.SetBool(i, false);
+        }
+    }
+
     public void StartAnimation(int param)
     {
         animator.SetBool(param, true);

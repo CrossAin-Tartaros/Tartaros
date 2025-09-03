@@ -5,22 +5,20 @@ using UnityEngine;
 public abstract class MonsterAI : MonoBehaviour
 {
     [field : Header("AI Settings")]
-    [field: SerializeField] public float Recognize { get; set;} = 8f;
-    [field: SerializeField] public float Patrol { get; set;} = 10f;
-    [field: SerializeField] public float PatrolWait { get; set;} = 2f;
-    [field: SerializeField] public float AttackRange { get; set;} = 5f;
-    [field: SerializeField] public float DistanceThreshold { get; set;} = 0.1f;
     [field: SerializeField] public float MinX { get; set;} = -9f;
     [field: SerializeField] public float MaxX { get; set;} = 27f;
     
-    [field: SerializeField] public Transform Target { get; set; }
+    public Transform Target { get; set; }
     
     public Vector2 BasePosition { get; set; }
     public Vector2 SpawnPosition { get; private set; }
     
-    public Vector2 Destination { get; private set; }
+    public Vector2 Destination { get; set; }
 
     public bool isMoving = false;
+    public bool isReturn = false;
+    public bool isAttackDone = false;
+    
     
     public Monster Monster { get; set; }
     protected BehaviourTree monsterTree;
@@ -30,6 +28,7 @@ public abstract class MonsterAI : MonoBehaviour
         SpawnPosition = transform.position;
         BasePosition = SpawnPosition;
         this.Monster = monster;
+        Target = GameObject.FindWithTag("Player").transform;
         BuildBT();
     }
     
@@ -40,25 +39,32 @@ public abstract class MonsterAI : MonoBehaviour
     }
 
     public abstract void BuildBT();
-    
+
+    public abstract void Attack();
+
+    public abstract void EndAttack();
     
     // 타겟 정하고 움직이는거
     public void MoveToTarget(Vector2 target)
     {
-        transform.position = Vector2.MoveTowards(transform.position, target, Time.deltaTime * Monster.MoveSpeed);
+        transform.position = Vector2.MoveTowards(transform.position, target, Time.deltaTime * Monster.data.MoveSpeed);
     }
 
     public void SetRandomDestination()
     {
-        float newPosX = Mathf.Clamp(transform.position.x + Random.Range(-(Patrol / 2f), Patrol / 2f), MinX, MaxX);
+        float newPosX = Mathf.Clamp(transform.position.x + Random.Range(-(Monster.data.Patrol / 2f), Monster.data.Patrol / 2f), MinX, MaxX);
         Destination = new Vector2(newPosX, transform.position.y);
     }
     
     // 목적지 정하고 움직이는거
     public bool MoveToDestination()
     {
-        transform.position = Vector2.MoveTowards(transform.position, Destination, Time.deltaTime * Monster.MoveSpeed);
-        isMoving = Vector2.Distance(transform.position, Destination) > DistanceThreshold;
+        transform.position = Vector2.MoveTowards(transform.position, Destination, Time.deltaTime * Monster.data.MoveSpeed);
+        isMoving = Vector2.Distance(transform.position, Destination) > Monster.data.DistanceThreshold;
         return !isMoving;
     }
+
+    public abstract void HandleAnimationEvent(string eventName);
+
+    
 }

@@ -17,11 +17,12 @@ public class CanRecogPlayerNode : Node
     public override NodeState Evaluate()
     {
         distance = Vector2.Distance(monsterAI.transform.position, player.position);
-        
-        // 몬스터 인식 거리 내부이면 성공
-        if (distance <= monsterAI.Recognize)
+        // Debug.Log($"{distance}");
+        // 몬스터 공격 거리보다 멀고 인식 거리 내부이면 성공
+        if (distance > monsterAI.Monster.data.AttackRange && distance <= monsterAI.Monster.data.Recognize)
         {
-            Debug.Log($"Can Recognize Player");
+            // Debug.Log($"Can Recognize Player");
+            monsterAI.Monster.Animator.ChangeHeadDirection(monsterAI.transform.position.x > player.position.x);
             state = NodeState.Success;
         }
             

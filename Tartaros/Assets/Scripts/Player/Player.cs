@@ -1,5 +1,7 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
@@ -10,6 +12,23 @@ public class Player : MonoBehaviour
     public PlayerStat stat;
     public SpriteRenderer sprite;
     public Animator animator;
+
+    [Header("Death / Respawn")]
+    public Transform respawnPoint; //세이브포인트
+    [SerializeField] private float respawnDelay = 1.0f;
+    [SerializeField] private float respawnIFrames = 1.0f;
+    public bool IsDead { get; private set; }
+    private Coroutine _dieCo;
+
+    [Header("Hurt / Frames")]
+    [SerializeField] private float invincibleDuration = 2f; // 무적 시간
+    [SerializeField] private float knockbackTiles = 1f; // X축 넉백거리
+    [SerializeField] private float knockbackImpulsePerTile = 6f;
+    private bool isInvincible;
+
+    [SerializeField] private GameObject weaponHitboxGO; //공격범위 콜라이더 탐색
+    [SerializeField] private float attackWindow = 0.15f; //몇초동안
+    private Coroutine _atkWindowCo;
 
     [Header("Ground Check")]
     public Transform groundCheck;
@@ -32,6 +51,15 @@ public class Player : MonoBehaviour
     Vector2 standSize, standOffset; //기본 사이즈
     Vector2 crouchSize, crouchOffset; //엎드릴때 사이즈
 
+    private float _nextAttackTime = 0f;
+
+    private void Start()
+    {
+        // 모든 Awake 끝난 뒤 HP가 0 이하면 바로 사망 루틴 진입
+        if (stat && stat.currentHP <= 0)
+            TryCheckDeath();
+    }
+
     private void Reset()
     {
         if (!bodyCol) bodyCol = GetComponent<BoxCollider2D>();
@@ -47,6 +75,28 @@ public class Player : MonoBehaviour
 
         if (!bodyCol) bodyCol = GetComponent<BoxCollider2D>();
         CacheColliderSizes();
+    }
+
+    public void OpenAttackWindow() //공격 호출
+    {
+        if (!weaponHitboxGO) //자동탐색
+        {
+            foreach (var col in GetComponentsInChildren<BoxCollider2D>(true))
+            {
+                if (col.isTrigger && col.gameObject != gameObject) { weaponHitboxGO = col.gameObject; break; }
+            }
+            if (!weaponHitboxGO) return; //못찾으면 패스
+        }
+        if (_atkWindowCo != null) StopCoroutine(_atkWindowCo);
+        _atkWindowCo = StartCoroutine(_AttackWindowCo());
+    }
+
+    private IEnumerator _AttackWindowCo()
+    {
+        weaponHitboxGO.SetActive(true); //히트박스 o
+        yield return new WaitForSeconds(attackWindow);
+        weaponHitboxGO.SetActive(false); //히트박스 x
+        _atkWindowCo = null;
     }
 
     private void OnValidate()
@@ -168,5 +218,120 @@ public class Player : MonoBehaviour
             IsOnLadder = false;
             if (IsClimbing) StopClimb(); // 나가면 중력 복구
         }
+    }
+
+    public bool TryConsumeAttackCooldown()
+    {
+        float interval = 1f / Mathf.Max(0.01f, (stat ? stat.attackSpeed : 1f));
+        if (Time.time < _nextAttackTime) return false;
+        _nextAttackTime = Time.time + interval;
+        return true;
+    }
+
+    public void ReceiveMonsterCollision(Vector3 sourcePos)
+        //몬스터와 충돌 처리
+    {
+        if (isInvincible) return;
+        ApplyHurt(2, sourcePos, ignoreDefense : true);
+    }
+
+    public void ReceiveMonsterAttack(int rawDamage, Vector3 sourcePos)
+        //몬스터의 공격 처리
+    {
+        if (isInvincible) return;
+        ApplyHurt(rawDamage, sourcePos, ignoreDefense : false);
+    }
+
+    private void ApplyHurt(int rawDamage, Vector3 sourcePos, bool ignoreDefense)
+        //공통: 체력감소 > 맞는 모션 > 넉백 > 무적
+    {
+        int finalDamage = ignoreDefense //데미지 1
+        ? rawDamage : (stat ? stat.ReduceDamage(rawDamage) : Mathf.Max(1, rawDamage));
+
+        stat.currentHP = Mathf.Max(0, stat.currentHP - finalDamage); //HP 적용
+
+        if (stat.currentHP <= 0) //죽으면 넉백, 무적 x
+        {
+            TryCheckDeath();
+            return;
+        }
+
+        DoKnockbackFrom(sourcePos);
+        StartCoroutine(IFrames());
+
+        //콘솔확인
+        Debug.Log($"[PLAYER HIT] -{finalDamage} HP  => {stat.currentHP}/{stat.maxHP}");
+    }
+
+    private void DoKnockbackFrom(Vector3 sourcePos)
+    {
+        //현재 속도가 있으면 그 반대, 없으면 상대 위치 기준
+        int moveDir = Mathf.Abs(rb.velocity.x) > 0.05f ? (rb.velocity.x > 0 ? 1 : -1)
+                    : (transform.position.x < sourcePos.x ? 1 : -1);
+        int knockDir = -moveDir; // 진행 반대
+
+        float impulse = (stat ? stat.tileSize : 1f) * knockbackTiles * knockbackImpulsePerTile;
+        rb.AddForce(new Vector2(knockDir * impulse, 0f), ForceMode2D.Impulse);
+    }
+
+    private IEnumerator IFrames() //무적 타이머
+    {
+        isInvincible = true;
+        yield return new WaitForSeconds(invincibleDuration);
+        isInvincible = false;
+    }
+
+    private void TryCheckDeath()
+    {
+        if (IsDead) return;
+        if (stat.currentHP <= 0)
+        {
+            if (_dieCo != null) StopCoroutine(_dieCo);
+            _dieCo = StartCoroutine(DieAndRespawn());
+        }
+    }
+
+    private IEnumerator DieAndRespawn()
+    {
+        IsDead = true;
+
+        //컨트롤러 비활성
+        var controller = GetComponent<PlayerController>();
+        if (controller) controller.enabled = false;
+
+        // 등반/엎드림/히트박스 정리
+        IsClimbing = false; IsOnLadder = false;
+        SetCrouch(false);
+        // 공격 히트박스가 있다면 꺼두기
+        foreach (var col in GetComponentsInChildren<Collider2D>(true))
+            if (col.isTrigger && col.gameObject != gameObject) col.gameObject.SetActive(false);
+
+        rb.velocity = Vector2.zero;
+        rb.simulated = false;
+
+        if (animator) animator.SetTrigger("Death");
+
+        yield return new WaitForSeconds(respawnDelay);
+
+        // 리스폰 지점 결정
+        Vector3 targetPos = transform.position;
+        if (respawnPoint) targetPos = respawnPoint.position;
+        else
+        {
+            var sp = GameObject.FindGameObjectWithTag("SavePoint");
+            if (!sp) sp = GameObject.FindGameObjectWithTag("Respawn");
+            if (sp) targetPos = sp.transform.position;
+        }
+        transform.position = targetPos;
+
+        // 스탯/상태 초기화
+        stat.currentHP = stat.maxHP;
+        rb.gravityScale = stat.gravityScale;
+        ToggleGroundCollision(false);
+        rb.simulated = true;
+
+        if (controller) controller.enabled = true;
+
+        IsDead = false;
     }
 }

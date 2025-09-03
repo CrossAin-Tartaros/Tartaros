@@ -17,6 +17,7 @@ public class MoveNode : Node
         {
             Debug.Log("Move Done");
             monsterAI.Monster.Animator.StopAnimation(monsterAI.Monster.Animator.data.MoveHash);
+            monsterAI.isReturn = false;
             state = NodeState.Success;
         }
         else
