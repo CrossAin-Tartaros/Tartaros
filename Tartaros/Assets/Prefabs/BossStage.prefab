@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1647307727719247408}
   - component: {fileID: 8666371595267060826}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Grid_boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -769,7 +769,7 @@ GameObject:
   - component: {fileID: 7449521544738374248}
   - component: {fileID: 6253490695226465525}
   - component: {fileID: 5807758357169624653}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}

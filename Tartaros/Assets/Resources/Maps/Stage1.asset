@@ -15,5 +15,6 @@ MonoBehaviour:
   mapPrefab: {fileID: 6605672212127642840, guid: 9218c4d8291670446a92d8608395bd20, type: 3}
   monsterSpawnList: []
   playerSpawnPositions:
-  - {x: -4.5, y: -17}
+  - {x: -6.5, y: -2.8}
   - {x: 10, y: 12.5}
+  waterPosition: {x: 0, y: 0}
