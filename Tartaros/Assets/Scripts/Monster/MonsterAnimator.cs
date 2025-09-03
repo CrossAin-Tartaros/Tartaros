@@ -41,6 +41,12 @@ public class MonsterAnimator : MonoBehaviour
         }
     }
 
+    public void Damaged()
+    {
+        animator.SetTrigger(data.DamagedHash);
+    }
+    
+
     public void StartAnimation(int param)
     {
         animator.SetBool(param, true);

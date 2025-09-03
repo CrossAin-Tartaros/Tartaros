@@ -7,9 +7,12 @@ public class Monster : MonoBehaviour
 {
     public MonsterData data;
     public int CurrentHealth { get; set; }
+    public bool IsDead { get; set; } = false;
+    public bool IsStunned { get; set; } = false;
     
     public MonsterAI AI{ get; set; }
     public MonsterAnimator Animator { get; set; }
+    public MonsterWeapon Weapon { get; set; }
     
     private void Awake()
     {
@@ -20,13 +23,37 @@ public class Monster : MonoBehaviour
         AI.Init(this);
         Animator = GetComponent<MonsterAnimator>();
         Animator.Init(this);
-        
+        try
+        {
+            Weapon = GetComponentInChildren<MonsterWeapon>(true);
+        }
+        catch (Exception e)
+        {
+            Weapon = null;
+        }
+        Weapon?.Init(this);
     }
 
 
     public void Die()
     {
-        // TODO : 죽으면 진행
+        Destroy(gameObject);
+    }
+
+    public void Damaged(int damage)
+    {
+        CurrentHealth = Mathf.Max(CurrentHealth - damage, 0);
+        Animator.Damaged();
+        if (CurrentHealth <= 0)
+        {
+            IsDead = true;
+        }
+    }
+
+    public void Parried(int damage)
+    {
+        Damaged(damage);
+        IsStunned = true;
     }
     
 }

@@ -27,6 +27,7 @@ public class WaitNode : Node
             startTime = 0;
             state = NodeState.Success;
             monsterAI.Monster.Animator.StopAllAnimations();
+            monsterAI.Monster.Animator.animator.speed = 1;
             return state;
         }
         

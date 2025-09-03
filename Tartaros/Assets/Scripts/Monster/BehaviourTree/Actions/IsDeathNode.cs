@@ -14,7 +14,7 @@ public class IsDeathNode : Node
 
     public override NodeState Evaluate()
     {
-        if (monsterAI.Monster.CurrentHealth <= 0)
+        if (monsterAI.Monster.IsDead)
         {
             // 죽었을 때 액션 실행 안했으면 실행 하고 앞으로는 실행 안하도록 설정
             if (!dieActionIsvoked)

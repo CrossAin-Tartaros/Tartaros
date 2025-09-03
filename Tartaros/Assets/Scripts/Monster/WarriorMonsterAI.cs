@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class WarriorMonsterAI : MonsterAI
 {
-    
     [field: SerializeField] public Collider2D AttackCollider { get; set; }
     
     public override void BuildBT()
     {
         Node isDeathNode = new IsDeathNode(this);
-
+        
+        Node checkStunNode = new CheckStunNode(this);
+        Node stunWaitNode = new WaitNode(this, Monster.data.StunWait);
+        Sequence stunSequence = new Sequence(new List<Node>
+        {
+            checkStunNode, stunWaitNode
+        });
+        
+        
         Node canAttackPlayerNode = new CanAttackPlayerNode(this, Target, Monster.data.AttackRange);
         Node attackPlayerNode = new AttackPlayerNode(this, Target, Attack);
         Node attackWaitNode = new WaitNode(this, Monster.data.AttackWait);
@@ -47,6 +54,7 @@ public class WarriorMonsterAI : MonsterAI
         Selector mainSelector = new Selector(new List<Node>
         {
             isDeathNode,
+            stunSequence,
             attackSequence,
             chaseSequence,
             returnSequence,

@@ -9,6 +9,13 @@ public class LauncherMonsterAI : MonsterAI
         // Launcher 타입은 움직이지 않음
         Node isDeathNode = new IsDeathNode(this);
 
+        Node checkStunNode = new CheckStunNode(this);
+        Node stunWaitNode = new WaitNode(this, Monster.data.StunWait);
+        Sequence stunSequence = new Sequence(new List<Node>
+        {
+            checkStunNode, stunWaitNode
+        });
+        
         Node canAttackPlayerNode = new CanAttackPlayerNode(this, Target, Monster.data.AttackRange);
         Node attackPlayerNode = new AttackPlayerNode(this, Target, Attack);
         Node attackWaitNode = new WaitNode(this, Monster.data.AttackWait);
@@ -27,6 +34,7 @@ public class LauncherMonsterAI : MonsterAI
         Selector mainSelector = new Selector(new List<Node>
         {
             isDeathNode,
+            stunSequence,
             attackSequence,
             chaseSequence,
         });
