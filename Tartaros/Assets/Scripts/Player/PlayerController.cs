@@ -94,5 +94,11 @@ public class PlayerController : MonoBehaviour
             Vector3 fakeMonsterPos = player.transform.position + Vector3.right * 1f;
             player.ReceiveMonsterAttack(7, fakeMonsterPos);
         }
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            player.ReceiveMonsterAttack(3, player.transform.position);
+            // 3 데미지 주기
+        }
     }
 }
