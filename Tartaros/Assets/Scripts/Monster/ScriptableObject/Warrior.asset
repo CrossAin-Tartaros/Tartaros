@@ -20,7 +20,8 @@ MonoBehaviour:
   <Patrol>k__BackingField: 10
   <PatrolWait>k__BackingField: 2
   <MaxBaseDistance>k__BackingField: 10
-  <AttackRange>k__BackingField: 3
+  <AttackRange>k__BackingField: 2
   <AttackWait>k__BackingField: 1
   <StunWait>k__BackingField: 1
+  <StunKnockBack>k__BackingField: 0.5
   <DistanceThreshold>k__BackingField: 0.1

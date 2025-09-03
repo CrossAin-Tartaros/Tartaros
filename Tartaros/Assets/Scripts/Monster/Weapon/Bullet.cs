@@ -10,13 +10,13 @@ public class Bullet : MonsterWeapon
     public bool parried = false;
     private float speed;
     private Vector2 parriedDirection;
-    private Vector2 targetPosition;
+    private Vector2 targetDirection;
     
     public void Init(Monster monster, float speed, Vector2 targetPosition)
     {
         base.Init(monster);
         this.speed = speed;
-        this.targetPosition = targetPosition;
+        targetDirection = (targetPosition- (Vector2)transform.position).normalized * speed;
     }
 
     public override void Parry(int damage)
@@ -33,7 +33,7 @@ public class Bullet : MonsterWeapon
     {
         if (!parried)
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime );
+            transform.position = (Vector2)transform.position + targetDirection * Time.deltaTime;
         }
         else
         {
