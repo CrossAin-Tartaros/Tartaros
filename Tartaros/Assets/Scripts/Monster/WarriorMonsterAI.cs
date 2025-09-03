@@ -65,7 +65,7 @@ public class WarriorMonsterAI : MonsterAI
     }
     public override void HandleAnimationEvent(string eventName)
     {
-        Debug.Log($"{eventName}");
+        // Debug.Log($"{eventName}");
         Invoke(eventName, 0f);
     }
 
@@ -83,13 +83,13 @@ public class WarriorMonsterAI : MonsterAI
     public void ParryingStart()
     {
         // Debug.Log("Parrying Start");
-        AttackCollider.gameObject.SetActive(true);
+        AttackCollider.enabled = true;
     }
 
     public void ParryingStop()
     {
         // Debug.Log("Parrying Stop");
-        AttackCollider.gameObject.SetActive(false);
+        AttackCollider.enabled = false;
     }
 
     public void StopAttack()

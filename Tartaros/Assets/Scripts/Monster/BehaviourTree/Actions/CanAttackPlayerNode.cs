@@ -22,7 +22,7 @@ public class CanAttackPlayerNode : Node
         // 몬스터 공격 거리 내부이면 성공
         if (distance <= maxAttackDistance)
         {
-            Debug.Log($"Can Attack Player");
+            // Debug.Log($"Can Attack Player");
             if(monsterAI.Monster.data.MonsterType == MonsterType.Warrior)
                 monsterAI.Monster.Animator.StopAnimation(monsterAI.Monster.Animator.data.MoveHash);
             monsterAI.Monster.Animator.ChangeHeadDirection(monsterAI.transform.position.x > player.position.x);

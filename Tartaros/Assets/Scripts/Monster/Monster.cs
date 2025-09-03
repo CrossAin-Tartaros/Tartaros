@@ -55,5 +55,16 @@ public class Monster : MonoBehaviour
         Damaged(damage);
         IsStunned = true;
     }
-    
+
+    public void OnColliderEnter2D(Collider2D other)
+    {
+        // 플레이어랑 부딛혔고, 무기가 아닐 때
+        if (other.gameObject.CompareTag("Player") && other.gameObject.layer != LayerMask.NameToLayer("PlayerAttack"))
+        {
+            if(other.gameObject.TryGetComponent(out Player player))
+            {
+                player.ReceiveMonsterCollision(transform.position);
+            }
+        }
+    }
 }
