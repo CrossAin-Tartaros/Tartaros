@@ -21,7 +21,6 @@ public class StunWaitNode : Node
         if (!isStarted)
         {
             startTime = Time.time;
-            monsterAI.Damaged();
             monsterAI.Monster.Animator.animator.speed = 0f;
             isStarted = true;
         }
