@@ -22,6 +22,10 @@ public class SoundManager : Singleton<SoundManager>
 
     private void Awake()
     {
+        if (Instance == this)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
         PrefCheck();
     }
 
