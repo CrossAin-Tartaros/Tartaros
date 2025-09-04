@@ -13,5 +13,14 @@ public class SoundPanel : MonoBehaviour
     {
         BGMSlider.value = SoundManager.Instance.MusicVolume;
         SFXSlider.value = SoundManager.Instance.SoundEffectVolume;
+
+        BGMSlider.onValueChanged.AddListener(SoundManager.Instance.BgmSliderChanged);
+        SFXSlider.onValueChanged.AddListener(SoundManager.Instance.SfxSliderChanged);
+    }
+
+    private void OnDisable()
+    {
+        BGMSlider.onValueChanged.RemoveListener(SoundManager.Instance.BgmSliderChanged);
+        SFXSlider.onValueChanged.RemoveListener(SoundManager.Instance.SfxSliderChanged);
     }
 }
