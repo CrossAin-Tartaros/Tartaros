@@ -6,7 +6,8 @@ public class OutPortal : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        StartCoroutine(LateMove());
+        if (collision.gameObject.CompareTag("Player"))
+            StartCoroutine(LateMove());
     }
 
     IEnumerator LateMove()

@@ -22,6 +22,8 @@ public class ScreenFader : UIBase
 
     IEnumerator FadeInProcess()
     {
+        this.transform.SetAsLastSibling();
+
         float startAlpha = 1.0f;
         float a = startAlpha;
         
@@ -43,6 +45,8 @@ public class ScreenFader : UIBase
     IEnumerator FadeOutProcss()
     {
         colorScreen.enabled = true;
+
+        this.transform.SetAsLastSibling();
 
         float startAlpha = 0f;
         float a = startAlpha;
