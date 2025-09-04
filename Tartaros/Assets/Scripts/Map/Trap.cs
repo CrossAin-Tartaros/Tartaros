@@ -18,7 +18,10 @@ public class Trap : MonoBehaviour
 
         }
 
-        //몬스터가 함정에 걸리면 사망(Destroy or 체력 즉시 0)
+        if (collision.gameObject.CompareTag("Monster"))
+        {
+            Destroy(collision.gameObject);
+        }
     }
 
     IEnumerator TeleportPlayer(Collider2D collision)

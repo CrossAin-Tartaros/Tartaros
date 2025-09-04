@@ -44,6 +44,7 @@ public class Monster : MonoBehaviour
     public void Die()
     {
         IsDead = true;
+        PlayerManager.Instance.ProgressOne();
         StartCoroutine(DieCoroutine());
     }
 

@@ -8,6 +8,7 @@ public class MainScene : SceneBase
     {
         base.OnSceneEnter();
         PlayerManager.Instance.SetPlayerPosition(new Vector2 (0, -3));
+        UIManager.Instance.GetUI<ProgressUI>().SetProcress(PlayerManager.Instance.ProgressHighScore);
     }
 
     public override void OnSceneExit()

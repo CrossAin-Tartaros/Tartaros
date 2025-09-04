@@ -30,7 +30,5 @@ public class Shield : MonoBehaviour
             UIManager.Instance.GetUI<UIShield>().CloseUI();
         }
     }
-    
-
 
 }

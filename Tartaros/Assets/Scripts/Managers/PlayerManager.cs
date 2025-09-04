@@ -11,10 +11,13 @@ public class PlayerManager : Singleton<PlayerManager>
     public PlayerStat PlayerStat {  get; private set; }
     public Shield Shield { get; private set; }
 
+    int currentScore;
+    
+
     //저장될 데이터 모음
     int currentHealth = 10;
     int coin;
-    int remainShield;
+    public int ProgressHighScore { get; private set; }
     public Dictionary<MapType, bool> waterUsed { get; private set; } = new Dictionary<MapType, bool>() { { MapType.Stage1, false }, { MapType.Boss, false } };
 
     private void Awake()
@@ -30,6 +33,8 @@ public class PlayerManager : Singleton<PlayerManager>
         Player = CurrentPlayerInstance.gameObject.GetComponent<Player>();
         PlayerStat = CurrentPlayerInstance.gameObject.GetComponent<PlayerStat>();
         Shield = CurrentPlayerInstance.gameObject.GetComponent<Shield>();
+
+        currentScore = 0;
 
         //플레이어에 저장된 정보 덮어쓰기
         PlayerStat.currentHP = currentHealth;
@@ -54,6 +59,8 @@ public class PlayerManager : Singleton<PlayerManager>
     public void SavePlayer()
     {
         currentHealth = PlayerStat.currentHP;
+
+        ProgressHighScore = Mathf.Max(ProgressHighScore, currentScore);
     }
 
     public void GetCoin(int num)
@@ -67,6 +74,13 @@ public class PlayerManager : Singleton<PlayerManager>
         coin -= num;
 
         UIManager.Instance.GetUI<UICoin>().SetUICoin(coin);
+    }
+
+    public void ProgressOne()
+    {
+        currentScore++;
+
+        UIManager.Instance.GetUI<ProgressUI>().SetProcress(currentScore);
     }
 
  
