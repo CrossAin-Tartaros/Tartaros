@@ -108,10 +108,12 @@ public class PlayerController : MonoBehaviour
             if (!isSettingPanelOn)
             {
                 UIManager.Instance.OpenUI<SettingPanel>();
+                Time.timeScale = 0;
             }
             else
             {
                 UIManager.Instance.CloseUI<SettingPanel>();
+                Time.timeScale = 1;
             }
         }
     }
