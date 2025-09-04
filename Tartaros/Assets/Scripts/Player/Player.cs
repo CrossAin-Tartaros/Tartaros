@@ -38,6 +38,11 @@ public class Player : MonoBehaviour
     public float groundCheckRadius = 0.12f; //바닥 반지름
     public LayerMask groundMask; //레이어 바닥 필터 구분
 
+    [Header("Ladder Ground Settings")] //사다리 바닥 선택
+    [SerializeField] private LayerMask ladderGroundMask;
+
+    private readonly List<Collider2D> _ignoredGroundCols = new List<Collider2D>();
+
     [Header("Crouch")]
     [SerializeField] private BoxCollider2D bodyCol;
     [SerializeField] private float crouchHeight = 0.5f; //엎드릴때 높이
@@ -62,8 +67,6 @@ public class Player : MonoBehaviour
 
     //UI 체력바에 현재 체력 전달
     public event Action<float> onPlayerHealthChange;
-
-    private readonly List<Collider2D> _ignoredGroundCols = new List<Collider2D>();
 
     // 사다리 시작 시, 몸과 겹치는 Ground만 골라 무시할 때 쓸 필터
     private ContactFilter2D _groundFilter;
@@ -207,27 +210,26 @@ public class Player : MonoBehaviour
     {
         if (!IsOnLadder) return;
         IsClimbing = true;
-
-        //전체 레이어 끄지 말고, 겹치는 바닥만 꺼두기
+        //LadderGround 레이어에 속한 바닥만 무시
         IgnoreGroundUnderLadder();
 
         rb.gravityScale = 0f;
         rb.velocity = Vector2.zero;
     }
 
-    public void Climb(float yInput, float climbSpeed)
-    {
-        if (!IsClimbing) return;
-        rb.velocity = new Vector2(0f, yInput * climbSpeed);
-    }
-
-    public void StopClimb() //사다리 사용 종료
+    public void StopClimb() // 사다리 사용 종료
     {
         IsClimbing = false;
         rb.gravityScale = defaultGravity;
 
-        //방금 꺼둔 바닥만 다시 켜기
+        // 사다리 밑 바닥 충돌 다시 켜기
         RestoreIgnoredGround();
+    }
+
+    public void Climb(float yInput, float climbSpeed)
+    {
+        if (!IsClimbing) return;
+        rb.velocity = new Vector2(0f, yInput * climbSpeed);
     }
 
     void ToggleGroundCollision(bool ignore)
@@ -434,30 +436,34 @@ public class Player : MonoBehaviour
         return sprite.flipX;
     }
 
-    // 사다리 시작 시: 현재 플레이어 콜라이더와 겹치는 Ground 콜라이더들만 꺼둔다
+    //사다리 시작 시: LadderGround 레이어만 무시
     private void IgnoreGroundUnderLadder()
     {
-        RestoreIgnoredGround();
+        RestoreIgnoredGround(); // 혹시 이전에 남아있을 수 있으니 초기화
 
         var hits = new List<Collider2D>(8);
-        //지금 겹치는 Ground 콜라이더 수집
-        bodyCol.OverlapCollider(_groundFilter, hits);
+        bodyCol.OverlapCollider(new ContactFilter2D
+        {
+            useLayerMask = true,
+            layerMask = ladderGroundMask, // LadderGround 전용 레이어만 필터링
+            useTriggers = false
+        }, hits);
 
         foreach (var col in hits)
         {
             if (!col || !col.enabled) continue;
-            Physics2D.IgnoreCollision(bodyCol, col, true);
-            _ignoredGroundCols.Add(col);
+            Physics2D.IgnoreCollision(bodyCol, col, true); // 충돌 무시
+            _ignoredGroundCols.Add(col); // 나중에 복구할 수 있도록 저장
         }
     }
 
-    // 사다리에서 내려올 때: 방금 꺼둔 것만 다시 켠다
+    // 사다리 끝날 때: 무시했던 LadderGround 충돌 복구
     private void RestoreIgnoredGround()
     {
         foreach (var col in _ignoredGroundCols)
         {
-            if (!col) continue; // 파괴됐을 수 있음
-            Physics2D.IgnoreCollision(bodyCol, col, false);
+            if (!col) continue; // 이미 삭제된 경우 체크
+            Physics2D.IgnoreCollision(bodyCol, col, false); // 다시 충돌 켜기
         }
         _ignoredGroundCols.Clear();
     }
