@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapPrefab: {fileID: 6144139258246220365, guid: 4b5db97f29dc9e145a130de6d4edb845, type: 3}
   monsterSpawnList:
-  - monsterPrefab: {fileID: 7677725857578870745, guid: c5df78b084f108c4fb28e54291bb35f0, type: 3}
+  - monsterPrefab: {fileID: 2156764336266931156, guid: 9fe6be094fd42cb4c9b8a4d387a748da, type: 3}
     position: {x: 11, y: 0}
   playerSpawnPositions:
   - {x: -5.8, y: 7.5}
