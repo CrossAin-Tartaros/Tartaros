@@ -34,6 +34,7 @@ public class PlayerManager : Singleton<PlayerManager>
         //플레이어에 저장된 정보 덮어쓰기
         PlayerStat.currentHP = currentHealth;
         UIManager.Instance.GetUI<HealthBar>().SetHealthBar(currentHealth);
+        GetCoin(0);
     }
 
     public void SetPlayerPosition(Vector2 position)
@@ -58,14 +59,14 @@ public class PlayerManager : Singleton<PlayerManager>
     public void GetCoin(int num)
     {
         coin += num;
-        //UI에 반영
+        UIManager.Instance.GetUI<UICoin>().SetUICoin(coin);
     }
 
     public void UseCoin(int num)
     {
         coin -= num;
 
-        //UI에 반영
+        UIManager.Instance.GetUI<UICoin>().SetUICoin(coin);
     }
 
  
