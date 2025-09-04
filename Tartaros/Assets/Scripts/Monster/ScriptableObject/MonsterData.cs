@@ -7,6 +7,7 @@ public class MonsterData : ScriptableObject
 {
     [field: Header("Sound Settings")] 
     [field: SerializeField] public AudioClip DamagedSound;
+    [field: SerializeField] public AudioClip AttackSound;
     
     [field : Header("Stats")]
     [field: SerializeField] public MonsterType MonsterType { get; set; }

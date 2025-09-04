@@ -515,8 +515,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mirrorByColliderOffset: 1
   rightLocalOffset: {x: 0, y: 0}
-  parryingMeleeAnimation: {fileID: 0}
-  parryingRangeAnimation: {fileID: 0}
+  parryingMeleeAnimation: {fileID: 2360655870356088562, guid: cd32142735a9d1a4087061deddba9104, type: 3}
+  parryingRangeAnimation: {fileID: 2360655870356088562, guid: cd32142735a9d1a4087061deddba9104, type: 3}
   parryingAnimationOffset: 1
 --- !u!1 &7043302489567519758
 GameObject:
