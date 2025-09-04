@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3940242190285610578}
   - component: {fileID: 7612554202013152347}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Collider (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,7 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3125264037584557388}
   - component: {fileID: 992696653458558013}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Collider (18)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1456,7 +1456,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8070779330480048333}
   - component: {fileID: 7542866459633364974}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Collider (14)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1698,7 +1698,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7576416481775052642}
   - component: {fileID: 957810289442389218}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Collider (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2025,7 +2025,6 @@ GameObject:
   - component: {fileID: 3763278102897128647}
   - component: {fileID: 7449521544738374248}
   - component: {fileID: 6253490695226465525}
-  - component: {fileID: 5807758357169624653}
   m_Layer: 6
   m_Name: Tilemap
   m_TagString: Untagged
@@ -3597,42 +3596,6 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
---- !u!19719996 &5807758357169624653
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6776063423768021911}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0
-  m_UseDelaunayMesh: 0
 --- !u!1 &7183059648837251556
 GameObject:
   m_ObjectHideFlags: 0
