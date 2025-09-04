@@ -181,7 +181,11 @@ public class Player : MonoBehaviour
         if (IsClimbing) speed = 0f;
         rb.velocity = new Vector2(speed, rb.velocity.y);
 
-        if (sprite) sprite.flipX = speed < 0;
+        // 방향 갱신: 입력 있을 때만 flipX 변경
+        if (Mathf.Abs(xInput) > 0.01f)
+            sprite.flipX = xInput < 0f;
+        // 입력이 0이면 sprite.flipX 유지 > 마지막 시선 유지
+
         if (animator) animator.SetFloat("Speed", Mathf.Abs(speed));
     }
 
@@ -342,16 +346,23 @@ public class Player : MonoBehaviour
     {
         IsDead = true;
 
-        //컨트롤러 비활성
+        // 컨트롤러 비활성
         var controller = GetComponent<PlayerController>();
         if (controller) controller.enabled = false;
 
-        // 등반/엎드림/히트박스 정리
+        // 등반/엎드림 정리
         IsClimbing = false; IsOnLadder = false;
         SetCrouch(false);
-        // 공격 히트박스가 있다면 꺼두기
+
+        // 공격 히트박스가 있다면 "오브젝트는 켠 채" 콜라이더만 끄기
         foreach (var col in GetComponentsInChildren<Collider2D>(true))
-            if (col.isTrigger && col.gameObject != gameObject) col.gameObject.SetActive(false);
+        {
+            if (col.isTrigger && col.gameObject != gameObject)
+            {
+                col.enabled = false;  // 콜라이더만 OFF
+                col.gameObject.SetActive(true); // 오브젝트는 항상 ON 유지
+            }
+        }
 
         rb.velocity = Vector2.zero;
         rb.simulated = false;
@@ -377,18 +388,20 @@ public class Player : MonoBehaviour
         ToggleGroundCollision(false);
         rb.simulated = true;
 
+        // 애니메이터 초기화
         if (animator)
         {
             animator.ResetTrigger("Death");
             animator.ResetTrigger("Hit");
-            animator.Rebind(); // 애니메이터 초기화
-            animator.Update(0f); // 즉시 반영
+            animator.Rebind();
+            animator.Update(0f);
             animator.SetFloat("Speed", 0f);
         }
 
-        if (controller) controller.enabled = true; //컨트롤러 복구
+        // 컨트롤러 복구
+        if (controller) controller.enabled = true;
 
-        IsDead = false; //죽음 상태 해제
+        IsDead = false;
     }
 
     public void BeginParryWindow(float duration = 2f)
