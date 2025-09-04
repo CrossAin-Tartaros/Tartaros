@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,66 +14,67 @@ public class Player : MonoBehaviour
     public SpriteRenderer sprite;
     public Animator animator;
 
-    [SerializeField] private Vector2 aimOffsetLocal = Vector2.zero; //¹Ì¼¼ Á¶Á¤¿ë
+    [SerializeField] private Vector2 aimOffsetLocal = Vector2.zero; //ë¯¸ì„¸ ì¡°ì •ìš©
 
     [Header("Death / Respawn")]
-    public Transform respawnPoint; //¼¼ÀÌºêÆ÷ÀÎÆ®
+    public Transform respawnPoint; //ì„¸ì´ë¸Œí¬ì¸íŠ¸
     [SerializeField] private float respawnDelay = 1.0f;
     [SerializeField] private float respawnIFrames = 1.0f;
     public bool IsDead { get; private set; }
     private Coroutine _dieCo;
 
     [Header("Hurt / Frames")]
-    [SerializeField] private float invincibleDuration = 2f; // ¹«Àû ½Ã°£
-    [SerializeField] private float knockbackTiles = 1f; // XÃà ³Ë¹é°Å¸®
+    [SerializeField] private float invincibleDuration = 2f; // ë¬´ì  ì‹œê°„
+    [SerializeField] private float knockbackTiles = 1f; // Xì¶• ë„‰ë°±ê±°ë¦¬
     [SerializeField] private float knockbackImpulsePerTile = 6f;
     private bool isInvincible;
 
-    [SerializeField] private GameObject weaponHitboxGO; //°ø°İ¹üÀ§ Äİ¶óÀÌ´õ Å½»ö
-    [SerializeField] private float attackWindow = 0.1f; //¸îÃÊµ¿¾È
+    [SerializeField] private GameObject weaponHitboxGO; //ê³µê²©ë²”ìœ„ ì½œë¼ì´ë” íƒìƒ‰
+    [SerializeField] private float attackWindow = 0.1f; //ëª‡ì´ˆë™ì•ˆ
     private Coroutine _atkWindowCo;
 
     [Header("Ground Check")]
     public Transform groundCheck;
-    public float groundCheckRadius = 0.12f; //¹Ù´Ú ¹İÁö¸§
-    public LayerMask groundMask; //·¹ÀÌ¾î ¹Ù´Ú ÇÊÅÍ ±¸ºĞ
+    public float groundCheckRadius = 0.12f; //ë°”ë‹¥ ë°˜ì§€ë¦„
+    public LayerMask groundMask; //ë ˆì´ì–´ ë°”ë‹¥ í•„í„° êµ¬ë¶„
 
-    [Header("Ladder Ground Settings")] //»ç´Ù¸® ¹Ù´Ú ¼±ÅÃ
+    [Header("Ladder Ground Settings")] //ì‚¬ë‹¤ë¦¬ ë°”ë‹¥ ì„ íƒ
     [SerializeField] private LayerMask ladderGroundMask;
 
     private readonly List<Collider2D> _ignoredGroundCols = new List<Collider2D>();
 
     [Header("Crouch")]
     [SerializeField] private BoxCollider2D bodyCol;
-    [SerializeField] private float crouchHeight = 0.5f; //¾şµå¸±¶§ ³ôÀÌ
-    public bool IsCrouching { get; private set; } //¾şµå¸®´ÂÁß?
+    [SerializeField] private float crouchHeight = 0.5f; //ì—ë“œë¦´ë•Œ ë†’ì´
+    public bool IsCrouching { get; private set; } //ì—ë“œë¦¬ëŠ”ì¤‘?
 
     public bool IsGrounded { get; private set; }
 
-    public bool IsOnLadder { get; private set; } //»ç´Ù¸® ¾È?
-    public bool IsClimbing { get; private set; } //»ç´Ù¸® »ç¿ëÁß?
+    public bool IsOnLadder { get; private set; } //ì‚¬ë‹¤ë¦¬ ì•ˆ?
+    public bool IsClimbing { get; private set; } //ì‚¬ë‹¤ë¦¬ ì‚¬ìš©ì¤‘?
     
-    float defaultGravity; //Áß·Â°ª ÀúÀå¿ë
+    float defaultGravity; //ì¤‘ë ¥ê°’ ì €ì¥ìš©
     int groundLayer;
 
     public bool IsParryWindow { get; private set; }
     private Coroutine _parryCo;
 
     Rigidbody2D rb;
-    Vector2 standSize, standOffset; //±âº» »çÀÌÁî
-    Vector2 crouchSize, crouchOffset; //¾şµå¸±¶§ »çÀÌÁî
+    Vector2 standSize, standOffset; //ê¸°ë³¸ ì‚¬ì´ì¦ˆ
+    Vector2 crouchSize, crouchOffset; //ì—ë“œë¦´ë•Œ ì‚¬ì´ì¦ˆ
 
     private float _nextAttackTime = 0f;
 
-    //UI Ã¼·Â¹Ù¿¡ ÇöÀç Ã¼·Â Àü´Ş
+    //UI ì²´ë ¥ë°”ì— í˜„ì¬ ì²´ë ¥ ì „ë‹¬
     public event Action<float> onPlayerHealthChange;
 
-    // »ç´Ù¸® ½ÃÀÛ ½Ã, ¸ö°ú °ãÄ¡´Â Ground¸¸ °ñ¶ó ¹«½ÃÇÒ ¶§ ¾µ ÇÊÅÍ
+    // ì‚¬ë‹¤ë¦¬ ì‹œì‘ ì‹œ, ëª¸ê³¼ ê²¹ì¹˜ëŠ” Groundë§Œ ê³¨ë¼ ë¬´ì‹œí•  ë•Œ ì“¸ í•„í„°
     private ContactFilter2D _groundFilter;
+    int _ladderGroundLayer;
 
     private void Start()
     {
-        // ¸ğµç Awake ³¡³­ µÚ HP°¡ 0 ÀÌÇÏ¸é ¹Ù·Î »ç¸Á ·çÆ¾ ÁøÀÔ
+        // ëª¨ë“  Awake ëë‚œ ë’¤ HPê°€ 0 ì´í•˜ë©´ ë°”ë¡œ ì‚¬ë§ ë£¨í‹´ ì§„ì…
         if (stat && stat.currentHP <= 0)
             TryCheckDeath();
     }
@@ -93,18 +94,20 @@ public class Player : MonoBehaviour
         if (!bodyCol) bodyCol = GetComponent<BoxCollider2D>();
         CacheColliderSizes();
 
-        // Ground Àü¿ë ContactFilter2D
+        // Ground ì „ìš© ContactFilter2D
         _groundFilter = new ContactFilter2D
         {
             useLayerMask = true,
             layerMask = groundMask,
             useTriggers = false
         };
+
+        _ladderGroundLayer = LayerMask.NameToLayer("LadderGround");
     }
 
-    public void OpenAttackWindow() //°ø°İ È£Ãâ
+    public void OpenAttackWindow() //ê³µê²© í˜¸ì¶œ
     {
-        if (!weaponHitboxGO) //ÀÚµ¿Å½»ö
+        if (!weaponHitboxGO) //ìë™íƒìƒ‰
         {
             
             Debug.LogError("No Weapon Hitbox");
@@ -112,7 +115,7 @@ public class Player : MonoBehaviour
             {
                 if (col.isTrigger && col.gameObject != gameObject) { weaponHitboxGO = col.gameObject; break; }
             }
-            if (!weaponHitboxGO) return; //¸øÃ£À¸¸é ÆĞ½º*/
+            if (!weaponHitboxGO) return; //ëª»ì°¾ìœ¼ë©´ íŒ¨ìŠ¤*/
         }
         if (_atkWindowCo != null) StopCoroutine(_atkWindowCo);
         _atkWindowCo = StartCoroutine(_AttackWindowCo());
@@ -120,10 +123,10 @@ public class Player : MonoBehaviour
 
     private IEnumerator _AttackWindowCo()
     {
-        // È÷Æ®¹Ú½º°¡ ´Ş¸° GameObject ÀÚÃ¼¸¦ ²ô´Â°Í º¸´Ù, È÷Æ®¹Ú½º ¾È¿¡ ÀÖ´Â Äİ¶óÀÌ´õ¸¦ ²ô´Â°Ô ´õ ³´´Ù°í Æ©ÅÍ´Ô²²¼­ ¾Ë·ÁÁÖ¼Ì½À´Ï´Ù!
-        weaponHitboxGO.GetComponent<BoxCollider2D>().enabled = true; //È÷Æ®¹Ú½º o
+        // íˆíŠ¸ë°•ìŠ¤ê°€ ë‹¬ë¦° GameObject ìì²´ë¥¼ ë„ëŠ”ê²ƒ ë³´ë‹¤, íˆíŠ¸ë°•ìŠ¤ ì•ˆì— ìˆëŠ” ì½œë¼ì´ë”ë¥¼ ë„ëŠ”ê²Œ ë” ë‚«ë‹¤ê³  íŠœí„°ë‹˜ê»˜ì„œ ì•Œë ¤ì£¼ì…¨ìŠµë‹ˆë‹¤!
+        weaponHitboxGO.GetComponent<BoxCollider2D>().enabled = true; //íˆíŠ¸ë°•ìŠ¤ o
         yield return new WaitForSeconds(attackWindow);
-        weaponHitboxGO.GetComponent<BoxCollider2D>().enabled = false; //È÷Æ®¹Ú½º x
+        weaponHitboxGO.GetComponent<BoxCollider2D>().enabled = false; //íˆíŠ¸ë°•ìŠ¤ x
         _atkWindowCo = null;
     }
 
@@ -135,17 +138,17 @@ public class Player : MonoBehaviour
 
     private void CacheColliderSizes()
     {
-        standSize = bodyCol.size; //¿ø·¡ Å°
+        standSize = bodyCol.size; //ì›ë˜ í‚¤
         standOffset = bodyCol.offset;
 
-        crouchSize = new Vector2(standSize.x, crouchHeight); //x´Â À¯Áö
+        crouchSize = new Vector2(standSize.x, crouchHeight); //xëŠ” ìœ ì§€
 
         float deltaY = (standSize.y - crouchHeight) * 0.5f;
         crouchOffset = new Vector2(standOffset.x, standOffset.y - deltaY);
-        //¹ß À§Ä¡´Â °íÁ¤
+        //ë°œ ìœ„ì¹˜ëŠ” ê³ ì •
     }
 
-    public void SetCrouch(bool on) //¾şµå¸®±â °è»ê
+    public void SetCrouch(bool on) //ì—ë“œë¦¬ê¸° ê³„ì‚°
     {
         if (IsClimbing) on = false;
         if (on == IsCrouching) return;
@@ -171,32 +174,33 @@ public class Player : MonoBehaviour
     {
         if (IsClimbing)
         {
-            IsGrounded = false; //»ç´Ù¸®¿¡¼­´Â Áö¸éÀº Ç×»ó false
+            IsGrounded = false; //ì‚¬ë‹¤ë¦¬ì—ì„œëŠ” ì§€ë©´ì€ í•­ìƒ false
         }
         else
         {
-            IsGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundMask) != null;
-            //Áö¸é ¿©ºÎ °è»ê
+            IsGrounded = Physics2D.OverlapCircle
+                (groundCheck.position, groundCheckRadius, groundMask | ladderGroundMask) // LadderGroundë„ ë°”ë‹¥ìœ¼ë¡œ í¬í•¨
+                    != null;
         }
     }
 
-    public void Move(float xInput, bool run) //ÀÌµ¿ °è»ê
+    public void Move(float xInput, bool run) //ì´ë™ ê³„ì‚°
     {
         float speed = (run ? stat.runSpeed : stat.walkSpeed) * xInput;
         if (IsClimbing) speed = 0f;
         rb.velocity = new Vector2(speed, rb.velocity.y);
 
-        // ¹æÇâ °»½Å: ÀÔ·Â ÀÖÀ» ¶§¸¸ flipX º¯°æ
+        // ë°©í–¥ ê°±ì‹ : ì…ë ¥ ìˆì„ ë•Œë§Œ flipX ë³€ê²½
         if (Mathf.Abs(xInput) > 0.01f)
             sprite.flipX = xInput < 0f;
-        // ÀÔ·ÂÀÌ 0ÀÌ¸é sprite.flipX À¯Áö > ¸¶Áö¸· ½Ã¼± À¯Áö
+        // ì…ë ¥ì´ 0ì´ë©´ sprite.flipX ìœ ì§€ > ë§ˆì§€ë§‰ ì‹œì„  ìœ ì§€
 
         if (animator) animator.SetFloat("Speed", Mathf.Abs(speed));
     }
 
-    public void Jump() //Á¡ÇÁ °è»ê
+    public void Jump() //ì í”„ ê³„ì‚°
     {
-        if (IsClimbing) return; //»ç´Ù¸®¿¡¼­´Â Á¡ÇÁ ±İÁö
+        if (IsClimbing) return; //ì‚¬ë‹¤ë¦¬ì—ì„œëŠ” ì í”„ ê¸ˆì§€
         if (!IsGrounded) return;
 
         Vector2 v = rb.velocity;
@@ -206,24 +210,25 @@ public class Player : MonoBehaviour
         if (animator) animator.SetTrigger("Jump");
     }
 
-    public void StartClimb() //»ç´Ù¸® »ç¿ë ½ÃÀÛ
+    public void StartClimb() //ì‚¬ë‹¤ë¦¬ ì‚¬ìš© ì‹œì‘
     {
         if (!IsOnLadder) return;
         IsClimbing = true;
-        //LadderGround ·¹ÀÌ¾î¿¡ ¼ÓÇÑ ¹Ù´Ú¸¸ ¹«½Ã
-        IgnoreGroundUnderLadder();
+
+        // Player <> LadderGround ì „ì²´ ì¶©ëŒ ë„ê¸°
+        Physics2D.IgnoreLayerCollision(gameObject.layer, _ladderGroundLayer, true);
 
         rb.gravityScale = 0f;
         rb.velocity = Vector2.zero;
     }
 
-    public void StopClimb() // »ç´Ù¸® »ç¿ë Á¾·á
+    public void StopClimb() // ì‚¬ë‹¤ë¦¬ ì‚¬ìš© ì¢…ë£Œ
     {
         IsClimbing = false;
         rb.gravityScale = defaultGravity;
 
-        // »ç´Ù¸® ¹Ø ¹Ù´Ú Ãæµ¹ ´Ù½Ã ÄÑ±â
-        RestoreIgnoredGround();
+        // â¬‡ï¸ Player <> LadderGround ë‹¤ì‹œ ì¼œê¸°
+        Physics2D.IgnoreLayerCollision(gameObject.layer, _ladderGroundLayer, false);
     }
 
     public void Climb(float yInput, float climbSpeed)
@@ -251,7 +256,7 @@ public class Player : MonoBehaviour
         if (other.CompareTag("Ladder"))
         {
             IsOnLadder = false;
-            if (IsClimbing) StopClimb(); // ³ª°¡¸é Áß·Â º¹±¸
+            if (IsClimbing) StopClimb(); // ë‚˜ê°€ë©´ ì¤‘ë ¥ ë³µêµ¬
         }
     }
 
@@ -264,43 +269,43 @@ public class Player : MonoBehaviour
     }
 
     public void ReceiveMonsterCollision(Vector3 sourcePos)
-        //¸ó½ºÅÍ¿Í Ãæµ¹ Ã³¸®
+        //ëª¬ìŠ¤í„°ì™€ ì¶©ëŒ ì²˜ë¦¬
     {
         if (isInvincible) return;
         ApplyHurt(2, sourcePos, ignoreDefense : true);
     }
 
     public void ReceiveMonsterAttack(int rawDamage, Vector3 sourcePos)
-        //¸ó½ºÅÍÀÇ °ø°İ Ã³¸®
+        //ëª¬ìŠ¤í„°ì˜ ê³µê²© ì²˜ë¦¬
     {
         if (isInvincible) return;
         ApplyHurt(rawDamage, sourcePos, ignoreDefense : false);
     }
 
     public void ApplyHeal(int healAmount)
-        //Ã¼·Â È¸º¹
+        //ì²´ë ¥ íšŒë³µ
     {
         stat.currentHP = Mathf.Min(stat.currentHP + healAmount, stat.maxHP);
 
-        //UI¿¡ Ã¼·Â º¯È­ ÀÌº¥Æ® Àü´Ş
+        //UIì— ì²´ë ¥ ë³€í™” ì´ë²¤íŠ¸ ì „ë‹¬
         onPlayerHealthChange?.Invoke(stat.currentHP);
 
-        //ÄÜ¼ÖÈ®ÀÎ
+        //ì½˜ì†”í™•ì¸
         Debug.Log($"[PLAYER HEAL] +{healAmount} HP  => {stat.currentHP}/{stat.maxHP}");
     }
 
     private void ApplyHurt(int rawDamage, Vector3 sourcePos, bool ignoreDefense)
-        //°øÅë: Ã¼·Â°¨¼Ò > ¸Â´Â ¸ğ¼Ç > ³Ë¹é > ¹«Àû
+        //ê³µí†µ: ì²´ë ¥ê°ì†Œ > ë§ëŠ” ëª¨ì…˜ > ë„‰ë°± > ë¬´ì 
     {
         int finalDamage = ignoreDefense
         ? rawDamage : (stat ? stat.ReduceDamage(rawDamage) : Mathf.Max(1, rawDamage));
 
-        stat.currentHP = Mathf.Max(0, stat.currentHP - finalDamage); //HP Àû¿ë
+        stat.currentHP = Mathf.Max(0, stat.currentHP - finalDamage); //HP ì ìš©
 
-        //UI¿¡ Ã¼·Â º¯È­ ÀÌº¥Æ® Àü´Ş
+        //UIì— ì²´ë ¥ ë³€í™” ì´ë²¤íŠ¸ ì „ë‹¬
         onPlayerHealthChange?.Invoke(stat.currentHP);
 
-        if (stat.currentHP <= 0) //Á×À¸¸é ³Ë¹é, ¹«Àû x
+        if (stat.currentHP <= 0) //ì£½ìœ¼ë©´ ë„‰ë°±, ë¬´ì  x
         {
             TryCheckDeath();
             return;
@@ -314,22 +319,22 @@ public class Player : MonoBehaviour
 
         StartCoroutine(IFrames());
 
-        //ÄÜ¼ÖÈ®ÀÎ
+        //ì½˜ì†”í™•ì¸
         Debug.Log($"[PLAYER HIT] -{finalDamage} HP  => {stat.currentHP}/{stat.maxHP}");
     }
 
     private void DoKnockbackFrom(Vector3 sourcePos)
     {
-        //ÇöÀç ¼Óµµ°¡ ÀÖÀ¸¸é ±× ¹İ´ë, ¾øÀ¸¸é »ó´ë À§Ä¡ ±âÁØ
+        //í˜„ì¬ ì†ë„ê°€ ìˆìœ¼ë©´ ê·¸ ë°˜ëŒ€, ì—†ìœ¼ë©´ ìƒëŒ€ ìœ„ì¹˜ ê¸°ì¤€
         int moveDir = Mathf.Abs(rb.velocity.x) > 0.05f ? (rb.velocity.x > 0 ? 1 : -1)
                     : (transform.position.x < sourcePos.x ? 1 : -1);
-        int knockDir = -moveDir; // ÁøÇà ¹İ´ë
+        int knockDir = -moveDir; // ì§„í–‰ ë°˜ëŒ€
 
         float impulse = (stat ? stat.tileSize : 1f) * knockbackTiles * knockbackImpulsePerTile;
         rb.AddForce(new Vector2(knockDir * impulse, 0f), ForceMode2D.Impulse);
     }
 
-    private IEnumerator IFrames() //¹«Àû Å¸ÀÌ¸Ó
+    private IEnumerator IFrames() //ë¬´ì  íƒ€ì´ë¨¸
     {
         isInvincible = true;
         yield return new WaitForSeconds(invincibleDuration);
@@ -350,21 +355,21 @@ public class Player : MonoBehaviour
     {
         IsDead = true;
 
-        // ÄÁÆ®·Ñ·¯ ºñÈ°¼º
+        // ì»¨íŠ¸ë¡¤ëŸ¬ ë¹„í™œì„±
         var controller = GetComponent<PlayerController>();
         if (controller) controller.enabled = false;
 
-        // µî¹İ/¾şµå¸² Á¤¸®
+        // ë“±ë°˜/ì—ë“œë¦¼ ì •ë¦¬
         IsClimbing = false; IsOnLadder = false;
         SetCrouch(false);
 
-        // °ø°İ È÷Æ®¹Ú½º°¡ ÀÖ´Ù¸é "¿ÀºêÁ§Æ®´Â ÄÒ Ã¤" Äİ¶óÀÌ´õ¸¸ ²ô±â
+        // ê³µê²© íˆíŠ¸ë°•ìŠ¤ê°€ ìˆë‹¤ë©´ "ì˜¤ë¸Œì íŠ¸ëŠ” ì¼  ì±„" ì½œë¼ì´ë”ë§Œ ë„ê¸°
         foreach (var col in GetComponentsInChildren<Collider2D>(true))
         {
             if (col.isTrigger && col.gameObject != gameObject)
             {
-                col.enabled = false;  // Äİ¶óÀÌ´õ¸¸ OFF
-                col.gameObject.SetActive(true); // ¿ÀºêÁ§Æ®´Â Ç×»ó ON À¯Áö
+                col.enabled = false;  // ì½œë¼ì´ë”ë§Œ OFF
+                col.gameObject.SetActive(true); // ì˜¤ë¸Œì íŠ¸ëŠ” í•­ìƒ ON ìœ ì§€
             }
         }
 
@@ -375,7 +380,7 @@ public class Player : MonoBehaviour
 
         yield return new WaitForSeconds(respawnDelay);
 
-        // ¸®½ºÆù ÁöÁ¡ °áÁ¤
+        // ë¦¬ìŠ¤í° ì§€ì  ê²°ì •
         Vector3 targetPos = transform.position;
         if (respawnPoint) targetPos = respawnPoint.position;
         else
@@ -386,13 +391,13 @@ public class Player : MonoBehaviour
         }
         transform.position = targetPos;
 
-        // ½ºÅÈ/»óÅÂ ÃÊ±âÈ­
+        // ìŠ¤íƒ¯/ìƒíƒœ ì´ˆê¸°í™”
         stat.currentHP = stat.maxHP;
         rb.gravityScale = stat.gravityScale;
         ToggleGroundCollision(false);
         rb.simulated = true;
 
-        // ¾Ö´Ï¸ŞÀÌÅÍ ÃÊ±âÈ­
+        // ì• ë‹ˆë©”ì´í„° ì´ˆê¸°í™”
         if (animator)
         {
             animator.ResetTrigger("Death");
@@ -402,7 +407,7 @@ public class Player : MonoBehaviour
             animator.SetFloat("Speed", 0f);
         }
 
-        // ÄÁÆ®·Ñ·¯ º¹±¸
+        // ì»¨íŠ¸ë¡¤ëŸ¬ ë³µêµ¬
         if (controller) controller.enabled = true;
 
         IsDead = false;
@@ -422,10 +427,10 @@ public class Player : MonoBehaviour
         _parryCo = null;
     }
 
-    public Vector2 GetAimPoint(float height01 = 1.2f) //0 = ¹ß, 1 = ¸Ó¸®
+    public Vector2 GetAimPoint(float height01 = 1.2f) //0 = ë°œ, 1 = ë¨¸ë¦¬
     {
-        // height01: 0.0 = ¹ß³¡, 0.5 = ¸ö Áß½É, 1.0 = ¸Ó¸®
-        var b = bodyCol.bounds; // ¿ùµå ±âÁØ Ãæµ¹ ¹Ú½º
+        // height01: 0.0 = ë°œë, 0.5 = ëª¸ ì¤‘ì‹¬, 1.0 = ë¨¸ë¦¬
+        var b = bodyCol.bounds; // ì›”ë“œ ê¸°ì¤€ ì¶©ëŒ ë°•ìŠ¤
         float y = Mathf.Lerp(b.min.y, b.max.y, Mathf.Clamp01(height01));
         Vector2 center = new Vector2(b.center.x, y);
         return center + (Vector2)transform.TransformVector(aimOffsetLocal);
@@ -436,34 +441,34 @@ public class Player : MonoBehaviour
         return sprite.flipX;
     }
 
-    //»ç´Ù¸® ½ÃÀÛ ½Ã: LadderGround ·¹ÀÌ¾î¸¸ ¹«½Ã
+    //ì‚¬ë‹¤ë¦¬ ì‹œì‘ ì‹œ: LadderGround ë ˆì´ì–´ë§Œ ë¬´ì‹œ
     private void IgnoreGroundUnderLadder()
     {
-        RestoreIgnoredGround(); // È¤½Ã ÀÌÀü¿¡ ³²¾ÆÀÖÀ» ¼ö ÀÖÀ¸´Ï ÃÊ±âÈ­
+        RestoreIgnoredGround(); // í˜¹ì‹œ ì´ì „ì— ë‚¨ì•„ìˆì„ ìˆ˜ ìˆìœ¼ë‹ˆ ì´ˆê¸°í™”
 
         var hits = new List<Collider2D>(8);
         bodyCol.OverlapCollider(new ContactFilter2D
         {
             useLayerMask = true,
-            layerMask = ladderGroundMask, // LadderGround Àü¿ë ·¹ÀÌ¾î¸¸ ÇÊÅÍ¸µ
+            layerMask = ladderGroundMask, // LadderGround ì „ìš© ë ˆì´ì–´ë§Œ í•„í„°ë§
             useTriggers = false
         }, hits);
 
         foreach (var col in hits)
         {
             if (!col || !col.enabled) continue;
-            Physics2D.IgnoreCollision(bodyCol, col, true); // Ãæµ¹ ¹«½Ã
-            _ignoredGroundCols.Add(col); // ³ªÁß¿¡ º¹±¸ÇÒ ¼ö ÀÖµµ·Ï ÀúÀå
+            Physics2D.IgnoreCollision(bodyCol, col, true); // ì¶©ëŒ ë¬´ì‹œ
+            _ignoredGroundCols.Add(col); // ë‚˜ì¤‘ì— ë³µêµ¬í•  ìˆ˜ ìˆë„ë¡ ì €ì¥
         }
     }
 
-    // »ç´Ù¸® ³¡³¯ ¶§: ¹«½ÃÇß´ø LadderGround Ãæµ¹ º¹±¸
+    // ì‚¬ë‹¤ë¦¬ ëë‚  ë•Œ: ë¬´ì‹œí–ˆë˜ LadderGround ì¶©ëŒ ë³µêµ¬
     private void RestoreIgnoredGround()
     {
         foreach (var col in _ignoredGroundCols)
         {
-            if (!col) continue; // ÀÌ¹Ì »èÁ¦µÈ °æ¿ì Ã¼Å©
-            Physics2D.IgnoreCollision(bodyCol, col, false); // ´Ù½Ã Ãæµ¹ ÄÑ±â
+            if (!col) continue; // ì´ë¯¸ ì‚­ì œëœ ê²½ìš° ì²´í¬
+            Physics2D.IgnoreCollision(bodyCol, col, false); // ë‹¤ì‹œ ì¶©ëŒ ì¼œê¸°
         }
         _ignoredGroundCols.Clear();
     }
