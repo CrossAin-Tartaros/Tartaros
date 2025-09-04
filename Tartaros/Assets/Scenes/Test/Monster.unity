@@ -1491,7 +1491,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1658177136
 Transform:
   m_ObjectHideFlags: 0
@@ -1767,6 +1767,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Warrior Monster
       objectReference: {fileID: 0}
+    - target: {fileID: 5663890646999780819, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5755904060777710637, guid: 9a40b5d65282fbb4985fadf7e4d439ee, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.24
@@ -1883,7 +1887,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3858057740994257959, guid: 10e67476eb8aa0c4899026472b621012, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.19
+      value: 7.92
       objectReference: {fileID: 0}
     - target: {fileID: 3858057740994257959, guid: 10e67476eb8aa0c4899026472b621012, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1927,7 +1931,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9070807271958545921, guid: 10e67476eb8aa0c4899026472b621012, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
