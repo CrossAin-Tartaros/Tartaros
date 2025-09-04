@@ -163,7 +163,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 557515cdfb3581f41b2eaae7f96c6a22, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -318,7 +318,7 @@ MonoBehaviour:
   interactableLayer:
     serializedVersion: 2
     m_Bits: 1024
-  interactionRange: 1.5
+  interactionRange: 1
 --- !u!1 &6649527505349223193
 GameObject:
   m_ObjectHideFlags: 0
