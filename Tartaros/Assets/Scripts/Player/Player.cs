@@ -293,7 +293,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && other.gameObject.layer != LayerMask.NameToLayer("MonsterAttack"))
+        if (other.CompareTag("Monster") && other.gameObject.layer != LayerMask.NameToLayer("MonsterAttack"))
         {
             ReceiveMonsterCollision(other.transform.position);
         }
@@ -310,7 +310,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Player") && other.gameObject.layer != LayerMask.NameToLayer("MonsterAttack"))
+        if (other.gameObject.CompareTag("Monster") && other.gameObject.layer != LayerMask.NameToLayer("MonsterAttack"))
         {
             ReceiveMonsterCollision(other.transform.position);
         }
