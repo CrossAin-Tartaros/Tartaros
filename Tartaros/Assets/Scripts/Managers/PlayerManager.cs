@@ -9,6 +9,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
     public Player Player {  get; private set; }
     public PlayerStat PlayerStat {  get; private set; }
+    public Shield Shield { get; private set; }
 
     //저장될 데이터 모음
     int currentHealth = 10;
@@ -28,6 +29,7 @@ public class PlayerManager : Singleton<PlayerManager>
         CurrentPlayerInstance = Instantiate(playerPrefab, position, Quaternion.identity);
         Player = CurrentPlayerInstance.gameObject.GetComponent<Player>();
         PlayerStat = CurrentPlayerInstance.gameObject.GetComponent<PlayerStat>();
+        Shield = CurrentPlayerInstance.gameObject.GetComponent<Shield>();
 
         //플레이어에 저장된 정보 덮어쓰기
         PlayerStat.currentHP = currentHealth;
