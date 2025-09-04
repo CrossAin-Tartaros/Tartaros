@@ -12,6 +12,7 @@ public class EliteMonsterAI : MonsterAI
 
     public override void Damaged()
     {
+        BasePosition = transform.position;
         Monster.Animator.StopAllAnimations();
         Monster.Animator.StartAnimation(Monster.Animator.data.StunnedHash);
         Monster.Animator.DamageColored();
