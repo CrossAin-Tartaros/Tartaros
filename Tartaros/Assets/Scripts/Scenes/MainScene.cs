@@ -13,6 +13,7 @@ public class MainScene : SceneBase
     public override void OnSceneExit()
     {
         base.OnSceneExit();
+        PlayerManager.Instance.SavePlayer();
     }
 
     public override void SceneLoading()

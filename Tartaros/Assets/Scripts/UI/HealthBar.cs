@@ -24,7 +24,7 @@ public class HealthBar : UIBase
         PlayerManager.Instance.Player.onPlayerHealthChange -= SetHealthBar;
     }
 
-    void SetHealthBar(float newHealth)
+    public void SetHealthBar(float newHealth)
     {
         Debug.LogWarning(newHealth);
         
