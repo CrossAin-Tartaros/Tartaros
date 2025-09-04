@@ -43,7 +43,7 @@ public class WarriorMonsterAI : MonsterAI
         });
 
         Node getRandomPosNode = new GetRandomPositionNode(this);
-        Node moveNode = new MoveNode(this);
+        Node moveNode = new MoveNode(this, true, 0.5f);
         Node patrolWaitNode = new WaitNode(this, Monster.data.PatrolWait);
 
         Sequence patrolSequence = new Sequence(new List<Node>
