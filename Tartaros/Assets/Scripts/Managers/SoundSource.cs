@@ -5,9 +5,11 @@ using UnityEngine;
 public class SoundSource : MonoBehaviour
 {
     private AudioSource _audioSource;
+    private bool dontDestroy;
 
-    public AudioSource Play(AudioClip clip, float soundEffectVolume, bool loop)
+    public AudioSource Play(AudioClip clip, float soundEffectVolume, bool loop, bool dontDestroy = false)
     {
+        this.dontDestroy = dontDestroy;
         if (_audioSource == null)
             _audioSource = GetComponent<AudioSource>();
 
@@ -24,6 +26,7 @@ public class SoundSource : MonoBehaviour
     public void Disable()
     {
         _audioSource?.Stop();
-        Destroy(this.gameObject);
+        if(!dontDestroy)
+            Destroy(this.gameObject);
     }
 }

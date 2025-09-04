@@ -47,6 +47,14 @@ public class Player : MonoBehaviour
     [Header("Crouch")]
     [SerializeField] private BoxCollider2D bodyCol;
     [SerializeField] private float crouchHeight = 0.5f; //엎드릴때 높이
+    
+    [Header("Sound Settings")]
+    [SerializeField] private AudioClip walkSound;
+    [SerializeField] private AudioClip runSound;
+    [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private AudioClip deathSound;
+    [SerializeField] private AudioClip ladderSound;
+    
     public bool IsCrouching { get; private set; } //엎드리는중?
 
     public bool IsGrounded { get; private set; }
@@ -207,6 +215,23 @@ public class Player : MonoBehaviour
             sprite.flipX = xInput < 0f;
         // 입력이 0이면 sprite.flipX 유지 > 마지막 시선 유지
 
+        if (speed != 0)
+        {
+            if (!run)
+            {
+                SoundManager.Instance.StartClip("walk", walkSound, true);
+            }
+            else
+            {
+                SoundManager.Instance.StartClip("run", runSound, true);
+            }
+        }
+        else
+        {
+            SoundManager.Instance.StopClip("walk");
+            SoundManager.Instance.StopClip("run");
+        }
+        
         if (animator) animator.SetFloat("Speed", Mathf.Abs(speed));
     }
 
@@ -218,7 +243,7 @@ public class Player : MonoBehaviour
         Vector2 v = rb.velocity;
         v.y = stat.jumpVelocity;
         rb.velocity = v;
-
+        SoundManager.Instance.PlayClip(jumpSound, false);
         if (animator) animator.SetTrigger("Jump");
     }
 
@@ -232,6 +257,7 @@ public class Player : MonoBehaviour
 
         rb.gravityScale = 0f;
         rb.velocity = Vector2.zero;
+        SoundManager.Instance.StartClip("ladder", ladderSound, true);
     }
 
     public void StopClimb() // 사다리 사용 종료
@@ -241,6 +267,7 @@ public class Player : MonoBehaviour
 
         // ⬇️ Player <> LadderGround 다시 켜기
         Physics2D.IgnoreLayerCollision(gameObject.layer, _ladderGroundLayer, false);
+        SoundManager.Instance.StopClip("ladder");
     }
 
     public void Climb(float yInput, float climbSpeed)
@@ -370,6 +397,7 @@ public class Player : MonoBehaviour
         if (IsDead) return;
         if (stat.currentHP <= 0)
         {
+            SoundManager.Instance.PlayClip(deathSound, false);
             if (_dieCo != null) StopCoroutine(_dieCo);
             _dieCo = StartCoroutine(DieAndRespawn());
         }

@@ -340,6 +340,11 @@ MonoBehaviour:
     m_Bits: 2048
   bodyCol: {fileID: 2784951047875783444}
   crouchHeight: 1
+  walkSound: {fileID: 8300000, guid: 7a855e8ce195c2845bd78736997be276, type: 3}
+  runSound: {fileID: 8300000, guid: fe65056e35d685244abb8a5d1e8ff19a, type: 3}
+  jumpSound: {fileID: 8300000, guid: 8d887233ab18fbf44bdd29605e46899a, type: 3}
+  deathSound: {fileID: 8300000, guid: be115c2687dd6e84d84a5ce6caa39ab7, type: 3}
+  ladderSound: {fileID: 8300000, guid: eb31e97b64dd9a443a1fe1da0464ed47, type: 3}
 --- !u!114 &7870344538009597520
 MonoBehaviour:
   m_ObjectHideFlags: 0
