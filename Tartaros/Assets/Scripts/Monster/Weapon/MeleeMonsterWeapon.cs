@@ -13,20 +13,20 @@ public class MeleeMonsterWeapon : MonsterWeapon
     public override void Parry(int damage)
     {
         GetComponent<BoxCollider2D>().enabled = false;
-        Debug.Log("[Monster] Parried!");
+        // Debug.Log("[Monster] Parried!");
         monster.Parried(damage);
         IsParried = true;
     }
     
     private void OnTriggerExit2D(Collider2D other)
     {
-        Debug.Log($"[Test] Trigger Exit : {other}");
+        // Debug.Log($"[Test] Trigger Exit : {other}");
         if (other.gameObject.CompareTag("Player") && other.gameObject.layer != LayerMask.NameToLayer("PlayerAttack"))
         {
-            Debug.Log($"[Test] Player이면서 무기가 아님.");
+            // Debug.Log($"[Test] Player이면서 무기가 아님.");
             if(other.gameObject.TryGetComponent(out Player player) && !IsParried)
             {
-                Debug.Log("[Test] Attack!");
+                // Debug.Log("[Test] Attack!");
                 player.ReceiveMonsterAttack(monster.data.AttackDamage, monster.transform.position);
             }
         }
