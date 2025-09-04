@@ -63,6 +63,11 @@ public class Player : MonoBehaviour
     //UI 체력바에 현재 체력 전달
     public event Action<float> onPlayerHealthChange;
 
+    private readonly List<Collider2D> _ignoredGroundCols = new List<Collider2D>();
+
+    // 사다리 시작 시, 몸과 겹치는 Ground만 골라 무시할 때 쓸 필터
+    private ContactFilter2D _groundFilter;
+
     private void Start()
     {
         // 모든 Awake 끝난 뒤 HP가 0 이하면 바로 사망 루틴 진입
@@ -79,12 +84,19 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = stat.gravityScale;
-        defaultGravity = stat.gravityScale; //사다리에서 나오면 다시 돌려줄 중력값
+        defaultGravity = stat.gravityScale;
 
         groundLayer = LayerMask.NameToLayer("Ground");
-
         if (!bodyCol) bodyCol = GetComponent<BoxCollider2D>();
         CacheColliderSizes();
+
+        // Ground 전용 ContactFilter2D
+        _groundFilter = new ContactFilter2D
+        {
+            useLayerMask = true,
+            layerMask = groundMask,
+            useTriggers = false
+        };
     }
 
     public void OpenAttackWindow() //공격 호출
@@ -185,12 +197,15 @@ public class Player : MonoBehaviour
         if (animator) animator.SetTrigger("Jump");
     }
 
-    public void StartClimb()  // W/S 입력으로 등반 시작할 때 호출
+    public void StartClimb() //사다리 사용 시작
     {
         if (!IsOnLadder) return;
         IsClimbing = true;
-        ToggleGroundCollision(true); //바닥과 충돌 끄기
-        rb.gravityScale = 0f;          // 떨어지지 않게
+
+        //전체 레이어 끄지 말고, 겹치는 바닥만 꺼두기
+        IgnoreGroundUnderLadder();
+
+        rb.gravityScale = 0f;
         rb.velocity = Vector2.zero;
     }
 
@@ -200,12 +215,13 @@ public class Player : MonoBehaviour
         rb.velocity = new Vector2(0f, yInput * climbSpeed);
     }
 
-    public void StopClimb()   // 사다리 사용 끝
+    public void StopClimb() //사다리 사용 종료
     {
         IsClimbing = false;
         rb.gravityScale = defaultGravity;
 
-        ToggleGroundCollision(false); //바닥과 충돌 켜기
+        //방금 꺼둔 바닥만 다시 켜기
+        RestoreIgnoredGround();
     }
 
     void ToggleGroundCollision(bool ignore)
@@ -402,4 +418,33 @@ public class Player : MonoBehaviour
     {
         return sprite.flipX;
     }
+
+    // 사다리 시작 시: 현재 플레이어 콜라이더와 겹치는 Ground 콜라이더들만 꺼둔다
+    private void IgnoreGroundUnderLadder()
+    {
+        RestoreIgnoredGround();
+
+        var hits = new List<Collider2D>(8);
+        //지금 겹치는 Ground 콜라이더 수집
+        bodyCol.OverlapCollider(_groundFilter, hits);
+
+        foreach (var col in hits)
+        {
+            if (!col || !col.enabled) continue;
+            Physics2D.IgnoreCollision(bodyCol, col, true);
+            _ignoredGroundCols.Add(col);
+        }
+    }
+
+    // 사다리에서 내려올 때: 방금 꺼둔 것만 다시 켠다
+    private void RestoreIgnoredGround()
+    {
+        foreach (var col in _ignoredGroundCols)
+        {
+            if (!col) continue; // 파괴됐을 수 있음
+            Physics2D.IgnoreCollision(bodyCol, col, false);
+        }
+        _ignoredGroundCols.Clear();
+    }
+
 }
