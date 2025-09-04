@@ -5,10 +5,13 @@ using UnityEngine;
 public class MoveNode : Node
 {
     private MonsterAI monsterAI;
+    private float startTime;
+    private float maxMoveTime;
 
-    public MoveNode(MonsterAI monsterAI)
+    public MoveNode(MonsterAI monsterAI, float maxMoveTime = 0f)
     {
         this.monsterAI =  monsterAI;
+        this.maxMoveTime = maxMoveTime;
     }
 
     public override NodeState Evaluate()

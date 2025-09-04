@@ -91,11 +91,13 @@ public class Player : MonoBehaviour
     {
         if (!weaponHitboxGO) //자동탐색
         {
-            foreach (var col in GetComponentsInChildren<BoxCollider2D>(true))
+            
+            Debug.LogError("No Weapon Hitbox");
+            /*foreach (var col in GetComponentsInChildren<BoxCollider2D>(true))
             {
                 if (col.isTrigger && col.gameObject != gameObject) { weaponHitboxGO = col.gameObject; break; }
             }
-            if (!weaponHitboxGO) return; //못찾으면 패스
+            if (!weaponHitboxGO) return; //못찾으면 패스*/
         }
         if (_atkWindowCo != null) StopCoroutine(_atkWindowCo);
         _atkWindowCo = StartCoroutine(_AttackWindowCo());
