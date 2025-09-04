@@ -128,6 +128,7 @@ public class Player : MonoBehaviour
             }
             if (!weaponHitboxGO) return; //못찾으면 패스*/
         }
+        SoundManager.Instance.AttackClip();
         if (_atkWindowCo != null) StopCoroutine(_atkWindowCo);
         _atkWindowCo = StartCoroutine(_AttackWindowCo());
     }
@@ -288,7 +289,7 @@ public class Player : MonoBehaviour
             shield.UseShield();
             return;
         }
-
+        SoundManager.Instance.DamagedClip();
         ApplyHurt(2, sourcePos, ignoreDefense : true);
     }
 
@@ -301,6 +302,7 @@ public class Player : MonoBehaviour
             shield.UseShield();
             return;
         }
+        SoundManager.Instance.DamagedClip();
         ApplyHurt(rawDamage, sourcePos, ignoreDefense : false);
     }
 

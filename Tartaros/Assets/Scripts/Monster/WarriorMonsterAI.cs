@@ -73,6 +73,7 @@ public class WarriorMonsterAI : MonsterAI
     {
         // Debug.Log("Warrior Attack Start");
         Monster.Animator.StartAnimation(Monster.Animator.data.AttackHash);
+        SoundManager.Instance.PlayClip(Monster.data.AttackSound, false);
     }
 
     public override void Damaged()
@@ -82,6 +83,7 @@ public class WarriorMonsterAI : MonsterAI
         Monster.Animator.DamageColored();
         Vector2 knockbackDir = (transform.position - Target.position).normalized * Monster.data.StunKnockBack;
         transform.position += (Vector3)knockbackDir;
+        SoundManager.Instance.PlayClip(Monster.data.DamagedSound, false);
     }
 
     public override void EndAttack()

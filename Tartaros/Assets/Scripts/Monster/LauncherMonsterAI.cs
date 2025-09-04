@@ -53,6 +53,7 @@ public class LauncherMonsterAI : MonsterAI
         Monster.Animator.StopAllAnimations();
         Monster.Animator.StartAnimation(Monster.Animator.data.StunnedHash);
         Monster.Animator.DamageColored();
+        SoundManager.Instance.PlayClip(Monster.data.DamagedSound, false);
     }
     
     public override void HandleAnimationEvent(string eventName)
@@ -64,6 +65,7 @@ public class LauncherMonsterAI : MonsterAI
     public void RangeAttack()
     {
         Monster.Animator.StartAnimation(Monster.Animator.data.AttackHash);
+        
         Debug.Log("Launcher Attack");
     }
 
@@ -83,7 +85,7 @@ public class LauncherMonsterAI : MonsterAI
         
         GameObject bullet = Instantiate(BulletPrefab, BulletSpawnPos);
         bullet.GetComponent<Bullet>().Init(Monster, BulletSpeed, Target.GetComponent<Player>().GetAimPoint());
-        
+        SoundManager.Instance.PlayClip(Monster.data.AttackSound, false);
 
         // Monster.Animator.StopAnimation(Monster.Animator.data.AttackHash);
     }

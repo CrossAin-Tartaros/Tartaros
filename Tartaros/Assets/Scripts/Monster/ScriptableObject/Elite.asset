@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3388ed73b40db04490362f52d7e58d7, type: 3}
+  m_Script: {fileID: 11500000, guid: ec6de2421f5f41944bf7f066cbb29b2a, type: 3}
   m_Name: Elite
   m_EditorClassIdentifier: 
+  DamagedSound: {fileID: 8300000, guid: 6316eede10a521c46837e4fdbca52728, type: 3}
+  AttackSound: {fileID: 8300000, guid: 029705d8ec3fca147ab0307cfa102710, type: 3}
   <MonsterType>k__BackingField: 2
   <MaxHealth>k__BackingField: 10
   <MoveSpeed>k__BackingField: 2
@@ -28,3 +30,4 @@ MonoBehaviour:
   <StunWait>k__BackingField: 1
   <StunKnockBack>k__BackingField: 2
   <DistanceThreshold>k__BackingField: 0.1
+  RangeAttackSound: {fileID: 8300000, guid: 32e1cee7dc954ac4794e13bb03b1fe0b, type: 3}
