@@ -88,7 +88,7 @@ public class PlayerWeaponHitbox : MonoBehaviour
             //여기 추가: 패링 성공 시 플레이어 무적 0.1초 부여
             if (_player != null)
             {
-                StartCoroutine(_player.IFramesCustom(0.1f));
+                StartCoroutine(_player.IFramesCustom(0.2f));
             }
 
             GameObject go = Instantiate(parryingAnimation, _player.GetAimPoint(0.8f),  Quaternion.identity);
