@@ -34,6 +34,7 @@ public class StunWaitNode : Node
             monsterAI.Monster.Animator.animator.speed = 1f;
             monsterAI.Monster.IsStunned = false;
             monsterAI.Monster.Animator.StopAnimation(monsterAI.Monster.Animator.data.StunnedHash);
+            monsterAI.Monster.Weapon.EndParry();
             return state;
         }
         

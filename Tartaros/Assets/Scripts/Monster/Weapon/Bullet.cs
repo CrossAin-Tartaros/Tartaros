@@ -34,6 +34,11 @@ public class Bullet : MonsterWeapon
         if(parriedDirection.x < 0) spriteRenderer.flipX = true;
     }
 
+    public override void EndParry()
+    {
+        Debug.Log("End Parry Bullet");
+    }
+
     private void FixedUpdate()
     {
         if (!parried)

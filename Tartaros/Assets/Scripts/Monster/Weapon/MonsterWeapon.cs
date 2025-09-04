@@ -12,4 +12,5 @@ public abstract class MonsterWeapon : MonoBehaviour
     }
 
     public abstract void Parry(int damage);
+    public abstract void EndParry();
 }
