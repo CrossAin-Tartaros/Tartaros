@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ScreenFader : UIBase
 {
     private Image colorScreen;
+    private bool isblack;
     [SerializeField] float fadeSpeed;
 
     // Start is called before the first frame update
@@ -24,6 +26,8 @@ public class ScreenFader : UIBase
     {
         this.transform.SetAsLastSibling();
 
+        isblack = false;
+
         float startAlpha = 1.0f;
         float a = startAlpha;
         
@@ -39,6 +43,9 @@ public class ScreenFader : UIBase
 
     public void FadeOut()
     {
+        if (isblack)
+            return;
+        
         StartCoroutine(FadeOutProcss());
     }
 
@@ -57,5 +64,7 @@ public class ScreenFader : UIBase
             colorScreen.color = new Color(0, 0, 0, a);
             yield return null;
         }
+
+        isblack = true;
     }
 }

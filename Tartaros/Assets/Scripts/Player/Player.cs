@@ -378,6 +378,8 @@ public class Player : MonoBehaviour
 
         if (animator) animator.SetTrigger("Death");
 
+        UIManager.Instance.GetUI<ScreenFader>().FadeOut();
+
         yield return new WaitForSeconds(respawnDelay);
 
         // 리스폰 지점 결정
@@ -385,9 +387,17 @@ public class Player : MonoBehaviour
         if (respawnPoint) targetPos = respawnPoint.position;
         else
         {
-            var sp = GameObject.FindGameObjectWithTag("SavePoint");
-            if (!sp) sp = GameObject.FindGameObjectWithTag("Respawn");
-            if (sp) targetPos = sp.transform.position;
+            if (MapManager.Instance.CurrentMapType == MapType.Boss)
+            {
+                MapManager.Instance.MoveToAnotherMap(MapType.Stage1, true);
+            }
+            else
+            {
+                var sp = GameObject.FindGameObjectWithTag("SavePoint");
+                if (!sp) sp = GameObject.FindGameObjectWithTag("Respawn");
+                if (sp) targetPos = sp.transform.position;
+                UIManager.Instance.GetUI<ScreenFader>().FadeIn();
+            }
         }
         transform.position = targetPos;
 
@@ -396,6 +406,7 @@ public class Player : MonoBehaviour
         rb.gravityScale = stat.gravityScale;
         ToggleGroundCollision(false);
         rb.simulated = true;
+        onPlayerHealthChange?.Invoke(stat.currentHP);
 
         // 애니메이터 초기화
         if (animator)
