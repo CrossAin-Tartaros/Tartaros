@@ -133,7 +133,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.912, z: 0}
-  m_LocalScale: {x: 1.1600001, y: 1.45, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1400182112444435549}
@@ -179,7 +179,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 120
-  m_Sprite: {fileID: 21300000, guid: f4bd6c1fe587ef44cb850712762c0a96, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 368a5ef740878e14db763f33e3ce274b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -421,6 +421,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shieldEffect: {fileID: 3846937201551804083}
+  useShieldEffect: {fileID: 5112403345868107898, guid: 3261a6105c596f9438e5cf66e532672f, type: 3}
   initialShield: 3
 --- !u!1 &6649527505349223193
 GameObject:
@@ -514,7 +515,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mirrorByColliderOffset: 1
   rightLocalOffset: {x: 0, y: 0}
-  parryingAnimation: {fileID: 5154595881593350560, guid: 23f120bbeafe3234791ac1d58574f85f, type: 3}
+  parryingMeleeAnimation: {fileID: 2360655870356088562, guid: 08d8e9424adf2ac40b0e7d737e540087, type: 3}
+  parryingRangeAnimation: {fileID: 2360655870356088562, guid: 08d8e9424adf2ac40b0e7d737e540087, type: 3}
   parryingAnimationOffset: 1
 --- !u!1 &7043302489567519758
 GameObject:

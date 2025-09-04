@@ -40,6 +40,7 @@ public class SoundManager : Singleton<SoundManager>
             musicAudioSource = gameObject.AddComponent<AudioSource>();    
         }
         ChangeBackGroundMusic(musicClip);
+        musicAudioSource.volume = musicVolume;
     }
 
     public void PrefCheck()

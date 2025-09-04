@@ -113,6 +113,7 @@ public class Player : MonoBehaviour
         _ladderGroundLayer = LayerMask.NameToLayer("LadderGround");
 
         shield = GetComponent<Shield>();
+        shield.Init(this);
     }
 
     public void OpenAttackWindow() //공격 호출

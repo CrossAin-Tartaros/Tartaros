@@ -13,6 +13,8 @@ public class MapData : ScriptableObject
     public List<Vector2> playerSpawnPositions;
 
     public Vector2 waterPosition;
+
+    public AudioClip bgm;
 }
 
 [System.Serializable]
