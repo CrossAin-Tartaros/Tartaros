@@ -17,7 +17,16 @@ public class MeleeMonsterWeapon : MonsterWeapon
         monster.Parried(damage);
         IsParried = true;
     }
-    
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("PlayerAttack"))
+        {
+            IsParried = true;
+        }
+    }
+
+
     private void OnTriggerExit2D(Collider2D other)
     {
         // Debug.Log($"[Test] Trigger Exit : {other}");
