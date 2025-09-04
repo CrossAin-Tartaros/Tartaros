@@ -427,6 +427,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shieldEffect: {fileID: 3846937201551804083}
   useShieldEffect: {fileID: 5112403345868107898, guid: 3261a6105c596f9438e5cf66e532672f, type: 3}
+  brakeShieldSound: {fileID: 8300000, guid: c3cb1fc7c816f2b4a83084694127b40e, type: 3}
   initialShield: 3
 --- !u!1 &6649527505349223193
 GameObject:
