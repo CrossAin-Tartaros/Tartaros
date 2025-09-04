@@ -10,7 +10,8 @@ public class PlayerWeaponHitbox : MonoBehaviour
     [Header("Mirror Mode")]
     [SerializeField] private bool mirrorByColliderOffset = true;
     [SerializeField] private Vector2 rightLocalOffset = Vector2.zero;
-    [SerializeField] private GameObject parryingAnimation;
+    [SerializeField] private GameObject parryingMeleeAnimation;
+    [SerializeField] private GameObject parryingRangeAnimation;
     [SerializeField] private float parryingAnimationOffset = 1f;
 
     private BoxCollider2D _col;
@@ -91,9 +92,20 @@ public class PlayerWeaponHitbox : MonoBehaviour
                 StartCoroutine(_player.IFramesCustom(0.2f));
             }
 
-            GameObject go = Instantiate(parryingAnimation, _player.GetAimPoint(0.8f),  Quaternion.identity);
+            GameObject go;
+            if (other.gameObject.TryGetComponent(out MeleeMonsterWeapon melee))
+            {
+                go = Instantiate(parryingMeleeAnimation, _player.GetAimPoint(0.8f),  Quaternion.identity);
+            }
+            else
+            {
+                go = Instantiate(parryingRangeAnimation, _player.GetAimPoint(0.8f),  Quaternion.identity);
+            }
+            
             go.transform.position +=  (Vector3)((isLeft ? Vector2.left : Vector2.right) * parryingAnimationOffset);
-            go.GetComponent<SpriteRenderer>().flipX = isLeft;
+            var psRenderer = go.GetComponent<ParticleSystemRenderer>(); 
+            psRenderer.flip = isLeft ? new Vector3(1f, 0f, 0f) : Vector3.zero;
+            psRenderer.sortingOrder = 200;
             go.SetActive(true);
 
             Debug.Log($"[PARRY SUCCESS] {monsterWeapon.monster.name} dmg={parryDamage} (stun & expose), Player weak-spot window 2s");
