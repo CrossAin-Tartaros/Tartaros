@@ -9,12 +9,6 @@ public class Shield : MonoBehaviour
     [SerializeField] int initialShield;
     private int remainShield;
 
-    //테스트용
-    private void Start()
-    {
-        GetShield();
-    }
-
 
     public void GetShield()
     {

@@ -76,7 +76,6 @@ public class MapManager : Singleton<MapManager>
             currentMonsterList.Add(obj);
         }
 
-        
     }
 
     public void MoveToAnotherMap(MapType mapType, bool isStartPosition)
@@ -98,6 +97,9 @@ public class MapManager : Singleton<MapManager>
         LoadNewEntity(isStartPosition);
 
         screenFader.FadeIn();
+
+        if(mapType == MapType.Boss)
+            UIManager.Instance.OpenUI<ItemSelectPanel>();
     }
 
     void ClearMap()
