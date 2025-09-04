@@ -14,7 +14,7 @@ public class Trap : MonoBehaviour
             //플레이어 teleportPosition 위치로 이동
             StartCoroutine(TeleportPlayer(collision));
 
-            //플레이어 데미지
+            PlayerManager.Instance.Player.ReceiveMonsterAttack(4, transform.position);
 
         }
 
