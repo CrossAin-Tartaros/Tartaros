@@ -9,7 +9,7 @@ public class SoundManager : Singleton<SoundManager>
     [SerializeField] private float musicVolume;
     public float MusicVolume { get => musicVolume; set=> musicVolume=value;}
     public float SoundEffectVolume { get => soundEffectVolume; set=> soundEffectVolume=value;}
-
+    
     public AudioSource musicAudioSource;
     public AudioClip musicClip;
 
@@ -39,6 +39,7 @@ public class SoundManager : Singleton<SoundManager>
         {
             musicAudioSource = gameObject.AddComponent<AudioSource>();    
         }
+        
         ChangeBackGroundMusic(musicClip);
         musicAudioSource.volume = musicVolume;
     }
@@ -64,6 +65,11 @@ public class SoundManager : Singleton<SoundManager>
         }
     }
 
+    public AudioClip GetCurrentBGM()
+    {
+        return musicAudioSource.clip;
+    }
+    
     public void BgmSliderChanged(float changedData)
     {
         musicVolume = changedData;
@@ -81,6 +87,7 @@ public class SoundManager : Singleton<SoundManager>
     {
         musicAudioSource.Stop();
         musicAudioSource.clip = clip;
+        musicAudioSource.loop = true;
         musicAudioSource.Play();
     }
 
