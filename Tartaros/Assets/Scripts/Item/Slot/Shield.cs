@@ -4,18 +4,39 @@ using UnityEngine;
 
 public class Shield : MonoBehaviour
 {
+    [SerializeField] GameObject shieldEffect;
+    public bool IsShieldOn { get; private set; }
+    [SerializeField] int initialShield;
+    private int remainShield;
+
+    //테스트용
     private void Start()
     {
-        //플레이어를 찾아 자식으로 들어가기
-
-        //UI에 잔여 쉴드 표시
-
+        GetShield();
     }
 
-    //몬스터 공격 인식 코드
+
+    public void GetShield()
+    {
+        shieldEffect.SetActive(true);
+        IsShieldOn = true;  
+        remainShield = initialShield;
+        UIManager.Instance.GetUI<UIShield>().SetShield(remainShield);
+    }
+
+    public void UseShield()
+    {
+        remainShield--;
+        UIManager.Instance.GetUI<UIShield>().SetShield(remainShield);
+
+        if (remainShield == 0)
+        {
+            IsShieldOn = false;
+            shieldEffect.SetActive(false);
+            UIManager.Instance.GetUI<UIShield>().CloseUI();
+        }
+    }
     
-    //몬스터 공격 무효화 코드
-    //아마 몬스터의 공격에 중복 판정을 방지하기 위한 코드가 있을 거라 예상되니까 그걸 이용하면 되지 않을까??
 
 
 }

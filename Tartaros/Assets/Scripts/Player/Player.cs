@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public string playerID = "Player1";
 
     public PlayerStat stat;
+    private Shield shield;
     public SpriteRenderer sprite;
     public Animator animator;
 
@@ -103,6 +104,8 @@ public class Player : MonoBehaviour
         };
 
         _ladderGroundLayer = LayerMask.NameToLayer("LadderGround");
+
+        shield = GetComponent<Shield>();
     }
 
     public void OpenAttackWindow() //공격 호출
@@ -272,6 +275,12 @@ public class Player : MonoBehaviour
         //몬스터와 충돌 처리
     {
         if (isInvincible) return;
+        if (shield.IsShieldOn)
+        {
+            shield.UseShield();
+            return;
+        }
+
         ApplyHurt(2, sourcePos, ignoreDefense : true);
     }
 
@@ -279,6 +288,11 @@ public class Player : MonoBehaviour
         //몬스터의 공격 처리
     {
         if (isInvincible) return;
+        if (shield.IsShieldOn)
+        {
+            shield.UseShield();
+            return;
+        }
         ApplyHurt(rawDamage, sourcePos, ignoreDefense : false);
     }
 
