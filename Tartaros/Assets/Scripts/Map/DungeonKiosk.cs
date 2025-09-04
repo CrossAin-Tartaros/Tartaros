@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class DungeonKiosk : MonoBehaviour, IInteractable
 {
+    [SerializeField] public AudioClip OnKiosk;
     public bool isInteractable { get; set; } = true;
 
     public void OnInteract()
     {
+        SoundManager.Instance.PlayClip(OnKiosk, false);
         StartCoroutine(LateMove());
     }
 
