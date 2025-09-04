@@ -22,8 +22,10 @@ public class PlayerManager : Singleton<PlayerManager>
         CurrentPlayerInstance = Instantiate(playerPrefab, position, Quaternion.identity);
         Player = CurrentPlayerInstance.gameObject.GetComponent<Player>();
         PlayerStat = CurrentPlayerInstance.gameObject.GetComponent<PlayerStat>();
-        
-        //플레이어에 저장된 스탯 덮어쓰기
+
+        //플레이어에 저장된 정보 덮어쓰기
+        PlayerStat.currentHP = currentHealth;
+        UIManager.Instance.GetUI<HealthBar>().SetHealthBar(currentHealth);
     }
 
     public void SetPlayerPosition(Vector2 position)
@@ -40,9 +42,13 @@ public class PlayerManager : Singleton<PlayerManager>
         }
     }
 
+    public void SavePlayer()
+    {
+        currentHealth = PlayerStat.currentHP;
+    }
 
     //저장될 데이터 모음
-    float currentHealth;
+    int currentHealth = 10;
     public Dictionary<MapType, bool> waterUsed { get; private set; } = new Dictionary<MapType, bool>() { { MapType.Stage1, false }, { MapType.Boss, false } };
 
 
