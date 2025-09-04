@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Elite
   m_EditorClassIdentifier: 
   <MonsterType>k__BackingField: 2
-  <MaxHealth>k__BackingField: 100000
+  <MaxHealth>k__BackingField: 10
   <MoveSpeed>k__BackingField: 2
   <AttackDamage>k__BackingField: 1
+  <DropItems>k__BackingField:
+  - {fileID: 8855748777781660775, guid: a1bf6a75f088071489fc676a04de6900, type: 3}
   <Recognize>k__BackingField: 100
   <Patrol>k__BackingField: 10
   <PatrolWait>k__BackingField: 2

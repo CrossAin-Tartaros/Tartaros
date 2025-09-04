@@ -12,6 +12,8 @@ public class MonsterData : ScriptableObject
     
     [field: SerializeField] public int AttackDamage { get; set;} = 10;
     
+    [field: SerializeField] public GameObject[] DropItems { get; set;}
+    
     [field : Header("AI Settings")]
     [field: SerializeField] public float Recognize { get; set;} = 8f;
     [field: SerializeField] public float Patrol { get; set;} = 10f;
