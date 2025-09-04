@@ -3,7 +3,8 @@ using UnityEngine;
 public class Shop : MonoBehaviour, IInteractable
 {
     [SerializeField] private GameObject shopUI;
-
+    [SerializeField] public AudioClip OnKiosk;
+    
     public bool isInteractable { get; set; } = true;
 
     public void OnInteract() //e키를 누르면 PlayerInteract 호출
@@ -16,6 +17,7 @@ public class Shop : MonoBehaviour, IInteractable
             return;
         }
 
+        SoundManager.Instance.PlayClip(OnKiosk, false);
         OpenShopUI(); //상점열기
     }
 

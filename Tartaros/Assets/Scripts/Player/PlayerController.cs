@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
         bool jump = Input.GetKeyDown(KeyCode.Space); // 점프
         bool attack = Input.GetMouseButtonDown(0); // 공격
         bool crouchHeld = Input.GetKey(KeyCode.S) && !player.IsClimbing; //엎드리기
-        bool setting = Input.GetKey(KeyCode.Escape); // 환경설정
+        bool setting = Input.GetKeyDown(KeyCode.Escape); // 환경설정
 
         player.Move(x, run); //player.cs에서 호출
 
@@ -108,11 +108,14 @@ public class PlayerController : MonoBehaviour
             if (!isSettingPanelOn)
             {
                 UIManager.Instance.OpenUI<SettingPanel>();
+                
             }
             else
             {
-                UIManager.Instance.CloseUI<SettingPanel>();
+                Debug.Log("??");
+                UIManager.Instance.CloseUI<SettingPanel>();   
             }
+            isSettingPanelOn = !isSettingPanelOn;
         }
     }
 }
