@@ -56,7 +56,6 @@ public class PlayerManager : Singleton<PlayerManager>
     public void GetCoin(int num)
     {
         coin += num;
-        
         //UI에 반영
     }
 

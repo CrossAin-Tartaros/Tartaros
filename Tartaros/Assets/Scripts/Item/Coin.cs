@@ -10,7 +10,7 @@ public class Coin : MonoBehaviour
         Debug.Log($"{other.gameObject.name}과 부딛힘");
         if (other.gameObject.CompareTag("Player"))
         {
-            // TODO : Player 코인 추가해주기
+            PlayerManager.Instance.GetCoin(1);
             Debug.Log("코인 먹음");
             Destroy(gameObject);
         }
