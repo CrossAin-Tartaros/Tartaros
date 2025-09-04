@@ -16,7 +16,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
     //저장될 데이터 모음
     int currentHealth = 10;
-    int coin;
+    int coin = 10; //시작코인 10
     public int ProgressHighScore { get; private set; }
     public Dictionary<MapType, bool> waterUsed { get; private set; } = new Dictionary<MapType, bool>() { { MapType.Stage1, false }, { MapType.Boss, false } };
 
