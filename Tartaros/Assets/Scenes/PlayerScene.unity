@@ -4579,9 +4579,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3751119575604475951, guid: 01af16ce2954fb642978a3e58d953e1d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 56c1510c08fc97f498e4cd58417c19fa, type: 3}
     - target: {fileID: 5788850376933253227, guid: 01af16ce2954fb642978a3e58d953e1d, type: 3}
       propertyPath: m_Name
       value: Shop Panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5788850376933253227, guid: 01af16ce2954fb642978a3e58d953e1d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8710040037071787678, guid: 01af16ce2954fb642978a3e58d953e1d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
