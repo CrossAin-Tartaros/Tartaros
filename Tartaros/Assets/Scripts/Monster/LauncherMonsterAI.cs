@@ -79,7 +79,9 @@ public class LauncherMonsterAI : MonsterAI
         isAttackDone = true;
 
 
-        GameObject bullet = Instantiate(BulletPrefab, BulletSpawnPos.position, BulletSpawnPos.rotation);
+        // GameObject bullet = Instantiate(BulletPrefab, BulletSpawnPos.position, BulletSpawnPos.rotation);
+        
+        GameObject bullet = Instantiate(BulletPrefab, BulletSpawnPos);
         bullet.GetComponent<Bullet>().Init(Monster, BulletSpeed, Target.GetComponent<Player>().GetAimPoint());
         
 

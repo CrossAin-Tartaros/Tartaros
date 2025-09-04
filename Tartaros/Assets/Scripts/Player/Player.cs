@@ -73,6 +73,13 @@ public class Player : MonoBehaviour
     private ContactFilter2D _groundFilter;
     int _ladderGroundLayer;
 
+    public IEnumerator IFramesCustom(float duration)
+    {
+        isInvincible = true;
+        yield return new WaitForSeconds(duration);
+        isInvincible = false;
+    }
+
     private void Start()
     {
         // 모든 Awake 끝난 뒤 HP가 0 이하면 바로 사망 루틴 진입

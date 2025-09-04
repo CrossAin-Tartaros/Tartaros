@@ -34,6 +34,11 @@ public class Bullet : MonsterWeapon
         if(parriedDirection.x < 0) spriteRenderer.flipX = true;
     }
 
+    public override void EndParry()
+    {
+        Debug.Log("End Parry Bullet");
+    }
+
     private void FixedUpdate()
     {
         if (!parried)
@@ -46,8 +51,7 @@ public class Bullet : MonsterWeapon
         }
     }
 
-
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         // 플레이어 무기랑 부딛힘
         if (other.CompareTag("Player") && other.gameObject.layer == LayerMask.NameToLayer("PlayerAttack"))
@@ -63,8 +67,8 @@ public class Bullet : MonsterWeapon
                 Destroy(gameObject);
             }
         }
-        // 몬스터랑 부딛힘
-        else if (other.CompareTag("Monster") && parried)
+        // 몬스터 패링
+        if (other.CompareTag("Monster") && parried)
         {
             if (other.TryGetComponent(out Monster monster))
             {
@@ -73,7 +77,9 @@ public class Bullet : MonsterWeapon
             }
         }
         // 벽에 부딛힘
-        else if (other.gameObject.layer == LayerMask.NameToLayer("OutOfMap"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("OutOfMap") 
+            || other.gameObject.layer == LayerMask.NameToLayer("Ground")
+            || other.gameObject.layer == LayerMask.NameToLayer("LadderGround"))
         {
             Destroy(gameObject);
         }
