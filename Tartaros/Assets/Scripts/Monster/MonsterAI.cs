@@ -19,9 +19,13 @@ public abstract class MonsterAI : MonoBehaviour
     public bool isReturn = false;
     public bool isAttackDone = false;
     public bool isPausedBT = false;
+    public bool isStucked = false;
+    public int stuckPosition = 0;
+    
     
     public Monster Monster { get; set; }
     protected BehaviourTree monsterTree;
+    private Vector2 targetPosition;
 
     public void Init(Monster monster)
     {
@@ -49,12 +53,35 @@ public abstract class MonsterAI : MonoBehaviour
     // 타겟 정하고 움직이는거
     public void MoveToTarget(Vector2 target)
     {
-        transform.position = Vector2.MoveTowards(transform.position, target, Time.deltaTime * Monster.data.MoveSpeed);
+        targetPosition = new Vector2(target.x, transform.position.y);
+        transform.position = Vector2.MoveTowards(transform.position, targetPosition, Time.deltaTime * Monster.data.MoveSpeed);
     }
 
     public void SetRandomDestination()
     {
-        float newPosX = Mathf.Clamp(transform.position.x + Random.Range(-(Monster.data.Patrol / 2f), Monster.data.Patrol / 2f), MinX, MaxX);
+        float range;
+        
+        if (isStucked)
+        {
+            // Debug.Log("Stucked New Position");
+            if (stuckPosition < 0)
+            {
+                range = Random.Range(0, Monster.data.Patrol / 2f);
+            }
+            else
+            {
+                range = Random.Range(-(Monster.data.Patrol / 2f), 0);
+            }
+
+            isStucked = false;
+            stuckPosition = 0;
+        }
+        else
+        {
+            range = Random.Range(-(Monster.data.Patrol / 2f), Monster.data.Patrol / 2f);
+        }
+        
+        float newPosX = Mathf.Clamp(transform.position.x + range, MinX, MaxX);
         Destination = new Vector2(newPosX, transform.position.y);
     }
     
