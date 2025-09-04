@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class EliteMonsterAI : MonsterAI
         Monster.Animator.StopAllAnimations();
         Monster.Animator.StartAnimation(Monster.Animator.data.StunnedHash);
         Monster.Animator.DamageColored();
+        SoundManager.Instance.PlayClip(Monster.data.DamagedSound, false);
     }
 
     public override void BuildBT()
@@ -88,6 +90,7 @@ public class EliteMonsterAI : MonsterAI
     {
         // Debug.Log("Warrior Attack Start");
         Monster.Animator.StartAnimation(Monster.Animator.data.AttackHash);
+        SoundManager.Instance.PlayClip(Monster.data.AttackSound, false);
         Debug.Log("Melee Attack");
     }
     
@@ -120,5 +123,14 @@ public class EliteMonsterAI : MonsterAI
         
         GameObject bullet = Instantiate(BulletPrefab, BulletSpawnPos.position, BulletSpawnPos.rotation);
         bullet.GetComponent<Bullet>().Init(Monster, BulletSpeed, Target.GetComponent<Player>().GetAimPoint());
+
+        try
+        {
+            SoundManager.Instance.PlayClip(((BossMonsterData)(Monster.data)).RangeAttackSound, false);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
     }
 }

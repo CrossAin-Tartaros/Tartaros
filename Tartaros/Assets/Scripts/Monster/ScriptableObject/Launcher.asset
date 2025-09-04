@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3388ed73b40db04490362f52d7e58d7, type: 3}
   m_Name: Launcher
   m_EditorClassIdentifier: 
+  DamagedSound: {fileID: 8300000, guid: 980197ebf1746184c80e10e5af1ad8f8, type: 3}
+  AttackSound: {fileID: 8300000, guid: 5b6c3eb30e11bf645ae7c4860f2680c7, type: 3}
   <MonsterType>k__BackingField: 1
   <MaxHealth>k__BackingField: 100
   <MoveSpeed>k__BackingField: 2
   <AttackDamage>k__BackingField: 1
+  <DropItems>k__BackingField: []
   <Recognize>k__BackingField: 15
   <Patrol>k__BackingField: 10
   <PatrolWait>k__BackingField: 2
