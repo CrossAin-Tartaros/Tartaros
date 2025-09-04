@@ -47,6 +47,9 @@ public class MapManager : Singleton<MapManager>
             if (PlayerManager.Instance.waterUsed[mapType])
                 currentWater.SetUsedWater();
         }
+        
+        // BGM 변경
+        SoundManager.Instance.ChangeBackGroundMusic(currentMapData.bgm);
 
 
         if (mapInstance != null)

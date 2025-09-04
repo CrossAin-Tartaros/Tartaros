@@ -19,3 +19,4 @@ MonoBehaviour:
   playerSpawnPositions:
   - {x: -5.8, y: 7.5}
   waterPosition: {x: -6, y: 6.94}
+  bgm: {fileID: 8300000, guid: a01c14eae9e859140a77f281dcfe2cca, type: 3}

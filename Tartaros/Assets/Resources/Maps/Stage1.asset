@@ -24,3 +24,4 @@ MonoBehaviour:
   - {x: -6.5, y: -2.8}
   - {x: 24, y: 11.2}
   waterPosition: {x: 0, y: 0}
+  bgm: {fileID: 8300000, guid: ab68e962b07089f43a7a17c0d77b2dec, type: 3}
