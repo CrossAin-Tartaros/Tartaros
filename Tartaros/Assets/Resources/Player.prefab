@@ -421,6 +421,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shieldEffect: {fileID: 3846937201551804083}
+  useShieldEffect: {fileID: 5112403345868107898, guid: 4581d8077a411f6458001b5958784599, type: 3}
   initialShield: 3
 --- !u!1 &6649527505349223193
 GameObject:
@@ -514,7 +515,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mirrorByColliderOffset: 1
   rightLocalOffset: {x: 0, y: 0}
-  parryingAnimation: {fileID: 5154595881593350560, guid: 23f120bbeafe3234791ac1d58574f85f, type: 3}
+  parryingMeleeAnimation: {fileID: 0}
+  parryingRangeAnimation: {fileID: 0}
   parryingAnimationOffset: 1
 --- !u!1 &7043302489567519758
 GameObject:

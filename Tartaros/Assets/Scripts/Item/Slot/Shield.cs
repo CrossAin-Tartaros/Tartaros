@@ -34,7 +34,7 @@ public class Shield : MonoBehaviour
     {
         Debug.Log("Use Shield");
         remainShield--;
-        // UIManager.Instance.GetUI<UIShield>().SetShield(remainShield);
+        UIManager.Instance.GetUI<UIShield>().SetShield(remainShield);
         GameObject go = Instantiate(useShieldEffect, player.GetAimPoint(0.8f),  Quaternion.identity);
         var psRenderer = go.GetComponent<ParticleSystemRenderer>();
         psRenderer.sortingOrder = 200;
@@ -44,7 +44,7 @@ public class Shield : MonoBehaviour
         {
             IsShieldOn = false;
             shieldEffect.SetActive(false);
-            // UIManager.Instance.GetUI<UIShield>().CloseUI();
+            UIManager.Instance.GetUI<UIShield>().CloseUI();
         }
     }
 }
