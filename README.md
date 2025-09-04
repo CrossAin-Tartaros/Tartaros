@@ -131,6 +131,10 @@ https://drive.google.com/drive/folders/1wRwWl6yOh3u80p0YY_FFEbe7FVXonTnQ?usp=sha
 
 https://drive.google.com/drive/folders/1bKWKNvGRgyeKNjnLxWDS138BwQ38vaPu?usp=sharing
 
+https://opengameart.org/content/shield-sprite
+
+https://opengameart.org/content/shield-effect
+
 ## 라이센스
 
 MIT &copy; CrossAin-Tartaros
