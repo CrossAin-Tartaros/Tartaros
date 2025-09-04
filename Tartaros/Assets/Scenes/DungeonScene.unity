@@ -5050,38 +5050,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1566943703512211660, guid: 4b5db97f29dc9e145a130de6d4edb845, type: 3}
-      propertyPath: m_Size.x
-      value: 0.21146849
-      objectReference: {fileID: 0}
-    - target: {fileID: 1566943703512211660, guid: 4b5db97f29dc9e145a130de6d4edb845, type: 3}
-      propertyPath: m_Offset.x
-      value: -0.0020156242
-      objectReference: {fileID: 0}
-    - target: {fileID: 2495833266912327768, guid: 4b5db97f29dc9e145a130de6d4edb845, type: 3}
-      propertyPath: m_Size.x
-      value: 0.21642247
-      objectReference: {fileID: 0}
-    - target: {fileID: 2495833266912327768, guid: 4b5db97f29dc9e145a130de6d4edb845, type: 3}
-      propertyPath: m_Offset.x
-      value: -0.0000000037252903
-      objectReference: {fileID: 0}
-    - target: {fileID: 2498602379910642817, guid: 4b5db97f29dc9e145a130de6d4edb845, type: 3}
-      propertyPath: m_Size.x
-      value: 0.20945275
-      objectReference: {fileID: 0}
-    - target: {fileID: 2498602379910642817, guid: 4b5db97f29dc9e145a130de6d4edb845, type: 3}
-      propertyPath: m_Offset.x
-      value: -0.001007814
-      objectReference: {fileID: 0}
-    - target: {fileID: 3440963083381161804, guid: 4b5db97f29dc9e145a130de6d4edb845, type: 3}
-      propertyPath: m_Size.x
-      value: 0.21642266
-      objectReference: {fileID: 0}
-    - target: {fileID: 3440963083381161804, guid: 4b5db97f29dc9e145a130de6d4edb845, type: 3}
-      propertyPath: m_Offset.x
-      value: -0.0026492402
-      objectReference: {fileID: 0}
     - target: {fileID: 6144139258246220365, guid: 4b5db97f29dc9e145a130de6d4edb845, type: 3}
       propertyPath: m_Name
       value: BossStage
