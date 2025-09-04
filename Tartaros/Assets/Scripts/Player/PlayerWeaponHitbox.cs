@@ -84,7 +84,13 @@ public class PlayerWeaponHitbox : MonoBehaviour
             int parryDamage = (_player && _player.stat) ? _player.stat.attack : 1;
             monsterWeapon.Parry(parryDamage); //몬스터 패링 상태
             _player?.BeginParryWindow(2f); //2초 약점 공격 가능
-            
+
+            //여기 추가: 패링 성공 시 플레이어 무적 0.1초 부여
+            if (_player != null)
+            {
+                StartCoroutine(_player.IFramesCustom(0.1f));
+            }
+
             GameObject go = Instantiate(parryingAnimation, _player.GetAimPoint(0.8f),  Quaternion.identity);
             go.transform.position +=  (Vector3)((isLeft ? Vector2.left : Vector2.right) * parryingAnimationOffset);
             go.GetComponent<SpriteRenderer>().flipX = isLeft;
