@@ -7,6 +7,9 @@ using Random = UnityEngine.Random;
 public class Monster : MonoBehaviour
 {
     public MonsterData data;
+
+    [field: SerializeField] public float dropUpPosition { get; set; } = 0.5f;
+    [field: SerializeField] public float dropRandomXPosition { get; set; } = 2f;
     public int CurrentHealth { get; set; }
     public bool IsDead { get; set; } = false;
     public bool IsStunned { get; set; } = false;
@@ -47,6 +50,20 @@ public class Monster : MonoBehaviour
     IEnumerator DieCoroutine()
     {
         yield return new WaitForSecondsRealtime(2f);
+        Vector2 dropPosition = 
+            (Vector2)(transform.position 
+                      + transform.up * dropUpPosition);
+        if (data.DropItems.Length> 0)
+        {
+            for (int i = 0; i < data.DropItems.Length; i++)
+            {
+                // 위에서 스폰되는건 맞는데 좌우 랜덤값 줌
+                GameObject go = Instantiate(data.DropItems[i],
+                    dropPosition + (Vector2)transform.right * Random.Range(-dropRandomXPosition, dropRandomXPosition),
+                    Quaternion.identity);
+                go.SetActive(true);
+            }
+        }
         Destroy(gameObject);
     }
 
