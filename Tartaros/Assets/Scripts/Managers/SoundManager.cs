@@ -20,6 +20,8 @@ public class SoundManager : Singleton<SoundManager>
 
     public GameObject soundSourcePrefab;
 
+    private Dictionary<string, SoundSource> playingSounds = new();
+
     private void Awake()
     {
         if (Instance == this)
@@ -90,18 +92,7 @@ public class SoundManager : Singleton<SoundManager>
         musicAudioSource.loop = true;
         musicAudioSource.Play();
     }
-
-    public void StopBackGroundMusic()
-    {
-        musicAudioSource.Stop();
-    }
-
-    public void StartBackGroundMusic()
-    {
-        musicAudioSource.Play();
-    }
-
-    public AudioSource PlayClip(AudioClip clip, bool loop)
+    public AudioSource PlayClip(AudioClip clip, bool loop, bool dontDestroy = false)
     {
         if (clip == null)
         {
@@ -110,7 +101,28 @@ public class SoundManager : Singleton<SoundManager>
         }
         GameObject obj = Instantiate(soundSourcePrefab);
         SoundSource soundSource = obj.GetComponent<SoundSource>();
-        return soundSource.Play(clip, Instance.SoundEffectVolume, loop);
+        return soundSource.Play(clip, Instance.SoundEffectVolume, loop, dontDestroy);
+    }
+
+
+    public SoundSource GetPlayingClip(string key)
+    {
+        playingSounds.TryGetValue(key, out SoundSource clip);
+        if (clip != null) return clip.GetComponent<SoundSource>();
+        else return null;
+    }
+    
+    public void StartClip(string key, AudioClip clip, bool loop = false)
+    {
+        if (GetPlayingClip(key) != null) return;
+        playingSounds.Add(key, PlayClip(clip, loop, true).GetComponent<SoundSource>());
+    }
+
+    public void StopClip(string key)
+    {
+        if (GetPlayingClip(key) == null) return;
+        Destroy(playingSounds[key].gameObject);
+        playingSounds.Remove(key);
     }
 
     public void AttackClip()
