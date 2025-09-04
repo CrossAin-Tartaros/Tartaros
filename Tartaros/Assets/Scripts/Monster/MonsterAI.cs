@@ -63,7 +63,7 @@ public abstract class MonsterAI : MonoBehaviour
         
         if (isStucked)
         {
-            Debug.Log("Stucked New Position");
+            // Debug.Log("Stucked New Position");
             if (stuckPosition < 0)
             {
                 range = Random.Range(0, Monster.data.Patrol / 2f);

@@ -29,7 +29,7 @@ public class MoveNode : Node
         
         if (monsterAI.MoveToDestination())
         {
-            Debug.Log("Move Done");
+            // Debug.Log("Move Done");
             return EndMove();
         }
         
@@ -40,7 +40,7 @@ public class MoveNode : Node
         {
             if (Vector3.Distance(monsterAI.transform.position, lastPosition) < moveThreshold)
             {
-                Debug.Log("No Move. Move Done");
+                // Debug.Log("No Move. Move Done");
                 monsterAI.isStucked = true;
                 monsterAI.stuckPosition = monsterAI.Monster.Animator.spriteRenderer.flipX ? -1 : 1;
                 monsterAI.isMoving = false;
