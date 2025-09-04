@@ -32,6 +32,7 @@ public class PlayerWeaponHitbox : MonoBehaviour
         if (!mirrorByColliderOffset && rightLocalOffset == Vector2.zero)
             rightLocalOffset = transform.localPosition;
 
+        gameObject.SetActive(true);
         // 게임오브젝트 자체는 켜두고, PlayerWeaponHitbox를 부르는 객체쪽에서 Collider만 껐다 켰다 해줄 겁니다.
         /*gameObject.SetActive(false); // 시작 시 OFF*/
     }
