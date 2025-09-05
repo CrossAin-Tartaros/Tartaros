@@ -12,7 +12,7 @@ public class StartUI : UIBase
     private void OnEnable()
     {
         startButton.onClick.AddListener(OnStartButton);
-        exitButton.onClick.AddListener(OnExitButton);
+        exitButton.onClick.AddListener(GameManager.Instance.ExitGame);
     }
 
     private void OnDisable()
@@ -25,12 +25,5 @@ public class StartUI : UIBase
     {
         SceneLoadManager.Instance.LoadScene(SceneType.MainScene);
     }
-    public void OnExitButton()
-    {
-#if UNITY_EDITOR
-        EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
-    }
+    
 }

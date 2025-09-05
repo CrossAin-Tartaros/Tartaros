@@ -27,14 +27,8 @@ public class Shield : MonoBehaviour
     {
         if (PlayerManager.Instance.Data != null)
         {
-            SetShield(PlayerManager.Instance.Data.shieldCount);
+            GetOldShield(PlayerManager.Instance.Data.shieldCount);
         }
-    }
-
-    public void SetShield(int count)
-    {
-        remainShield = count;
-        UIManager.Instance.GetUI<UIShield>().SetShield(remainShield);
     }
 
     public void GetNewShield()
