@@ -145,6 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopUI: {fileID: 0}
+  OnKiosk: {fileID: 8300000, guid: 780fa935eda8f724892d5d9860abe0e1, type: 3}
 --- !u!1 &3512416785961833400
 GameObject:
   m_ObjectHideFlags: 0
