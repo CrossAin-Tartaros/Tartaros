@@ -50,7 +50,8 @@ public class PlayerManager : Singleton<PlayerManager>
         currentScore = 0;
 
         //플레이어에 저장된 정보 덮어쓰기
-        PlayerStat.currentHP = currentHealth;
+
+        currentHealth = PlayerStat.currentHP;
         UIManager.Instance.GetUI<HealthBar>().SetHealthBar(currentHealth);
         GetCoin(0);
     }

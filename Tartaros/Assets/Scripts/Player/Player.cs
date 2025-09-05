@@ -83,13 +83,15 @@ public class Player : MonoBehaviour
     // 사다리 시작 시, 몸과 겹치는 Ground만 골라 무시할 때 쓸 필터
     private ContactFilter2D _groundFilter;
     int _ladderGroundLayer;
-    private Coroutine invincibleCoroutine;
+
+    public event System.Action<bool> onInvincibleChanged;
 
     public IEnumerator IFramesCustom(float duration)
     {
-        IsInvincible = true;
+        SetInvincible(true);
+        StartCoroutine(BlinkSprite(duration));
         yield return new WaitForSeconds(duration);
-        IsInvincible = false;
+        SetInvincible(false);
     }
 
     private void Start()
@@ -106,6 +108,9 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        if (!sprite) sprite = GetComponent<SpriteRenderer>();
+        if (!animator) animator = GetComponent<Animator>();
+
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = stat.gravityScale;
         defaultGravity = stat.gravityScale;
@@ -412,9 +417,28 @@ public class Player : MonoBehaviour
 
     private IEnumerator IFrames() //무적 타이머
     {
-        IsInvincible = true;
+        SetInvincible(true);
+        StartCoroutine(BlinkSprite(invincibleDuration));
         yield return new WaitForSeconds(invincibleDuration);
-        IsInvincible = false;
+        SetInvincible(false);
+    }
+
+    private IEnumerator BlinkSprite(float duration, float blinkInterval = 0.15f)
+    {
+        float elapsed = 0f;
+        bool visible = true;
+
+        while (elapsed < duration)
+        {
+            visible = !visible;
+            if (sprite != null) sprite.enabled = visible; // SpriteRenderer On/Off
+
+            yield return new WaitForSeconds(blinkInterval);
+            elapsed += blinkInterval;
+        }
+
+        // 무적 끝날 때는 무조건 보이게
+        if (sprite != null) sprite.enabled = true;
     }
 
     private void TryCheckDeath()
@@ -561,4 +585,10 @@ public class Player : MonoBehaviour
         _ignoredGroundCols.Clear();
     }
 
+    private void SetInvincible(bool v) // 무적 상태 변경을 공통 처리하는 메서드 추가
+    {
+        if (isInvincible == v) return;
+        isInvincible = v;
+        onInvincibleChanged?.Invoke(isInvincible);
+    }
 }
