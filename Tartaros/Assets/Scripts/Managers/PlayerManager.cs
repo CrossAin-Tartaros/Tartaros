@@ -51,13 +51,6 @@ public class PlayerManager : Singleton<PlayerManager>
         InitRuneOwnedArray();
     }
 
-    private void Start()
-    {
-        LoadData();
-        runeOwned = Data.runeOwned;
-        SetCoin(Data.coin);
-    }
-
     protected override void OnDestroy()
     {
         SaveData();
@@ -303,6 +296,11 @@ public class PlayerManager : Singleton<PlayerManager>
             PlayerData data =  JsonUtility.FromJson<PlayerData>(str);
             Debug.Log("로드 끝");
             Data = data;
+            
+            runeOwned = Data.runeOwned;
+            SetCoin(Data.coin);
+            Shield.SetShield(Data.shieldCount);
+            Player.SetHealth(Data.health);
         }
         else
         {

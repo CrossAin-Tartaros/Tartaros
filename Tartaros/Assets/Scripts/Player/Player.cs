@@ -366,6 +366,12 @@ public class Player : MonoBehaviour
         ApplyHurt(rawDamage, sourcePos, ignoreDefense : false);
     }
 
+    public void SetHealth(int health)
+    {
+        stat.currentHP = health;
+        onPlayerHealthChange?.Invoke(stat.currentHP);
+    }
+
     public void ApplyHeal(int healAmount)
         //체력 회복
     {

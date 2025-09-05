@@ -8,25 +8,19 @@ public class MainScene : SceneBase
 {
     public override async void OnSceneEnter()
     {
-        MapManager.Instance.MoveToAnotherMap(MapType.Town, true);
-        try
+        base.OnSceneEnter();
+        if (UIManager.Instance == null)
         {
-            base.OnSceneEnter();
-            if (UIManager.Instance == null)
-            {
-                await WaitForUIManager();    
-            }
-            UIManager.Instance.GetUI<ProgressUI>().SetProcress(PlayerManager.Instance.ProgressHighScore);
-            PlayerManager.Instance.SetPlayerPosition(new Vector2 (0, -3));
-            if (SoundManager.Instance.musicClip != SoundManager.Instance.GetCurrentBGM())
-            {
-                SoundManager.Instance.ChangeBackGroundMusic(SoundManager.Instance.musicClip);
-            }
+            await WaitForUIManager();    
         }
-        catch (Exception e)
+        UIManager.Instance.GetUI<ProgressUI>().SetProcress(PlayerManager.Instance.ProgressHighScore);
+        PlayerManager.Instance.SetPlayerPosition(new Vector2 (0, -3));
+        if (SoundManager.Instance.musicClip != SoundManager.Instance.GetCurrentBGM())
         {
-            Debug.LogException(e);
+            SoundManager.Instance.ChangeBackGroundMusic(SoundManager.Instance.musicClip);
         }
+
+        PlayerManager.Instance.LoadData();
     }
 
 
