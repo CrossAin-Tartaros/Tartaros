@@ -44,7 +44,9 @@ public class PlayerManager : Singleton<PlayerManager>
     public Dictionary<MapType, bool> waterUsed { get; private set; } = new Dictionary<MapType, bool>() { { MapType.Stage1, false }, { MapType.Boss, false } };
 
     public PlayerData Data { get; set; }
-    
+
+    public event Action<RuneType, bool> OnRuneOwnedChanged; // 룬 소유 상태 변경 이벤트
+
     private void Awake()
     {
         playerPrefab = Resources.Load<GameObject>("Player");
@@ -193,19 +195,23 @@ public class PlayerManager : Singleton<PlayerManager>
 
     private bool SetRuneOwnedIndex(int index, bool owned)
     {
-        if (!IsValidRuneIndex(index)) return false;
-
-        // 이미 true면 다시 적용 안 함
-        if (runeOwned[index])
+        if (!IsValidRuneIndex(index))
             return false;
+
+        if (runeOwned[index])
+            return false; // 이미 보유면 패스
 
         RuneType type = (RuneType)index;
         int bonus = GetRuneBonus(type);
 
-        ApplyRuneDelta(type, bonus); // 무조건 +bonus
-        runeOwned[index] = true;
+        ApplyRuneDelta(type, bonus);   // 능력치 적용
+        runeOwned[index] = true;       // 소유 기록
 
         LogStatBreakdown(type, bonus, true);
+
+        // UI 갱신을 위한 이벤트 발사 (추가한 부분)
+        OnRuneOwnedChanged?.Invoke(type, true);
+
         return true;
     }
 
