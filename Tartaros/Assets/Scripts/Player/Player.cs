@@ -387,9 +387,11 @@ public class Player : MonoBehaviour
         StartCoroutine(IFrames());
         int finalDamage = ignoreDefense
         ? rawDamage : (stat ? Math.Max(0, stat.ReduceDamage(rawDamage)) : Mathf.Max(1, rawDamage));
+
+        if (finalDamage == 0) return;
         
         stat.currentHP = Mathf.Max(0, stat.currentHP - finalDamage); //HP 적용
-
+        
         //UI에 체력 변화 이벤트 전달
         onPlayerHealthChange?.Invoke(stat.currentHP);
 
