@@ -29,6 +29,11 @@ public class Player : MonoBehaviour
     [SerializeField] private float knockbackTiles = 1f; // X축 넉백거리
     [SerializeField] private float knockbackImpulsePerTile = 6f;
     public bool IsInvincible { get; set; }
+    public float InvincibleDuration
+    {
+        get { return invincibleDuration; }
+        set { invincibleDuration = value; }
+    }
 
     [SerializeField] private GameObject weaponHitboxGO; //공격범위 콜라이더 탐색
     [SerializeField] private float attackWindow = 0.1f; //몇초동안
@@ -201,6 +206,8 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(rb.IsSleeping())
+            rb.WakeUp();
         if (IsClimbing)
         {
             IsGrounded = false; //사다리에서는 지면은 항상 false
@@ -369,7 +376,7 @@ public class Player : MonoBehaviour
         if (IsInvincible) return;
         if (shield.IsShieldOn)
         {
-            Debug.Log("Shield Used");
+            // Debug.Log("Shield Used");
             shield.UseShield();
             return;
         }
