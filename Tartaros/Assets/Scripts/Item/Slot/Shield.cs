@@ -7,6 +7,7 @@ public class Shield : MonoBehaviour
 {
     [SerializeField] GameObject shieldEffect;
     [SerializeField] GameObject useShieldEffect;
+    [SerializeField] private AudioClip brakeShieldSound;
     public bool IsShieldOn { get; private set; }
     [SerializeField] int initialShield;
     private int remainShield;
@@ -40,6 +41,7 @@ public class Shield : MonoBehaviour
         var psRenderer = go.GetComponent<ParticleSystemRenderer>();
         psRenderer.sortingOrder = 200;
         go.SetActive(true);
+        SoundManager.Instance.PlayClip(brakeShieldSound, false);
         
         if (remainShield == 0)
         {

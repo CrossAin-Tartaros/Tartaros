@@ -55,6 +55,7 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioClip deathSound;
     [SerializeField] private AudioClip ladderSound;
     
+    
     public bool IsCrouching { get; private set; } //엎드리는중?
 
     public bool IsGrounded { get; private set; }
@@ -290,12 +291,28 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("Monster") && other.gameObject.layer != LayerMask.NameToLayer("MonsterAttack"))
+        {
+            ReceiveMonsterCollision(other.transform.position);
+        }
+    }
+
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Ladder"))
         {
             IsOnLadder = false;
             if (IsClimbing) StopClimb(); // 나가면 중력 복구
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Monster") && other.gameObject.layer != LayerMask.NameToLayer("MonsterAttack"))
+        {
+            ReceiveMonsterCollision(other.transform.position);
         }
     }
 
