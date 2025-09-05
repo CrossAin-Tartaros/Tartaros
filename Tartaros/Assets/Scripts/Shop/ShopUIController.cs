@@ -45,7 +45,7 @@ public class ShopUIController : MonoBehaviour
         RefreshUI(); // 오너 세팅 시에도 갱신
     }
 
-    // ✅ 핵심: 버튼 클릭 → PlayerManager에 "인덱스"로 구매 시도
+    //  핵심: 버튼 클릭 → PlayerManager에 "인덱스"로 구매 시도
     private void OnClickBuyIndex(int index)
     {
         var pm = PlayerManager.Instance;
@@ -64,12 +64,16 @@ public class ShopUIController : MonoBehaviour
         if (!pm.HasCoins(price))
         {
             Debug.Log($"[ShopUI] 코인 부족. 필요:{price}, 보유:{pm.CurrentCoins}");
-            // TODO: 팝업/토스트로 부족 알림
             return;
         }
 
-        // 구매 → 자동 장착(능력치 즉시 반영 & bool[] true)
+        // 구매 > 자동 장착(능력치 즉시 반영 & bool[] true)
         bool ok = pm.TryBuyAndEquipRuneByIndex(index);
+        if (ok)
+        {
+            var hud = FindObjectOfType<RuneHUD>();
+            if (hud) hud.SetOwned((RuneType)index, true);  // 아이콘 활성화
+        }
         Debug.Log($"[ShopUI] 구매 결과({(RuneType)index}): {ok}");
 
         RefreshUI();

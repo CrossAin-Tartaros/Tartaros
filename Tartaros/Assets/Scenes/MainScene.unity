@@ -3881,6 +3881,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: RuneHUD
       objectReference: {fileID: 0}
+    - target: {fileID: 3016854903628253232, guid: 953c02074babcd44eacf49e2b1f23061, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3925590231380227899, guid: 953c02074babcd44eacf49e2b1f23061, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3950682578448107767, guid: 953c02074babcd44eacf49e2b1f23061, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -395.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3950682578448107767, guid: 953c02074babcd44eacf49e2b1f23061, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 342.3
+      objectReference: {fileID: 0}
     - target: {fileID: 6028922489284374720, guid: 953c02074babcd44eacf49e2b1f23061, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3960,6 +3976,14 @@ PrefabInstance:
     - target: {fileID: 6028922489284374720, guid: 953c02074babcd44eacf49e2b1f23061, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605004356966969361, guid: 953c02074babcd44eacf49e2b1f23061, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -303.40002
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605004356966969361, guid: 953c02074babcd44eacf49e2b1f23061, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 342.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
