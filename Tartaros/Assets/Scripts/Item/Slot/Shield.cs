@@ -13,9 +13,13 @@ public class Shield : MonoBehaviour
     private int remainShield;
     private Player player;
 
+    private float minTime;
+    private float lastShieldUsedTime = 0f;
+
     public void Init(Player player)
     {
         this.player = player;
+        minTime = player.InvincibleDuration;
     }
     
     private void Start()
@@ -34,20 +38,26 @@ public class Shield : MonoBehaviour
 
     public void UseShield()
     {
-        Debug.Log("Use Shield");
-        remainShield--;
-        UIManager.Instance.GetUI<UIShield>().SetShield(remainShield);
-        GameObject go = Instantiate(useShieldEffect, player.GetAimPoint(0.8f),  Quaternion.identity);
-        var psRenderer = go.GetComponent<ParticleSystemRenderer>();
-        psRenderer.sortingOrder = 200;
-        go.SetActive(true);
-        SoundManager.Instance.PlayClip(brakeShieldSound, false);
-        
-        if (remainShield == 0)
+        if (player.IsInvincible) return;
+        if (Time.time - lastShieldUsedTime > minTime)
         {
-            IsShieldOn = false;
-            shieldEffect.SetActive(false);
-            UIManager.Instance.GetUI<UIShield>().CloseUI();
+            Debug.Log("Use Shield");
+            remainShield--;
+            // UIManager.Instance.GetUI<UIShield>().SetShield(remainShield);
+            GameObject go = Instantiate(useShieldEffect, player.GetAimPoint(0.8f),  Quaternion.identity);
+            var psRenderer = go.GetComponent<ParticleSystemRenderer>();
+            psRenderer.sortingOrder = 200;
+            go.SetActive(true);
+            SoundManager.Instance.PlayClip(brakeShieldSound, false);
+        
+            if (remainShield == 0)
+            {
+                IsShieldOn = false;
+                shieldEffect.SetActive(false);
+                // UIManager.Instance.GetUI<UIShield>().CloseUI();
+            }
+
+            lastShieldUsedTime = Time.time;
         }
     }
 
