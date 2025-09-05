@@ -21,7 +21,7 @@ public class ItemSelectPanel : UIBase
 
     void OnSelectShield()
     {
-        PlayerManager.Instance.Shield.GetShield();
+        PlayerManager.Instance.Shield.GetNewShield();
         UIManager.Instance.CloseUI<ItemSelectPanel>();
     }
 }

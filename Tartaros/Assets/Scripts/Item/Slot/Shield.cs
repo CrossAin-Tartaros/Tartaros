@@ -22,11 +22,24 @@ public class Shield : MonoBehaviour
         minTime = player.InvincibleDuration;
     }
 
-    public void GetShield()
+    public void GetNewShield()
     {
         shieldEffect.SetActive(true);
         IsShieldOn = true;  
         remainShield = initialShield;
+        UIManager.Instance.OpenUI<UIShield>();
+        UIManager.Instance.GetUI<UIShield>().SetShield(remainShield);
+        PlayerManager.Instance.RecordShield(remainShield);
+    }
+
+    public void GetOldShield(int remainShield)
+    {
+        if (remainShield <= 0)
+            return;
+        
+        shieldEffect.SetActive(true);
+        IsShieldOn = true;
+        this.remainShield = remainShield;
         UIManager.Instance.OpenUI<UIShield>();
         UIManager.Instance.GetUI<UIShield>().SetShield(remainShield);
     }
@@ -53,6 +66,7 @@ public class Shield : MonoBehaviour
             }
 
             lastShieldUsedTime = Time.time;
+            PlayerManager.Instance.RecordShield(remainShield);
         }
     }
 

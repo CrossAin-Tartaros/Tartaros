@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,6 +33,7 @@ public class PlayerManager : Singleton<PlayerManager>
     //저장될 데이터 모음
     int currentHealth = 10;
     int coin = 10; //시작코인 10
+    int remainShield;
     public int ProgressHighScore { get; private set; }
     public Dictionary<MapType, bool> waterUsed { get; private set; } = new Dictionary<MapType, bool>() { { MapType.Stage1, false }, { MapType.Boss, false } };
 
@@ -56,6 +58,9 @@ public class PlayerManager : Singleton<PlayerManager>
         PlayerStat.currentHP = currentHealth;
         UIManager.Instance.GetUI<HealthBar>().SetHealthBar(PlayerStat.currentHP);
         GetCoin(0);
+
+        //쉴드 동기화
+        Shield.GetOldShield(remainShield);
 
         // 소유 중인 룬 보너스 계산
         int ownedAtk = IsRuneOwnedIndex((int)RuneType.Attack) ? attackRuneBonus : 0;
@@ -122,6 +127,11 @@ public class PlayerManager : Singleton<PlayerManager>
         currentScore = 0;
 
         UIManager.Instance.GetUI<ProgressUI>().SetProcress(currentScore);
+    }
+
+    public void RecordShield(int remain)
+    {
+        remainShield = remain;
     }
 
     // RuneType의 개수에 맞춰 bool[]을 준비
