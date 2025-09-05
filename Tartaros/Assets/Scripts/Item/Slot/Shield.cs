@@ -34,6 +34,7 @@ public class Shield : MonoBehaviour
 
     public void UseShield()
     {
+        if (player.IsInvincible) return;
         Debug.Log("Use Shield");
         remainShield--;
         UIManager.Instance.GetUI<UIShield>().SetShield(remainShield);

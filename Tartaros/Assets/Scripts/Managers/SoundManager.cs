@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -123,6 +124,24 @@ public class SoundManager : Singleton<SoundManager>
         if (GetPlayingClip(key) == null) return;
         Destroy(playingSounds[key].gameObject);
         playingSounds.Remove(key);
+    }
+
+    public void ClearClips()
+    {
+        if (playingSounds.Count > 0)
+        {
+            try
+            {
+                foreach (var soundKey in playingSounds.Keys)
+                {
+                    StopClip(soundKey);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log($"{e.Message}");
+            }
+        }
     }
 
     public void AttackClip()
