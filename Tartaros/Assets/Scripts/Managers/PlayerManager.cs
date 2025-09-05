@@ -299,7 +299,7 @@ public class PlayerManager : Singleton<PlayerManager>
             
             runeOwned = Data.runeOwned;
             SetCoin(Data.coin);
-            Shield.SetShield(Data.shieldCount);
+            Shield.GetOldShield(Data.shieldCount);
             Player.SetHealth(Data.health);
         }
         else
