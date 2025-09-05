@@ -143,7 +143,9 @@
 - UI 메모리 정리 (UIManager.CleanAllUIs)
 
 ## 프로젝트 폴더 구조 (일부)
-📦 Scripts/
+
+```bash
+📂 Scripts/
 ├── 📂Manager/
 │   ├── GameManager.cs
 │   ├── PlayerManager.cs
@@ -179,7 +181,7 @@
     ├── MapType.cs
     ├── SceneType.cs
     └── Path.cs
-
+```
 
 ## 개발자 역할 분담
 개발
