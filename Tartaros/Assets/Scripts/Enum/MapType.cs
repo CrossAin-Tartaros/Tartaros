@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum MapType 
 {
+    Town,
     Stage1,
     Boss,
-    Test,
 }

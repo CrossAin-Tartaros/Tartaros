@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3956d98e8fcdaa540a99769f86d2111d, type: 3}
-  m_Name: Test
+  m_Name: Town
   m_EditorClassIdentifier: 
-  mapPrefab: {fileID: 4771438886885766805, guid: 3db25c24d7cea48478d505dc107333ba, type: 3}
+  mapPrefab: {fileID: 65891743560459947, guid: 325a0433ceec4a544af6ddd316660b04, type: 3}
   monsterSpawnList: []
   playerSpawnPositions: []
+  waterPosition: {x: 0, y: 0}
+  bgm: {fileID: 8300000, guid: 8818d633cfb08cc4f940010d9aae1b44, type: 3}

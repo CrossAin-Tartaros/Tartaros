@@ -105,6 +105,10 @@ public class Player : MonoBehaviour
         // 모든 Awake 끝난 뒤 HP가 0 이하면 바로 사망 루틴 진입
         if (stat && stat.currentHP <= 0)
             TryCheckDeath();
+        if (PlayerManager.Instance.Data != null)
+        {
+            stat.currentHP = PlayerManager.Instance.Data.health;
+        }
     }
 
     private void Reset()

@@ -19,7 +19,7 @@ public class MapManager : Singleton<MapManager>
     //Enum/MapType에서 Resources 폴더 내 Mapdata 이름을 저장해서 사용.
     private void Awake()
     {
-        mapDatas.Add(MapType.Test, Resources.Load<MapData>("Maps/" + MapType.Test.ToString()));
+        mapDatas.Add(MapType.Town, Resources.Load<MapData>("Maps/" + MapType.Town.ToString()));
         mapDatas.Add(MapType.Stage1, Resources.Load<MapData>("Maps/" + MapType.Stage1.ToString()));
         mapDatas.Add(MapType.Boss, Resources.Load<MapData>("Maps/" + MapType.Boss.ToString()));
 

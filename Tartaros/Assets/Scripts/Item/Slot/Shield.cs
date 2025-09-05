@@ -11,6 +11,7 @@ public class Shield : MonoBehaviour
     public bool IsShieldOn { get; private set; }
     [SerializeField] int initialShield;
     private int remainShield;
+    public int RemainShield {get => remainShield;}
     private Player player;
 
     private float minTime;
@@ -20,6 +21,20 @@ public class Shield : MonoBehaviour
     {
         this.player = player;
         minTime = player.InvincibleDuration;
+    }
+
+    private void Awake()
+    {
+        if (PlayerManager.Instance.Data != null)
+        {
+            SetShield(PlayerManager.Instance.Data.shieldCount);
+        }
+    }
+
+    public void SetShield(int count)
+    {
+        remainShield = count;
+        UIManager.Instance.GetUI<UIShield>().SetShield(remainShield);
     }
     
     private void Start()

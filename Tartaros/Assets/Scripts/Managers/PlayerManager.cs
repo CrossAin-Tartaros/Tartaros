@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class PlayerManager : Singleton<PlayerManager>
@@ -10,6 +12,10 @@ public class PlayerManager : Singleton<PlayerManager>
     [SerializeField] private int protectionRunePrice = 10;
     [SerializeField] private int protectionRuneBonus = 2;
 
+    [Header("Starting Settings")]
+    [SerializeField] private int startCoin = 10;
+    [SerializeField] private int startHealth = 100;
+    
     private int pendingAttackBonus = 0;
     private int pendingDefenseBonus = 0;
 
@@ -35,10 +41,24 @@ public class PlayerManager : Singleton<PlayerManager>
     public int ProgressHighScore { get; private set; }
     public Dictionary<MapType, bool> waterUsed { get; private set; } = new Dictionary<MapType, bool>() { { MapType.Stage1, false }, { MapType.Boss, false } };
 
+    public PlayerData Data { get; set; }
+    
     private void Awake()
     {
         playerPrefab = Resources.Load<GameObject>("Player");
         InitRuneOwnedArray();
+    }
+
+    private void Start()
+    {
+        LoadData();
+        runeOwned = Data.runeOwned;
+        SetCoin(Data.coin);
+    }
+
+    protected override void OnDestroy()
+    {
+        SaveData();
     }
 
     public void LoadPlayer(Vector2 position)
@@ -106,6 +126,12 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         coin -= num;
 
+        UIManager.Instance.GetUI<UICoin>().SetUICoin(coin);
+    }
+
+    public void SetCoin(int num)
+    {
+        coin = num;
         UIManager.Instance.GetUI<UICoin>().SetUICoin(coin);
     }
 
@@ -238,4 +264,47 @@ public class PlayerManager : Singleton<PlayerManager>
 
     // TODO : Player 가지고 있게 해주시면 됩니다!
     // 세이브/로드도 여기서 하면 좋을 것 같아요
+
+    public void SaveData()
+    {
+        Data.health = Player.stat.currentHP;
+        Data.runeOwned = runeOwned;
+        Data.coin = coin;
+        Data.shieldCount = Shield.RemainShield;
+        
+        var str = JsonUtility.ToJson(Data, true);
+        File.WriteAllText(Path.SavePath, str);
+        Debug.Log("저장 완료" + Path.SavePath);
+    }
+
+    public void LoadData()
+    {
+        if (File.Exists(Path.SavePath))
+        {
+            string str = File.ReadAllText(Path.SavePath);
+            PlayerData data =  JsonUtility.FromJson<PlayerData>(str);
+            Debug.Log("로드 끝");
+            Data = data;
+        }
+        else
+        {
+            Debug.Log("저장된 데이터가 없습니다. 새 캐릭터를 생성합니다.");
+            NewData();
+        }
+    }
+
+    public void NewData()
+    {
+        Data = new PlayerData
+        {
+            runeOwned = null,
+            coin = startCoin,
+            health = startHealth
+        };
+        
+        Debug.Log("새 데이터 생성 완료");
+
+        SaveData();
+        LoadData();
+    }
 }
