@@ -14,6 +14,7 @@ public class DungeonScene : SceneBase
     public override void OnSceneExit()
     {
         base.OnSceneExit();
+        PlayerManager.Instance.SaveData();
         PlayerManager.Instance.SavePlayer();
     }
 
