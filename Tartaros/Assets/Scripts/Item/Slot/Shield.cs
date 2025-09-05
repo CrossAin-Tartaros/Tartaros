@@ -27,6 +27,7 @@ public class Shield : MonoBehaviour
         shieldEffect.SetActive(true);
         IsShieldOn = true;  
         remainShield = initialShield;
+        UIManager.Instance.OpenUI<UIShield>();
         UIManager.Instance.GetUI<UIShield>().SetShield(remainShield);
     }
 

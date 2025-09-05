@@ -21,7 +21,8 @@ public class HealthBar : UIBase
 
     private void OnDisable()
     {
-        PlayerManager.Instance.Player.onPlayerHealthChange -= SetHealthBar;
+        if (PlayerManager.Instance.Player != null)
+            PlayerManager.Instance.Player.onPlayerHealthChange -= SetHealthBar;
     }
 
     public void SetHealthBar(float newHealth)

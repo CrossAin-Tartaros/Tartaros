@@ -10,10 +10,12 @@ public class ItemSelectPanel : UIBase
     private void OnEnable()
     {
         selectShield?.onClick.AddListener(OnSelectShield);
+        Time.timeScale = 0f;
     }
 
     private void OnDisable()
     {
+        Time.timeScale = 1f;
         selectShield?.onClick.RemoveListener(OnSelectShield);
     }
 
