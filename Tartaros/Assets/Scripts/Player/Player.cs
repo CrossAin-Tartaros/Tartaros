@@ -382,7 +382,7 @@ public class Player : MonoBehaviour
         }
         StartCoroutine(IFrames());
         int finalDamage = ignoreDefense
-        ? rawDamage : (stat ? stat.ReduceDamage(rawDamage) : Mathf.Max(1, rawDamage));
+        ? rawDamage : (stat ? Math.Max(0, stat.ReduceDamage(rawDamage)) : Mathf.Max(1, rawDamage));
         
         stat.currentHP = Mathf.Max(0, stat.currentHP - finalDamage); //HP 적용
 
