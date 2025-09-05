@@ -194,9 +194,9 @@
 
 기획
 
-강인구님 → 게임 기획, UI 디자인, 사운드 리소스 제공
+강인구님 → 메인 시스템&UI/UX 기획, 레벨 디자인, 사운드 BGM 제공
 
-심낙형님 → 게임 기획, UI 디자인, 사운드 리소스 제공
+심낙형님 → 콘텐츠 기획, 레벨 디자인, 사운드 이펙트 에셋 제공
 
 ## 사용 에셋 목록
 https://aamatniekss.itch.io/fantasy-knight-free-pixelart-animated-character
