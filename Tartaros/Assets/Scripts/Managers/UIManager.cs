@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -63,7 +64,7 @@ public class UIManager : Singleton<UIManager>
             _uiDictionary.Remove(uiName);
         }
 
-        // 1. ÇÁ¸®ÆÕ ·Îµå
+        // 1. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½
         string path = GetPath<T>();
         GameObject prefab = Resources.Load<GameObject>(path);
         if (prefab == null)
@@ -72,16 +73,21 @@ public class UIManager : Singleton<UIManager>
             return null;
         }
 
-        // 2. ÀÎ½ºÅÏ½º »ý¼º
+        // 2. ï¿½Î½ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ï¿½
         GameObject go = null;
         if (canvasTransform != null) 
             go = Instantiate(prefab, canvasTransform);
         else
         {
-            Debug.LogError($"[UIManager] canvasTransform not found");
+            Debug.Log($"[UIManager] canvasTransform not found");
+            canvasTransform = FindFirstObjectByType<CanvasRoot>().transform;
+            if (canvasTransform == null)
+            {
+                Debug.Log("Still canvasTransform is null");
+            }
         }
 
-        // 3. ÄÄÆ÷³ÍÆ® È¹µæ
+        // 3. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® È¹ï¿½ï¿½
         T ui = go.GetComponent<T>();
         if (ui == null)
         {
@@ -90,7 +96,7 @@ public class UIManager : Singleton<UIManager>
             return null;
         }
 
-        // 4. Dictionary µî·Ï
+        // 4. Dictionary ï¿½ï¿½ï¿½
         _uiDictionary[uiName] = ui;
 
         return ui;
@@ -104,7 +110,7 @@ public class UIManager : Singleton<UIManager>
 
 
     // ================================
-    // path ÇïÆÛ
+    // path ï¿½ï¿½ï¿½ï¿½
     // ================================
     private string GetPath<T>() where T : UIBase
     {
@@ -117,7 +123,7 @@ public class UIManager : Singleton<UIManager>
     }
 
     // ================================
-    // ¸®¼Ò½º Á¤¸®
+    // ï¿½ï¿½ï¿½Ò½ï¿½ ï¿½ï¿½ï¿½ï¿½
     // ================================
     private void OnSceneUnloaded(Scene scene)
     {
@@ -135,7 +141,7 @@ public class UIManager : Singleton<UIManager>
             foreach (var ui in _uiDictionary.Values)
             {
                 if (ui == null) continue;
-                // Close ÇÁ·Î¼¼½º Ãß°¡ °¡´É
+                // Close ï¿½ï¿½ï¿½Î¼ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½
                 Destroy(ui.gameObject);
             }
             _uiDictionary.Clear();
@@ -146,7 +152,7 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    // UI »Ó¸¸ ¾Æ´Ï¶ó ÀüÃ¼ ¿ÀºêÁ§Æ® °ü¸® ½Ã½ºÅÛÃø¸é¿¡¼­µµ ÀÖÀ¸¸é ÁÁÀ½
+    // UI ï¿½Ó¸ï¿½ ï¿½Æ´Ï¶ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é¿¡ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private IEnumerator CoUnloadUnusedAssets()
     {
         yield return Resources.UnloadUnusedAssets();
