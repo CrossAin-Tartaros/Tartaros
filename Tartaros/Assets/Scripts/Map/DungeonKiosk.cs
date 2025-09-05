@@ -9,6 +9,7 @@ public class DungeonKiosk : MonoBehaviour, IInteractable
 
     public void OnInteract()
     {
+        PlayerManager.Instance.Player.SceneChanging = true;
         SoundManager.Instance.PlayClip(OnKiosk, false);
         StartCoroutine(LateMove());
     }

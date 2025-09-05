@@ -33,6 +33,12 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (player.SceneChanging)
+        {
+            player.StopMove();
+            SoundManager.Instance.ClearClips();
+            return;
+        }
         float x = Input.GetAxisRaw("Horizontal"); // 좌우 이동
         float y = Input.GetAxisRaw("Vertical");
         bool run = Input.GetKey(KeyCode.LeftShift); // 달리기

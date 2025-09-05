@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float invincibleDuration = 2f; // 무적 시간
     [SerializeField] private float knockbackTiles = 1f; // X축 넉백거리
     [SerializeField] private float knockbackImpulsePerTile = 6f;
-    private bool isInvincible;
+    public bool IsInvincible { get; set; }
 
     [SerializeField] private GameObject weaponHitboxGO; //공격범위 콜라이더 탐색
     [SerializeField] private float attackWindow = 0.1f; //몇초동안
@@ -63,6 +63,8 @@ public class Player : MonoBehaviour
     public bool IsOnLadder { get; private set; } //사다리 안?
     public bool IsClimbing { get; private set; } //사다리 사용중?
     
+    public bool SceneChanging { get; set; }
+    
     float defaultGravity; //중력값 저장용
     int groundLayer;
 
@@ -81,12 +83,13 @@ public class Player : MonoBehaviour
     // 사다리 시작 시, 몸과 겹치는 Ground만 골라 무시할 때 쓸 필터
     private ContactFilter2D _groundFilter;
     int _ladderGroundLayer;
+    private Coroutine invincibleCoroutine;
 
     public IEnumerator IFramesCustom(float duration)
     {
-        isInvincible = true;
+        IsInvincible = true;
         yield return new WaitForSeconds(duration);
-        isInvincible = false;
+        IsInvincible = false;
     }
 
     private void Start()
@@ -205,6 +208,11 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void StopMove()
+    {
+        rb.velocity = Vector2.zero;
+    }
+    
     public void Move(float xInput, bool run) //이동 계산
     {
         float speed = (run ? stat.runSpeed : stat.walkSpeed) * xInput;
@@ -295,7 +303,8 @@ public class Player : MonoBehaviour
     {
         if (other.CompareTag("Monster") && other.gameObject.layer != LayerMask.NameToLayer("MonsterAttack"))
         {
-            ReceiveMonsterCollision(other.transform.position);
+            if(!IsInvincible)
+                ReceiveMonsterCollision(other.transform.position);
         }
     }
 
@@ -312,7 +321,8 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Monster") && other.gameObject.layer != LayerMask.NameToLayer("MonsterAttack"))
         {
-            ReceiveMonsterCollision(other.transform.position);
+            if(!IsInvincible)
+                ReceiveMonsterCollision(other.transform.position);
         }
     }
 
@@ -327,26 +337,12 @@ public class Player : MonoBehaviour
     public void ReceiveMonsterCollision(Vector3 sourcePos)
         //몬스터와 충돌 처리
     {
-        if (isInvincible) return;
-        if (shield.IsShieldOn)
-        {
-            shield.UseShield();
-            return;
-        }
-        SoundManager.Instance.DamagedClip();
         ApplyHurt(2, sourcePos, ignoreDefense : true);
     }
 
     public void ReceiveMonsterAttack(int rawDamage, Vector3 sourcePos)
         //몬스터의 공격 처리
     {
-        if (isInvincible) return;
-        if (shield.IsShieldOn)
-        {
-            shield.UseShield();
-            return;
-        }
-        SoundManager.Instance.DamagedClip();
         ApplyHurt(rawDamage, sourcePos, ignoreDefense : false);
     }
 
@@ -365,9 +361,21 @@ public class Player : MonoBehaviour
     private void ApplyHurt(int rawDamage, Vector3 sourcePos, bool ignoreDefense)
         //공통: 체력감소 > 맞는 모션 > 넉백 > 무적
     {
+        if (IsInvincible) return;
+        if (shield.IsShieldOn)
+        {
+            Debug.Log("Shield Used");
+            shield.UseShield();
+            return;
+        }
+        if (invincibleCoroutine != null)
+        {
+            StopCoroutine(invincibleCoroutine);
+        }
+        invincibleCoroutine = StartCoroutine(IFrames());
         int finalDamage = ignoreDefense
         ? rawDamage : (stat ? stat.ReduceDamage(rawDamage) : Mathf.Max(1, rawDamage));
-
+        
         stat.currentHP = Mathf.Max(0, stat.currentHP - finalDamage); //HP 적용
 
         //UI에 체력 변화 이벤트 전달
@@ -385,8 +393,8 @@ public class Player : MonoBehaviour
 
         DoKnockbackFrom(sourcePos);
 
-        StartCoroutine(IFrames());
-
+        
+        SoundManager.Instance.DamagedClip();
         //콘솔확인
         Debug.Log($"[PLAYER HIT] -{finalDamage} HP  => {stat.currentHP}/{stat.maxHP}");
     }
@@ -404,9 +412,9 @@ public class Player : MonoBehaviour
 
     private IEnumerator IFrames() //무적 타이머
     {
-        isInvincible = true;
+        IsInvincible = true;
         yield return new WaitForSeconds(invincibleDuration);
-        isInvincible = false;
+        IsInvincible = false;
     }
 
     private void TryCheckDeath()
