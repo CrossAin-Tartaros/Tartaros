@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RuneHUD : MonoBehaviour
+public class RuneHUD : UIBase
 {
     [SerializeField] private GameObject attackIcon;      // AttackIcon
     [SerializeField] private GameObject protectionIcon;  // ProtectionIcon

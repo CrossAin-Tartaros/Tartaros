@@ -492,24 +492,11 @@ public class Player : MonoBehaviour
 
         yield return new WaitForSeconds(respawnDelay);
 
-        // 리스폰 지점 결정
-        Vector3 targetPos = transform.position;
-        if (respawnPoint) targetPos = respawnPoint.position;
-        else
-        {
-            if (MapManager.Instance.CurrentMapType == MapType.Boss)
-            {
-                MapManager.Instance.MoveToAnotherMap(MapType.Stage1, true);
-            }
-            else
-            {
-                var sp = GameObject.FindGameObjectWithTag("SavePoint");
-                if (!sp) sp = GameObject.FindGameObjectWithTag("Respawn");
-                if (sp) targetPos = sp.transform.position;
-                UIManager.Instance.GetUI<ScreenFader>().FadeIn();
-            }
-        }
-        transform.position = targetPos;
+        //맵 초기화
+        MapManager.Instance.MoveToAnotherMap(MapType.Stage1, true);
+
+        //진행도 초기화
+        PlayerManager.Instance.ResetProgress();
 
         // 스탯/상태 초기화
         stat.currentHP = stat.maxHP;

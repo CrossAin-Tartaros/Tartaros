@@ -21,11 +21,6 @@ public class Shield : MonoBehaviour
         this.player = player;
         minTime = player.InvincibleDuration;
     }
-    
-    private void Start()
-    {
-        GetShield();
-    }
 
     public void GetShield()
     {

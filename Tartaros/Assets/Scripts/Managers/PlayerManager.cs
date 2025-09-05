@@ -60,6 +60,7 @@ public class PlayerManager : Singleton<PlayerManager>
         // 소유 중인 룬 보너스 계산
         int ownedAtk = IsRuneOwnedIndex((int)RuneType.Attack) ? attackRuneBonus : 0;
         int ownedDef = IsRuneOwnedIndex((int)RuneType.Protection) ? protectionRuneBonus : 0;
+        UIManager.Instance.OpenUI<RuneHUD>();
 
         // 최종 보너스 = 소유 보너스 + 보류 보너스
         int totalAtkBonus = ownedAtk + pendingAttackBonus;
@@ -112,6 +113,13 @@ public class PlayerManager : Singleton<PlayerManager>
     public void ProgressOne()
     {
         currentScore++;
+
+        UIManager.Instance.GetUI<ProgressUI>().SetProcress(currentScore);
+    }
+
+    public void ResetProgress()
+    {
+        currentScore = 0;
 
         UIManager.Instance.GetUI<ProgressUI>().SetProcress(currentScore);
     }
