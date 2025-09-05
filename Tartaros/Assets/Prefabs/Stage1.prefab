@@ -2458,7 +2458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStartPosition: 0
-  mapType: 1
+  mapType: 2
 --- !u!1 &7055191267453919181
 GameObject:
   m_ObjectHideFlags: 0
