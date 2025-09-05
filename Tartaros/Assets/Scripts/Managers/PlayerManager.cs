@@ -198,21 +198,37 @@ public class PlayerManager : Singleton<PlayerManager>
         if (!IsValidRuneIndex(index))
             return false;
 
-        if (runeOwned[index])
-            return false; // 이미 보유면 패스
+        if (runeOwned[index] == owned)
+            return false; // 상황이 같으면 패스
+
 
         RuneType type = (RuneType)index;
-        int bonus = GetRuneBonus(type);
+        int bonus;
+        
+        // 장착이 방금 된 상태
+        if (!runeOwned[index] && owned)
+        {
+            bonus = GetRuneBonus(type);
 
+        }
+        // 장착이 방금 풀린 상태
+        else
+        {
+            bonus = -GetRuneBonus(type);
+        }
+        
         ApplyRuneDelta(type, bonus);   // 능력치 적용
-        runeOwned[index] = true;       // 소유 기록
+        runeOwned[index] = owned;       // 소유 기록
 
-        LogStatBreakdown(type, bonus, true);
-
+        LogStatBreakdown(type, bonus, owned);
+        
         // UI 갱신을 위한 이벤트 발사 (추가한 부분)
-        OnRuneOwnedChanged?.Invoke(type, true);
-
+        OnRuneOwnedChanged?.Invoke(type, owned);
         return true;
+        
+        
+
+        
     }
 
     private bool IsValidRuneIndex(int index)
@@ -302,8 +318,11 @@ public class PlayerManager : Singleton<PlayerManager>
             PlayerData data =  JsonUtility.FromJson<PlayerData>(str);
             Debug.Log("로드 끝");
             Data = data;
-            
-            runeOwned = Data.runeOwned;
+
+            for (int i = 0; i < Data.runeOwned.Length; i++)
+            { 
+                SetRuneOwnedIndex(i, Data.runeOwned[i]);
+            }
             SetCoin(Data.coin);
             Shield.GetOldShield(Data.shieldCount);
             Player.SetHealth(Data.health);
