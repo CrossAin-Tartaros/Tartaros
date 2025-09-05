@@ -3785,7 +3785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b96026ae76e57c64f8c07c065fdee814, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnKiosk: {fileID: 0}
+  OnKiosk: {fileID: 8300000, guid: 780fa935eda8f724892d5d9860abe0e1, type: 3}
 --- !u!1 &2138948312
 GameObject:
   m_ObjectHideFlags: 0
@@ -4018,6 +4018,10 @@ PrefabInstance:
       propertyPath: shopUI
       value: 
       objectReference: {fileID: 1182032376}
+    - target: {fileID: 4757578847249356643, guid: 8ac0bb5354c38be4a91be8a29ce0196b, type: 3}
+      propertyPath: OnKiosk
+      value: 
+      objectReference: {fileID: 8300000, guid: 780fa935eda8f724892d5d9860abe0e1, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
