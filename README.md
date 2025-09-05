@@ -94,30 +94,39 @@
     - 특수 패턴 : 자리 고정, 근거리 원거리 공격 스위칭. 해당 몬스터도 런쳐 몬스터처럼 리스폰 위치에 고정이며 플레이어의 위치에 따라 원거리 공격과 근거리 공격을 스위칭 해서 사용한다.
 ## 소요 기간 : 5일
 
-사용 기술
-Unity 2022.3 LTS
-C# (게임 로직 및 시스템 구현)
-Git & GitHub (버전 관리 및 협업)
-Figma, Aseprite (UI 디자인 및 도트 리소스 제작)
-TextMeshPro, DoTween (UI 시스템 및 애니메이션)
-ScriptableObject (데이터 관리: 맵, 스킬, 몬스터 등)
-FSM (상태 전이 기반 AI)
-Generic Singleton (전역 매니저 관리)
+⚔ Unity Top-Down RPG 프로젝트
+🛠 사용 기술
 
-주요 구현 기능
+🎮 Unity 2022.3 LTS
+
+🧠 C# (게임 로직 및 시스템 구현)
+
+🗂 Git & GitHub (버전 관리 및 협업)
+
+🎨 Figma, Aseprite (UI 디자인 및 도트 리소스 제작)
+
+🛠 TextMeshPro, DoTween (UI 시스템 및 애니메이션)
+
+📦 ScriptableObject (데이터 관리: 맵, 스킬, 몬스터 등)
+
+🎛 FSM (상태 전이 기반 AI)
+
+🧠 Generic Singleton (전역 매니저 관리)
+
+✨ 주요 구현 기능
 🗺 맵 & 탐험
 
 랜덤 방/맵 로드 및 전환 (Stage1, Boss, Town)
 
 샘물(회복 구조물) 상태 저장 → PlayerManager.waterUsed로 사용 여부 관리
 
-몬스터 & 보스 AI
+🧟 몬스터 & 보스 AI
 
 근거리/원거리 몬스터 FSM 구현 (Idle, Move, Attack, Hit, Death 등)
 
 보스는 상태 전이 기반 FSM + 다양한 공격 패턴
 
-플레이어 시스템
+🎮 플레이어 시스템
 
 이동, 조준, 공격, 피격 처리
 
@@ -125,13 +134,13 @@ Generic Singleton (전역 매니저 관리)
 
 룬 시스템: 공격/방어 룬 구매 → 스탯 즉시 반영 + UI 동기화
 
-상점 시스템
+🛒 상점 시스템
 
 Shop, ShopUIController 통해 상호작용 시 상점 열림
 
 룬 구매 시 PlayerManager에서 즉시 적용, UI 자동 업데이트
 
-UI 시스템
+🖼 UI 시스템
 
 UIManager로 모든 UI 프리팹 관리 (동적 로드 & 캐싱)
 
@@ -139,7 +148,7 @@ UIManager로 모든 UI 프리팹 관리 (동적 로드 & 캐싱)
 
 이벤트 기반 HUD 반영 (OnRuneOwnedChanged)
 
-사운드 시스템
+🔊 사운드 시스템
 
 SoundManager + SoundSource 기반
 
@@ -147,7 +156,7 @@ SoundManager + SoundSource 기반
 
 PlayerPrefs로 볼륨 저장 & 슬라이더 연동
 
-데이터 관리
+📦 데이터 관리
 
 PlayerData 직렬화 후 JSON 저장/로드
 
@@ -155,13 +164,13 @@ PlayerData 직렬화 후 JSON 저장/로드
 
 Application.persistentDataPath/players.json에 저장
 
-최적화 & 유틸
+🎛 최적화 & 유틸
 
 Generic Singleton 패턴 (GameManager, PlayerManager, UIManager 등)
 
 오브젝트 파괴/씬 전환 시 메모리 누수 방지 처리
 
-UI 메모리 정리(UIManager.CleanAllUIs)
+UI 메모리 정리 (UIManager.CleanAllUIs)
 
 📂 프로젝트 폴더 구조 (일부)
 📦 Scripts/
@@ -203,13 +212,18 @@ UI 메모리 정리(UIManager.CleanAllUIs)
 
 👤 개발자 역할 분담
 개발
-김세웅님 > 매니저 관리(게임/씬/UI), 아이템(쉴드), 상호작용, 맵 구조물(샘물/함정)
-이혜림님 > 몬스터 FSM, 전투 로직, 저장 기능, 사운드 시스템
-김유경님 > 플레이어 구현, 전투 시스템, 상점, 룬 시스템
+
+김세웅님 → 매니저 관리(게임/씬/UI), 아이템(쉴드), 상호작용, 맵 구조물(샘물/함정)
+
+이혜림님 → 몬스터 FSM, 전투 로직, 저장 기능, 사운드 시스템
+
+김유경님 → 플레이어 구현, 전투 시스템, 상점, 룬 시스템
 
 기획
-강인구님 > 게임 기획, UI 디자인, 사운드 리소스 제공
-심낙형님 > 게임 기획, UI 디자인, 사운드 리소스 제공
+
+강인구님 → 게임 기획, UI 디자인, 사운드 리소스 제공
+
+심낙형님 → 게임 기획, UI 디자인, 사운드 리소스 제공
 
 ## 사용 에셋 목록
 https://aamatniekss.itch.io/fantasy-knight-free-pixelart-animated-character
