@@ -33,8 +33,7 @@ public class Shield : MonoBehaviour
 
     public void SetShield(int count)
     {
-        remainShield = count;
-        UIManager.Instance.GetUI<UIShield>().SetShield(remainShield);
+        GetOldShield(count);
     }
 
     public void GetNewShield()
