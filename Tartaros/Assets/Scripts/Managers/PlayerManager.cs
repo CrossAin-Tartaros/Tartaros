@@ -15,7 +15,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
     [Header("Starting Settings")]
     [SerializeField] private int startCoin = 10;
-    [SerializeField] private int startHealth = 100;
+    private int startHealth = 100;
     
     private int pendingAttackBonus = 0;
     private int pendingDefenseBonus = 0;
@@ -316,22 +316,24 @@ public class PlayerManager : Singleton<PlayerManager>
         {
             string str = File.ReadAllText(Path.SavePath);
             PlayerData data =  JsonUtility.FromJson<PlayerData>(str);
-            Debug.Log("로드 끝");
             Data = data;
-
-            for (int i = 0; i < Data.runeOwned.Length; i++)
-            { 
-                SetRuneOwnedIndex(i, Data.runeOwned[i]);
-            }
-            SetCoin(Data.coin);
-            Shield.GetOldShield(Data.shieldCount);
-            Player.SetHealth(Data.health);
+            SetData();
         }
         else
         {
-            Debug.Log("저장된 데이터가 없습니다. 새 캐릭터를 생성합니다.");
             NewData();
         }
+    }
+
+    public void SetData()
+    {
+        for (int i = 0; i < Data.runeOwned.Length; i++)
+        { 
+            SetRuneOwnedIndex(i, Data.runeOwned[i]);
+        }
+        SetCoin(Data.coin);
+        Shield.GetOldShield(Data.shieldCount);
+        Player.SetHealth(Data.health);
     }
 
     public void NewData()
@@ -341,11 +343,13 @@ public class PlayerManager : Singleton<PlayerManager>
             runeOwned = null,
             coin = startCoin,
             health = startHealth
+            
         };
         
-        Debug.Log("새 데이터 생성 완료");
-
-        SaveData();
+        var str = JsonUtility.ToJson(Data, true);
+        File.WriteAllText(Path.SavePath, str);
+        Debug.Log("저장 완료" + Path.SavePath);
+        
         LoadData();
     }
 }

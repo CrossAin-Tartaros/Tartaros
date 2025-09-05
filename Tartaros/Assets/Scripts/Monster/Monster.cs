@@ -50,7 +50,7 @@ public class Monster : MonoBehaviour
 
     IEnumerator DieCoroutine()
     {
-        yield return new WaitForSecondsRealtime(2f);
+        yield return new WaitForSecondsRealtime(0.5f);
         Vector2 dropPosition = 
             (Vector2)(transform.position 
                       + transform.up * dropUpPosition);

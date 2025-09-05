@@ -15,9 +15,9 @@ MonoBehaviour:
   DamagedSound: {fileID: 8300000, guid: 11db6fbc02cbe9742a876cd806f75b0e, type: 3}
   AttackSound: {fileID: 8300000, guid: 910acba35650ec444a085dabf1fe8232, type: 3}
   <MonsterType>k__BackingField: 0
-  <MaxHealth>k__BackingField: 1000
+  <MaxHealth>k__BackingField: 35
   <MoveSpeed>k__BackingField: 5
-  <AttackDamage>k__BackingField: 3
+  <AttackDamage>k__BackingField: 20
   <DropItems>k__BackingField: []
   <Recognize>k__BackingField: 8
   <Patrol>k__BackingField: 10
