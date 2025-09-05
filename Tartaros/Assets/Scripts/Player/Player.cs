@@ -373,11 +373,7 @@ public class Player : MonoBehaviour
             shield.UseShield();
             return;
         }
-        if (invincibleCoroutine != null)
-        {
-            StopCoroutine(invincibleCoroutine);
-        }
-        invincibleCoroutine = StartCoroutine(IFrames());
+        StartCoroutine(IFrames());
         int finalDamage = ignoreDefense
         ? rawDamage : (stat ? stat.ReduceDamage(rawDamage) : Mathf.Max(1, rawDamage));
         
@@ -587,8 +583,8 @@ public class Player : MonoBehaviour
 
     private void SetInvincible(bool v) // 무적 상태 변경을 공통 처리하는 메서드 추가
     {
-        if (isInvincible == v) return;
-        isInvincible = v;
-        onInvincibleChanged?.Invoke(isInvincible);
+        if (IsInvincible == v) return;
+        IsInvincible = v;
+        onInvincibleChanged?.Invoke(IsInvincible);
     }
 }
