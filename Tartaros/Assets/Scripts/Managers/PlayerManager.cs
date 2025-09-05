@@ -10,6 +10,9 @@ public class PlayerManager : Singleton<PlayerManager>
     [SerializeField] private int protectionRunePrice = 10;
     [SerializeField] private int protectionRuneBonus = 2;
 
+    private int pendingAttackBonus = 0;
+    private int pendingDefenseBonus = 0;
+
     private bool[] runeOwned;
 
     public int CurrentCoins => coin;
@@ -40,21 +43,37 @@ public class PlayerManager : Singleton<PlayerManager>
 
     public void LoadPlayer(Vector2 position)
     {
-        if (CurrentPlayerInstance != null)
-            return;
+        if (CurrentPlayerInstance != null) return;
+
         CurrentPlayerInstance = Instantiate(playerPrefab, position, Quaternion.identity);
-        Player = CurrentPlayerInstance.gameObject.GetComponent<Player>();
-        PlayerStat = CurrentPlayerInstance.gameObject.GetComponent<PlayerStat>();
-        Shield = CurrentPlayerInstance.gameObject.GetComponent<Shield>();
+        Player = CurrentPlayerInstance.GetComponent<Player>();
+        PlayerStat = CurrentPlayerInstance.GetComponent<PlayerStat>();
+        Shield = CurrentPlayerInstance.GetComponent<Shield>();
 
         currentScore = 0;
 
-        //플레이어에 저장된 정보 덮어쓰기
-
-        currentHealth = PlayerStat.currentHP;
-        UIManager.Instance.GetUI<HealthBar>().SetHealthBar(currentHealth);
+        // 체력 동기화
+        PlayerStat.currentHP = currentHealth;
+        UIManager.Instance.GetUI<HealthBar>().SetHealthBar(PlayerStat.currentHP);
         GetCoin(0);
+
+        // 소유 중인 룬 보너스 계산
+        int ownedAtk = IsRuneOwnedIndex((int)RuneType.Attack) ? attackRuneBonus : 0;
+        int ownedDef = IsRuneOwnedIndex((int)RuneType.Protection) ? protectionRuneBonus : 0;
+
+        // 최종 보너스 = 소유 보너스 + 보류 보너스
+        int totalAtkBonus = ownedAtk + pendingAttackBonus;
+        int totalDefBonus = ownedDef + pendingDefenseBonus;
+
+        if (totalAtkBonus != 0) PlayerStat.attack += totalAtkBonus;
+        if (totalDefBonus != 0) PlayerStat.defense += totalDefBonus;
+
+        // 보류분 소진
+        pendingAttackBonus = 0;
+        pendingDefenseBonus = 0;
     }
+
+
 
     public void SetPlayerPosition(Vector2 position)
     {
@@ -139,24 +158,20 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         if (!IsValidRuneIndex(index)) return false;
 
-        if (runeOwned[index] == owned)
-            return false; // 값이 동일하면 아무 것도 하지 않음
+        // 이미 true면 다시 적용 안 함
+        if (runeOwned[index])
+            return false;
 
         RuneType type = (RuneType)index;
         int bonus = GetRuneBonus(type);
 
-        // owned=true => +bonus, owned=false => -bonus
-        int delta = owned ? +bonus : -bonus;
+        ApplyRuneDelta(type, bonus); // 무조건 +bonus
+        runeOwned[index] = true;
 
-        ApplyRuneDelta(type, delta);     // 능력치 증감
-        runeOwned[index] = owned;        // 상태 저장
-        LogStatBreakdown(type, bonus, owned); // 로그(출처 포함)
-
+        LogStatBreakdown(type, bonus, true);
         return true;
     }
-    // ==========================================
-    // 내부 헬퍼들
-    // ==========================================
+
     private bool IsValidRuneIndex(int index)
     {
         return runeOwned != null && index >= 0 && index < runeOwned.Length;
@@ -189,46 +204,37 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         if (PlayerStat == null)
         {
-            Debug.LogWarning("[Rune] PlayerStat 준비 전입니다(LoadPlayer 이전일 수 있음).");
+            Debug.LogWarning("[Rune] PlayerStat 준비 전, 보류 처리");
+            if (type == RuneType.Attack) pendingAttackBonus += delta;
+            else if (type == RuneType.Protection) pendingDefenseBonus += delta;
             return;
         }
 
         switch (type)
         {
-            case RuneType.Attack:
-                PlayerStat.attack += delta;
-                break;
-
-            case RuneType.Protection:
-                PlayerStat.defense += delta;
-                break;
+            case RuneType.Attack: PlayerStat.attack += delta; break;
+            case RuneType.Protection: PlayerStat.defense += delta; break;
         }
     }
 
     // 로그: “무엇에 의해 스탯이 더해/빠졌는가?”
-    private void LogStatBreakdown(RuneType type, int bonus, bool equipped)
+    private void LogStatBreakdown(RuneType type, int bonus, bool equipped = true)
     {
-        // equipped=true  : after = 현재값, before = after - bonus, 표시 +bonus
-        // equipped=false : after = 현재값, before = after + bonus, 표시 -bonus
         string tag = (type == RuneType.Attack) ? "AttackRune" : "ProtectionRune";
 
         if (type == RuneType.Attack)
         {
             int after = PlayerStat.attack;
-            int before = equipped ? (after - bonus) : (after + bonus);
-            string sign = equipped ? "+" : "-";
-            Debug.Log($"[룬 {(equipped ? "장착" : "해제")}] 공격력 {before}({sign}{bonus}) = {after} [{tag}]");
+            int before = after - bonus; // 장착 직전 값
+            Debug.Log($"[룬 장착] 공격력 {before}(+{bonus}) = {after} [{tag}]");
         }
         else
         {
             int after = PlayerStat.defense;
-            int before = equipped ? (after - bonus) : (after + bonus);
-            string sign = equipped ? "+" : "-";
-            Debug.Log($"[룬 {(equipped ? "장착" : "해제")}] 방어력 {before}({sign}{bonus}) = {after} [{tag}]");
+            int before = after - bonus; // 장착 직전 값
+            Debug.Log($"[룬 장착] 방어력 {before}(+{bonus}) = {after} [{tag}]");
         }
     }
-
-
 
     // TODO : Player 가지고 있게 해주시면 됩니다!
     // 세이브/로드도 여기서 하면 좋을 것 같아요

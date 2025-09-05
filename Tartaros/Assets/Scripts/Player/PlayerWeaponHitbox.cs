@@ -86,7 +86,7 @@ public class PlayerWeaponHitbox : MonoBehaviour
             monsterWeapon.Parry(parryDamage); //몬스터 패링 상태
             _player?.BeginParryWindow(2f); //2초 약점 공격 가능
 
-            //여기 추가: 패링 성공 시 플레이어 무적 0.1초 부여
+            //여기 추가: 패링 성공 시 플레이어 무적 0.2초 부여
             if (_player != null)
             {
                 StartCoroutine(_player.IFramesCustom(0.2f));
@@ -124,7 +124,7 @@ public class PlayerWeaponHitbox : MonoBehaviour
         // 패링 중이면 1.5배 (약점 타격)
         if (_player != null && _player.IsParryWindow)
             hitDamage = Mathf.RoundToInt(hitDamage * 1.5f);
-        Debug.Log($"플레이어가 몬스터에게 준 데미지: {hitDamage}");
+        Debug.Log($"플레이어가 몬스터에게 준 데미지: {hitDamage} (atk={_player.stat.attack})");
 
 
         Debug.Log(_player != null && _player.IsParryWindow

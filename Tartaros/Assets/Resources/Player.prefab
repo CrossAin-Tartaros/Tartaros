@@ -325,7 +325,7 @@ MonoBehaviour:
   respawnPoint: {fileID: 0}
   respawnDelay: 1
   respawnIFrames: 1
-  invincibleDuration: 1
+  invincibleDuration: 2
   knockbackTiles: 1
   knockbackImpulsePerTile: 6
   weaponHitboxGO: {fileID: 6649527505349223193}

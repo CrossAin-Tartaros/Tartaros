@@ -3358,7 +3358,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -108}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1856557951
@@ -3571,14 +3571,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4887745777420381661, guid: 01af16ce2954fb642978a3e58d953e1d, type: 3}
+      propertyPath: m_text
+      value: "\uACF5\uACA9\uB825 2 \uC99D\uAC00"
+      objectReference: {fileID: 0}
     - target: {fileID: 5386134866723787605, guid: 01af16ce2954fb642978a3e58d953e1d, type: 3}
       propertyPath: attackOwnedTag
       value: 
-      objectReference: {fileID: 977526286}
+      objectReference: {fileID: 1856557949}
     - target: {fileID: 5386134866723787605, guid: 01af16ce2954fb642978a3e58d953e1d, type: 3}
       propertyPath: protectionOwnedTag
       value: 
-      objectReference: {fileID: 1856557949}
+      objectReference: {fileID: 977526286}
     - target: {fileID: 5788850376933253227, guid: 01af16ce2954fb642978a3e58d953e1d, type: 3}
       propertyPath: m_Name
       value: Shop Panel
@@ -3973,6 +3977,10 @@ PrefabInstance:
     - target: {fileID: 179865032372935718, guid: 8ac0bb5354c38be4a91be8a29ce0196b, type: 3}
       propertyPath: m_Name
       value: Shop
+      objectReference: {fileID: 0}
+    - target: {fileID: 179865032372935718, guid: 8ac0bb5354c38be4a91be8a29ce0196b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1975232673486566440, guid: 8ac0bb5354c38be4a91be8a29ce0196b, type: 3}
       propertyPath: m_LocalPosition.x
