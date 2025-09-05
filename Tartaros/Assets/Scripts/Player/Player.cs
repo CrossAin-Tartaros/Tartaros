@@ -67,6 +67,7 @@ public class Player : MonoBehaviour
 
     public bool IsOnLadder { get; private set; } //사다리 안?
     public bool IsClimbing { get; private set; } //사다리 사용중?
+    public bool IsAttacking { get; set; } // 공격중인지
     
     public bool SceneChanging { get; set; }
     
@@ -150,6 +151,8 @@ public class Player : MonoBehaviour
             }
             if (!weaponHitboxGO) return; //못찾으면 패스*/
         }
+
+        IsAttacking = true;
         SoundManager.Instance.AttackClip();
         if (_atkWindowCo != null) StopCoroutine(_atkWindowCo);
         _atkWindowCo = StartCoroutine(_AttackWindowCo());
@@ -162,6 +165,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(attackWindow);
         weaponHitboxGO.GetComponent<BoxCollider2D>().enabled = false; //히트박스 x
         _atkWindowCo = null;
+        IsAttacking = false;
     }
 
     private void OnValidate()
@@ -315,7 +319,7 @@ public class Player : MonoBehaviour
     {
         if (other.CompareTag("Monster") && other.gameObject.layer != LayerMask.NameToLayer("MonsterAttack"))
         {
-            if(!IsInvincible)
+            if(!IsInvincible && !IsAttacking)
                 ReceiveMonsterCollision(other.transform.position);
         }
     }
@@ -333,7 +337,7 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Monster") && other.gameObject.layer != LayerMask.NameToLayer("MonsterAttack"))
         {
-            if(!IsInvincible)
+            if(!IsInvincible && !IsAttacking)
                 ReceiveMonsterCollision(other.transform.position);
         }
     }
