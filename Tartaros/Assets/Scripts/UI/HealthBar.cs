@@ -27,8 +27,6 @@ public class HealthBar : UIBase
 
     public void SetHealthBar(float newHealth)
     {
-        Debug.LogWarning(newHealth);
-        
         //플레이어 현재 체력 받아오기
         currentHealth = newHealth;
 
@@ -38,8 +36,6 @@ public class HealthBar : UIBase
         }
 
         float healthPercentage = currentHealth / maxHealth;
-
-        Debug.LogWarning(healthPercentage);
 
         if (healthPercentage >= 0.99)
             ChangeHealthBar(0);
