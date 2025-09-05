@@ -61,6 +61,6 @@ public class PlayerStat : MonoBehaviour
     public int ReduceDamage(int rawDamage) //방어력 기반 피해감소
     {
         int reduced = rawDamage - defense;
-        return Mathf.Max(1, reduced); //최소 1 데미지는 받게
+        return reduced;
     }
 }
