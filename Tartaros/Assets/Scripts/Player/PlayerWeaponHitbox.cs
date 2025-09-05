@@ -124,6 +124,8 @@ public class PlayerWeaponHitbox : MonoBehaviour
         // 패링 중이면 1.5배 (약점 타격)
         if (_player != null && _player.IsParryWindow)
             hitDamage = Mathf.RoundToInt(hitDamage * 1.5f);
+        Debug.Log($"플레이어가 몬스터에게 준 데미지: {hitDamage}");
+
 
         Debug.Log(_player != null && _player.IsParryWindow
             ? $"[WEAK SPOT HIT] {root.name} dmg={hitDamage} (1.5x)"
