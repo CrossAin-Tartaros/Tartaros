@@ -19,8 +19,17 @@ MonoBehaviour:
   <MoveSpeed>k__BackingField: 2
   <AttackDamage>k__BackingField: 1
   <DropItems>k__BackingField:
-  - {fileID: 8855748777781660775, guid: a1bf6a75f088071489fc676a04de6900, type: 3}
   - {fileID: 8332729977661698650, guid: 54f6f86800f727941912b1d9ebca4eec, type: 3}
+  - {fileID: 8855748777781660775, guid: a1bf6a75f088071489fc676a04de6900, type: 3}
+  - {fileID: 8855748777781660775, guid: a1bf6a75f088071489fc676a04de6900, type: 3}
+  - {fileID: 8855748777781660775, guid: a1bf6a75f088071489fc676a04de6900, type: 3}
+  - {fileID: 8855748777781660775, guid: a1bf6a75f088071489fc676a04de6900, type: 3}
+  - {fileID: 8855748777781660775, guid: a1bf6a75f088071489fc676a04de6900, type: 3}
+  - {fileID: 8855748777781660775, guid: a1bf6a75f088071489fc676a04de6900, type: 3}
+  - {fileID: 8855748777781660775, guid: a1bf6a75f088071489fc676a04de6900, type: 3}
+  - {fileID: 8855748777781660775, guid: a1bf6a75f088071489fc676a04de6900, type: 3}
+  - {fileID: 8855748777781660775, guid: a1bf6a75f088071489fc676a04de6900, type: 3}
+  - {fileID: 8855748777781660775, guid: a1bf6a75f088071489fc676a04de6900, type: 3}
   <Recognize>k__BackingField: 100
   <Patrol>k__BackingField: 10
   <PatrolWait>k__BackingField: 2
